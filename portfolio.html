@@ -53,17 +53,20 @@
       </nav>
       <section>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-lg-4">
             <div class="winner center-content ml-4">
               <h3 class="text-dark">Drago</h3>
               <img src="./img/avatar.png" class="mt-3 mb-3 avatar" />
               <p class="">$153,437</p>
             </div>
           </div>
-          <div class="col-md-8">
+          <div class="col-lg-8">
             <div class="portfolio-container">
               <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'Portfolio')">
+                <button
+                  class="tablinks active"
+                  onclick="openTab(event, 'Portfolio')"
+                >
                   Portfolio
                 </button>
                 <button class="tablinks" onclick="openTab(event, 'BuySell')">
@@ -82,26 +85,95 @@
 
               <!-- Tab content -->
               <div id="Portfolio" class="tabcontent">
-                <p>
-                  Quisque et leo ut ex viverra imperdiet. Vestibulum ante ipsum
-                  primis in faucibus orci luctus et ultrices posuere cubilia
-                  Curae; Suspendisse faucibus molestie blandit. Aenean ut
-                  aliquet turpis. Curabitur ut tellus at quam fermentum iaculis
-                  nec nec nulla. Fusce at pretium mauris. Duis et rutrum diam.
-                </p>
+                <h5 class="text-dark">Balance: $153,437</h5>
+                <ul class="balance-ul">
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Apple</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Manulife</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Costco</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Wells Fargo</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Moderna</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Costco</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Wells Fargo</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Moderna</p>
+                    <p class="balance">$32,424</p>
+                  </li>
+                </ul>
               </div>
 
               <div id="BuySell" class="tabcontent">
-                <div class="experience-item">
-                  <h3 class="text-white pb">Microsoft</h3>
-                  <p>Oct 2011 - Current</p>
-                  <p class="pb"><strong>Position: </strong>Senior Developer</p>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dignissimos placeat, dolorum ullam ipsam, sapiente suscipit
-                    dicta eius velit amet aspernatur asperiores modi quidem
-                    expedita fugit.
-                  </p>
+                <h5 class="text-dark">Balance: $153,437</h5>
+                <div class="buysell-container">
+                  <div class="buysell-form-box ml-3">
+                    <form class="form" action="#">
+                      <br />
+                      <input
+                        type="submit"
+                        class="btn btn-primary"
+                        value="Buy"
+                      />
+                      <input
+                        type="submit"
+                        class="btn btn-primary"
+                        value="Sell"
+                      />
+                      <br />
+                      <div class="form-group">
+                        <input
+                          class="input-fields mt-3"
+                          type="search"
+                          placeholder="Company Name"
+                          name="search"
+                          required
+                        />
+                      </div>
+                      <div class="form-group">
+                        <input
+                          class="input-fields"
+                          type="company"
+                          placeholder="Stock Name"
+                          name="company"
+                          required
+                        />
+                      </div>
+                      <p class="text-dark">cash: $12,644</p>
+                      <div class="form-group">
+                        <input
+                          class="amount"
+                          type="amount"
+                          placeholder="$"
+                          name="amount"
+                          required
+                        />
+                      </div>
+                      <input
+                        type="submit"
+                        class="btn btn-primary"
+                        value="Execute!"
+                      />
+                    </form>
+                  </div>
                 </div>
               </div>
 

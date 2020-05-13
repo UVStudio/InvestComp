@@ -141,10 +141,24 @@ p {
 
 .portfolio-container {
   margin: 3em auto;
-  width: 30em;
-  height: 22em;
+  width: 34em;
+  height: 30em;
   border: 1px solid var(--dark-color);
   overflow: scroll;
+}
+
+.buysell-container {
+  width: 90%;
+  height: 20em;
+  margin: 1em auto;
+  border: 1px solid var(--dark-color);
+}
+
+.buysell-form-box {
+}
+
+.amount {
+  width: 10em;
 }
 
 /* tab */
@@ -155,6 +169,10 @@ p {
   overflow: hidden;
   border-bottom: 1px solid var(--dark-color);
   justify-content: center;
+}
+
+#Portfolio {
+  display: block;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -171,12 +189,12 @@ p {
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  background-color: #eee;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  background-color: #dda;
 }
 
 /* Style the tab content */
