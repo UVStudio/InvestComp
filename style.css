@@ -134,6 +134,58 @@ p {
   width: 15em;
 }
 
+.dashboard-container {
+  margin: 3em auto;
+  width: 15em;
+}
+
+.portfolio-container {
+  margin: 3em auto;
+  width: 30em;
+  height: 22em;
+  border: 1px solid var(--dark-color);
+  overflow: scroll;
+}
+
+/* tab */
+
+/* Style the tab */
+.tab {
+  display: flex;
+  overflow: hidden;
+  border-bottom: 1px solid var(--dark-color);
+  justify-content: center;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  color: var(--dark-color);
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 2rem 1rem;
+  text-align: left;
+}
+
 /* utils */
 
 .center-content {

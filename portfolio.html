@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InvestComp - Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container-fluid no-lr-padding">
+      <nav class="navbar navbar-expand-lg bg-primary navbar-light">
+        <a class="text-white" href="index.html">InvestComp</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav ml-auto justify-content-end text-white">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="portfolio.html">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="profile.html">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="investors.html">Investors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <section>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="winner center-content ml-4">
+              <h3 class="text-dark">Drago</h3>
+              <img src="./img/avatar.png" class="mt-3 mb-3 avatar" />
+              <p class="">$153,437</p>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="portfolio-container">
+              <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'Portfolio')">
+                  Portfolio
+                </button>
+                <button class="tablinks" onclick="openTab(event, 'BuySell')">
+                  Buy/Sell
+                </button>
+                <button class="tablinks" onclick="openTab(event, 'Chart')">
+                  Chart
+                </button>
+                <button
+                  class="tablinks"
+                  onclick="openTab(event, 'Transactions')"
+                >
+                  Transaction
+                </button>
+              </div>
+
+              <!-- Tab content -->
+              <div id="Portfolio" class="tabcontent">
+                <p>
+                  Quisque et leo ut ex viverra imperdiet. Vestibulum ante ipsum
+                  primis in faucibus orci luctus et ultrices posuere cubilia
+                  Curae; Suspendisse faucibus molestie blandit. Aenean ut
+                  aliquet turpis. Curabitur ut tellus at quam fermentum iaculis
+                  nec nec nulla. Fusce at pretium mauris. Duis et rutrum diam.
+                </p>
+              </div>
+
+              <div id="BuySell" class="tabcontent">
+                <div class="experience-item">
+                  <h3 class="text-white pb">Microsoft</h3>
+                  <p>Oct 2011 - Current</p>
+                  <p class="pb"><strong>Position: </strong>Senior Developer</p>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Dignissimos placeat, dolorum ullam ipsam, sapiente suscipit
+                    dicta eius velit amet aspernatur asperiores modi quidem
+                    expedita fugit.
+                  </p>
+                </div>
+              </div>
+
+              <div id="Chart" class="tabcontent">
+                <div class="experience-item">
+                  <h3 class="text-white pb">University Of Washington</h3>
+                  <p>Sep 1993 - June 1999</p>
+                  <p><strong>Degree: </strong>Masters</p>
+                  <p class="pb">
+                    <strong>Field Of Study: </strong>Computer Science
+                  </p>
+                  <p>
+                    <strong>Description: </strong>Lorem ipsum dolor sit amet
+                    consectetur adipisicing elit. Dignissimos placeat, dolorum
+                    ullam ipsam, sapiente suscipit dicta eius velit amet
+                    aspernatur asperiores modi quidem expedita fugit.
+                  </p>
+                </div>
+              </div>
+              <div id="Transactions" class="tabcontent">
+                <div class="skills">
+                  <div class="p"><i class="fa fa-check"></i> HTML</div>
+                  <div class="p"><i class="fa fa-check"></i> CSS</div>
+                  <div class="p"><i class="fa fa-check"></i> JavaScript</div>
+                  <div class="p"><i class="fa fa-check"></i> Python</div>
+                  <div class="p"><i class="fa fa-check"></i> C#</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer class="bg-primary text-white">
+        <h2>Footer</h2>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
