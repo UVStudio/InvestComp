@@ -70,12 +70,16 @@ p {
 }
 
 .investors-list-ul {
-  margin-left: 2em;
+  padding-left: 0em;
+}
+
+.investors-list-ul li:nth-child(odd) {
+  background: #eee;
 }
 
 .investors-list-item {
   overflow: auto;
-  margin: 1em 0;
+  padding: 0.5em 0 0.5em 2em;
 }
 
 .inv-list-item-avatar {
@@ -130,7 +134,7 @@ p {
 
 .portfolio-item {
   overflow: auto;
-  margin: 1em auto;
+  margin: 0.5em auto;
   width: 15em;
 }
 
@@ -141,24 +145,49 @@ p {
 
 .portfolio-container {
   margin: 3em auto;
-  width: 34em;
+  width: 90%;
   height: 30em;
   border: 1px solid var(--dark-color);
   overflow: scroll;
 }
 
-.buysell-container {
+.portfolio-inner-container {
   width: 90%;
   height: 20em;
   margin: 1em auto;
   border: 1px solid var(--dark-color);
 }
 
-.buysell-form-box {
-}
-
 .amount {
   width: 10em;
+}
+
+.transactions-table {
+  width: 100%;
+  margin: 1em auto;
+}
+
+.transations-item-length {
+  width: 20%;
+}
+
+tr:nth-child(even) {
+  background: #eee;
+}
+
+th:first-child,
+td:first-child,
+th:nth-child(2),
+td:nth-child(2) {
+  padding-left: 1em;
+}
+
+#Transactions {
+  padding: 2em 0em;
+}
+
+#Transactions h5 {
+  padding-left: 0.8em;
 }
 
 /* tab */

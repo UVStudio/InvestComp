@@ -53,14 +53,14 @@
       </nav>
       <section>
         <div class="row">
-          <div class="col-lg-4">
-            <div class="winner center-content ml-4">
+          <div class="col-lg-5">
+            <div class="winner center-content">
               <h3 class="text-dark">Drago</h3>
               <img src="./img/avatar.png" class="mt-3 mb-3 avatar" />
               <p class="">$153,437</p>
             </div>
           </div>
-          <div class="col-lg-8">
+          <div class="col-lg-7">
             <div class="portfolio-container">
               <div class="tab">
                 <button
@@ -79,7 +79,7 @@
                   class="tablinks"
                   onclick="openTab(event, 'Transactions')"
                 >
-                  Transaction
+                  Transactions
                 </button>
               </div>
 
@@ -119,12 +119,15 @@
                     <p class="name text-dark">Moderna</p>
                     <p class="balance">$32,424</p>
                   </li>
+                  <li class="portfolio-item">
+                    <p class="name text-dark">Cash</p>
+                    <p class="balance">$20,000</p>
+                  </li>
                 </ul>
               </div>
-
               <div id="BuySell" class="tabcontent">
                 <h5 class="text-dark">Balance: $153,437</h5>
-                <div class="buysell-container">
+                <div class="portfolio-inner-container">
                   <div class="buysell-form-box ml-3">
                     <form class="form" action="#">
                       <br />
@@ -176,31 +179,149 @@
                   </div>
                 </div>
               </div>
-
               <div id="Chart" class="tabcontent">
-                <div class="experience-item">
-                  <h3 class="text-white pb">University Of Washington</h3>
-                  <p>Sep 1993 - June 1999</p>
-                  <p><strong>Degree: </strong>Masters</p>
-                  <p class="pb">
-                    <strong>Field Of Study: </strong>Computer Science
-                  </p>
-                  <p>
-                    <strong>Description: </strong>Lorem ipsum dolor sit amet
-                    consectetur adipisicing elit. Dignissimos placeat, dolorum
-                    ullam ipsam, sapiente suscipit dicta eius velit amet
-                    aspernatur asperiores modi quidem expedita fugit.
-                  </p>
+                <h5 class="text-dark">Balance: $153,437</h5>
+                <div class="portfolio-inner-container">
+                  <p>Account value chart</p>
                 </div>
               </div>
               <div id="Transactions" class="tabcontent">
-                <div class="skills">
-                  <div class="p"><i class="fa fa-check"></i> HTML</div>
-                  <div class="p"><i class="fa fa-check"></i> CSS</div>
-                  <div class="p"><i class="fa fa-check"></i> JavaScript</div>
-                  <div class="p"><i class="fa fa-check"></i> Python</div>
-                  <div class="p"><i class="fa fa-check"></i> C#</div>
-                </div>
+                <h5 class="text-dark">Balance: $153,437</h5>
+                <table class="transactions-table">
+                  <tr class="text-dark mb-5">
+                    <th class="transations-item-length">Buy/Sell</th>
+                    <th class="transations-item-length">Shares</th>
+                    <th class="transations-item-length">Value</th>
+                    <th class="transations-item-length">Total Shares</th>
+                    <th class="transations-item-length">Date</th>
+                  </tr>
+                  <tr>
+                    <td>Sell</td>
+                    <td>50</td>
+                    <td>1000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>120</td>
+                    <td>2400</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>100</td>
+                    <td>2000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Sell</td>
+                    <td>50</td>
+                    <td>1000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>120</td>
+                    <td>2400</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>100</td>
+                    <td>2000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Sell</td>
+                    <td>50</td>
+                    <td>1000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>120</td>
+                    <td>2400</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>100</td>
+                    <td>2000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Sell</td>
+                    <td>50</td>
+                    <td>1000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>120</td>
+                    <td>2400</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>100</td>
+                    <td>2000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Sell</td>
+                    <td>50</td>
+                    <td>1000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>120</td>
+                    <td>2400</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>100</td>
+                    <td>2000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Sell</td>
+                    <td>50</td>
+                    <td>1000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>120</td>
+                    <td>2400</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                  <tr>
+                    <td>Buy</td>
+                    <td>100</td>
+                    <td>2000</td>
+                    <td>30000</td>
+                    <td>30/01/2019</td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
