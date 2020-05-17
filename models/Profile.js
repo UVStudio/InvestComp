@@ -3,16 +3,16 @@ const mongoose = require('mongoose');
 const ProfileSchema = new mongoose.Schema({
   name: {
     type: String,
-    required,
+    required: true,
   },
   email: {
     type: String,
     unique: true,
-    required,
+    required: true,
   },
   password: {
     type: String,
-    required,
+    required: true,
   },
   avatar: {
     type: String,
