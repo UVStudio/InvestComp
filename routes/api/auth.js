@@ -20,7 +20,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 //POST api/auth
-//authenticate profile and login and get token
+//authenticate profile, login, and get token
 //access: private
 router.post(
   '/',

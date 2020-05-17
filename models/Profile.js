@@ -14,8 +14,9 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
-    type: String,
+  avatarId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'uploads.files',
   },
   location: {
     type: String,
