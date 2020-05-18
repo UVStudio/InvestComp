@@ -7,8 +7,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-//GET api/auth
-//access: private
+//@route  GET api/auth
+//@desc   read profile
+//@access private
 router.get('/', auth, async (req, res) => {
   try {
     const profile = await Profile.findById(req.profile.id).select('-password');
@@ -19,9 +20,9 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-//POST api/auth
-//authenticate profile, login, and get token
-//access: private
+//@route    POST api/auth
+//@desc     profile,login, and get token
+//@access   private
 router.post(
   '/',
   [

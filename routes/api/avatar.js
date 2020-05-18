@@ -50,8 +50,9 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-// @route POST /upload
-// @desc  Uploads file to DB
+//@route   POST /upload
+//@desc    Uploads file to DB
+//@access  Private
 
 router.post('/upload', [auth, upload.single('file')], async (req, res) => {
   res.json({ file: req.file });
@@ -68,8 +69,9 @@ router.post('/upload', [auth, upload.single('file')], async (req, res) => {
   //res.redirect('/');
 });
 
-// @routes GET /files/:avatarId
+// @route  GET /image/:avatarId
 // @desc   Display image by avatarId
+// @Access Public
 
 router.get('/image/:id', (req, res) => {
   gfs.files.findOne({ _id: ObjectID(req.params.id) }, (err, file) => {

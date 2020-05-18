@@ -5,10 +5,11 @@ const Profile = require('../../models/Profile');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../../middleware/auth');
 
-//POST api/profile
-//register profile
-//access: public
+//@route    POST /api/profile
+//@desc     register profile
+//@access   Public
 router.post(
   '/',
   [
@@ -61,5 +62,57 @@ router.post(
     }
   }
 );
+
+//@route  GET /me
+//@desc   get current logged in profile
+//@access private
+
+router.get('/me', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ _id: req.profile.id });
+    if (!profile) {
+      return res.status(400).json({ msg: 'You are not authorized' });
+    }
+    res.json({ profile });
+  } catch (error) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//@route  GET /api/profile/:id
+//@desc   get profile by profile id
+//@access public
+
+router.get('/:profile_id', async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      _id: req.params.profile_id,
+    }).populate('profile');
+    if (!profile) {
+      return res
+        .status(400)
+        .json({ msg: 'There is no profile for this profile ID.' });
+    }
+    res.send(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
+
+//@route  DELETE /api/profile
+//@desc   remove profile
+//@access private
+
+router.delete('/', auth, async (req, res) => {
+  try {
+    await Profile.findByIdAndRemove({ _id: req.profile.id });
+    res.json({ msg: 'Profile removed' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;
