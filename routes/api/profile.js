@@ -101,6 +101,20 @@ router.get('/:profile_id', async (req, res) => {
   }
 });
 
+//@route  GET /api/profile/profiles
+//@desc   get all profiles
+//@access public
+
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate('profile');
+    res.json(profiles);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 //@route  PUT /api/profile
 //@desc   update profile
 //@access private
