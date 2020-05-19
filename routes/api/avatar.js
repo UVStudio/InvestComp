@@ -50,7 +50,7 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-//@route   POST /upload
+//@route   POST /api/upload
 //@desc    Uploads file to DB
 //@access  Private
 

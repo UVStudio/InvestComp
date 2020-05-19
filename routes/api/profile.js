@@ -80,7 +80,7 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-//@route  GET /api/profile/:id
+//@route  GET /api/profile/profile_:id
 //@desc   get profile by profile id
 //@access public
 
@@ -98,6 +98,32 @@ router.get('/:profile_id', async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
+  }
+});
+
+//@route  PUT /api/profile
+//@desc   update profile
+//@access private
+
+router.put('/', auth, async (req, res) => {
+  const { name, email, password, location } = req.body;
+  const profileFields = {};
+  profileFields.profile = req.profile.id;
+  if (name) profileFields.name = name;
+  if (email) profileFields.email = email;
+  if (password) profileFields.password = password;
+  if (location) profileFields.location = location;
+  try {
+    let profile = await Profile.findOneAndUpdate(
+      { _id: req.profile.id },
+      { $set: profileFields },
+      { new: true }
+    );
+    res.json(profile);
+    await profile.save();
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
   }
 });
 

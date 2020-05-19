@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 //@route    GET /api/quote/symbol
-//@desc     get quotes from API
+//@desc     get quotes from API bystock symbol
 //@access:  public
 
 router.get('/:id', async (req, res) => {
@@ -19,10 +19,5 @@ router.get('/:id', async (req, res) => {
   }
   res.send('quote');
 });
-
-//test route
-// router.get('/', (req, res) => {
-//   res.send('quotes');
-// });
 
 module.exports = router;
