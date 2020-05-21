@@ -17,13 +17,46 @@ const TransactionsSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  units: {
+  shares: {
     type: Number,
     required: true,
   },
   date: {
     type: Date,
     default: Date.now,
+  },
+});
+
+const BalanceSchema = new mongoose.Schema({
+  balance: {
+    type: Number,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const PortfolioSchema = new mongoose.Schema({
+  equity: [
+    {
+      stock: {
+        type: String,
+      },
+      shares: {
+        type: Number,
+      },
+      price: {
+        type: Number,
+      },
+      value: {
+        type: Number,
+      },
+    },
+  ],
+  cash: {
+    type: Number,
   },
 });
 
@@ -49,6 +82,8 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
   },
   transactions: [TransactionsSchema],
+  portfolio: PortfolioSchema,
+  balance: [BalanceSchema],
   date: {
     type: Date,
     default: Date.now,

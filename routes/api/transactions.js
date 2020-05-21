@@ -50,10 +50,16 @@ router.post(
 //@desc     view logged in profile's transactions
 //@access   private
 
-//GET transactions
-//access: private
-router.get('/', (req, res) => {
-  res.send('transactions');
+router.get('/', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      _id: req.profile.id,
+    });
+    res.json(profile.transactions);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 module.exports = router;

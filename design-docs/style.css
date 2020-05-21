@@ -146,14 +146,14 @@ p {
 .portfolio-container {
   margin: 3em auto;
   width: 90%;
-  height: 30em;
+  height: 34em;
   border: 1px solid var(--dark-color);
   overflow: scroll;
 }
 
 .portfolio-inner-container {
   width: 90%;
-  height: 20em;
+  height: 24em;
   margin: 1em auto;
   border: 1px solid var(--dark-color);
 }
@@ -188,6 +188,10 @@ td:nth-child(2) {
 
 #Transactions h5 {
   padding-left: 0.8em;
+}
+
+.order-stats {
+  font-style: underline;
 }
 
 /* tab */
