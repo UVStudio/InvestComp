@@ -32,10 +32,15 @@ router.post(
           .status(400)
           .json({ error: [{ msg: 'Profile already exists.' }] });
       }
+
       profile = new Profile({
         name,
         email,
         password,
+        portfolio: {
+          equity: [],
+          cash: null,
+        },
       });
       const salt = await bcrypt.genSalt(10);
       profile.password = await bcrypt.hash(password, salt);

@@ -15,6 +15,14 @@ router.get('/', auth, async (req, res) => {
     const stocks = profile.transactions.map((transaction) => transaction.stock);
     const sorted = Array.from(new Set(stocks));
     res.json(sorted);
+
+    // const sharesBalances = [];
+    // for (let i = 0; i < sorted.length; i++) {
+    //   for (let j = 0; j < profile.transactions.length; j++) {
+    //     if(profile.transactions[j].stock === sorted[i])
+    //   }
+    // }
+
     //for each stock, calculate the number of shares - sort each stock into its own array
 
     //run quote.js to find current share prices of each of these stocks
