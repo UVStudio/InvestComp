@@ -24,7 +24,7 @@ router.post(
     if (!errors.isEmpty()) {
       res.status(400).json({ error: errors.array() });
     }
-    const { name, email, password } = req.body;
+    const { name, email, password, location } = req.body;
     try {
       let profile = await Profile.findOne({ email });
       if (profile) {
@@ -41,6 +41,7 @@ router.post(
           equity: [],
           cash: null,
         },
+        location,
       });
       const salt = await bcrypt.genSalt(10);
       profile.password = await bcrypt.hash(password, salt);

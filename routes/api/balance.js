@@ -3,27 +3,37 @@ const router = express.Router();
 const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
 
-//@route  GET /api/balance/me
+//@route  GET /api/balance/
 //@desc   calculate balace of logged in profile's portfolio
 //@access private
 
 router.get('/', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ _id: req.profile.id });
+    const ppe = profile.portfolio.equity;
 
-    //find out the different stocks the profile has
-    const stocks = profile.transactions.map((transaction) => transaction.stock);
-    const sorted = Array.from(new Set(stocks));
-    res.json(sorted);
+    //for each stock, calculate the number of shares
+    const sharesArray = [];
+    const reducer = (acc, curr) => acc + curr;
+    for (let i = 0; i < ppe.length; i++) {
+      const tobeReduced = [];
+      for (let j = 0; j < ppe[i].transactions.length; j++) {
+        for (const prop in ppe[i].transactions[j]) {
+          if (prop === 'shares') {
+            tobeReduced.push(ppe[i].transactions[j][prop]);
+          }
+        }
+      }
+      const sharesOfStock = tobeReduced.reduce(reducer);
 
-    // const sharesBalances = [];
-    // for (let i = 0; i < sorted.length; i++) {
-    //   for (let j = 0; j < profile.transactions.length; j++) {
-    //     if(profile.transactions[j].stock === sorted[i])
-    //   }
-    // }
+      //populate array of shares
+      const shareObj = {};
+      shareObj.stock = ppe[i].stock;
+      shareObj.shares = sharesOfStock;
+      sharesArray.push(shareObj);
+    }
 
-    //for each stock, calculate the number of shares - sort each stock into its own array
+    res.json(sharesArray);
 
     //run quote.js to find current share prices of each of these stocks
     //calculate value of each stock by multipling current price with number of shares

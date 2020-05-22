@@ -42,19 +42,15 @@ router.post(
     try {
       const profile = await Profile.findOne({ _id: req.profile.id });
       const ppe = profile.portfolio.equity;
-      //console.log(profile.portfolio.equity.length);
+
+      //add stock obj into array of equities
       const findCompany = (e) => e.stock === stock;
       if (!ppe.some(findCompany)) {
         ppe.push(equityObj);
       }
-      //console.log(equityObj);
-      //console.log(profile.portfolio.equity);
-      //console.log(profile.portfolio.equity.length);
-      // for (let i = 0; i < profile.portfolio.equity.length; i++) {
-      //   console.log(profile.portfolio.equity.length);
-      // }
-
-      //profile.transactions.push(transactionDetails);
+      //if equity element exists, push transaction obj into equity
+      const result = ppe.findIndex(findCompany);
+      ppe[result].transactions.push(transactionDetails);
 
       await profile.save();
       res.json(profile);
