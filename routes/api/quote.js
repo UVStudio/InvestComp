@@ -10,14 +10,15 @@ router.get('/:id', async (req, res) => {
   const stock = req.params.id;
   try {
     const response = await axios.get(
-      `https://cloud.iexapis.com/stable/tops?token=pk_f250b871bf214086b6b6ea70d2720091&symbols=${stock}`
+      `https://finnhub.io/api/v1/quote?symbol=${stock}&token=br4ipfnrh5r8ufeotdd0`
     );
     console.log(response.data);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
   }
-  res.send('quote');
+  //res.send(response.data);
+  res.send('fake quote');
 });
 
 module.exports = router;

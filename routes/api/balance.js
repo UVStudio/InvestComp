@@ -5,17 +5,20 @@ const auth = require('../../middleware/auth');
 const axios = require('axios');
 
 //@route  GET /api/balance/
-//@desc   calculate balace of logged in profile's portfolio
+//@desc   get the current balance of logged in profile's portfolio
 //@access private
 
 router.get('/', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ _id: req.profile.id });
+    let cash = profile.portfolio.cash;
     const ppe = profile.portfolio.equity;
+    cash = 100000;
 
     //for each stock, calculate the number of shares
     const sharesArray = [];
     const reducer = (acc, curr) => acc + curr;
+
     for (let i = 0; i < ppe.length; i++) {
       const tobeReduced = [];
       for (let j = 0; j < ppe[i].transactions.length; j++) {
@@ -32,13 +35,13 @@ router.get('/', auth, async (req, res) => {
       //calculate value of each stock by multipling current price with number of shares
 
       const stockToQuote = ppe[i].stock;
+      //https://cloud.iexapis.com/stable/tops?token=pk_f250b871bf214086b6b6ea70d2720091&symbols=${stockToQuote}
       const quote = await axios.get(
-        `https://cloud.iexapis.com/stable/tops?token=pk_f250b871bf214086b6b6ea70d2720091&symbols=${stockToQuote}`
+        `https://finnhub.io/api/v1/quote?symbol=${stockToQuote}&token=br4ipfnrh5r8ufeotdd0`
       );
-      console.log(quote.data);
 
       const shareObj = {};
-      const stockQuote = quote.data[0].lastSalePrice;
+      const stockQuote = quote.data.c;
       shareObj.stock = ppe[i].stock;
       shareObj.shares = sharesOfStock;
       shareObj.price = stockQuote;
@@ -46,6 +49,11 @@ router.get('/', auth, async (req, res) => {
       sharesArray.push(shareObj);
     }
 
+    const sharesBalances = sharesArray.map((e) => e.balance);
+    console.log(sharesBalances);
+    const equityBalance = sharesBalances.reduce(reducer);
+    console.log(equityBalance);
+    console.log(equityBalance + cash);
     res.json(sharesArray);
 
     //add value of each stock with cash value to find overall balance
@@ -54,5 +62,9 @@ router.get('/', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+//@route  POST /api/balance/
+//@desc   calculate balance of logged in profile's portfolio
+//@access private
 
 module.exports = router;

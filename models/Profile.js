@@ -40,7 +40,7 @@ const PortfolioSchema = new mongoose.Schema({
       price: {
         type: Number,
       },
-      value: {
+      balance: {
         type: Number,
       },
     },
