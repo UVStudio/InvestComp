@@ -15,11 +15,9 @@ const TransactionsSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: true,
   },
   shares: {
     type: Number,
-    required: true,
   },
   date: {
     type: Date,

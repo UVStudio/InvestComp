@@ -12,12 +12,13 @@ router.get('/:id', async (req, res) => {
     const response = await axios.get(
       `https://finnhub.io/api/v1/quote?symbol=${stock}&token=br4ipfnrh5r8ufeotdd0`
     );
-    console.log(response.data);
+    console.log(stock);
+    console.log(response.data.c);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
   }
-  //res.send(response.data);
+  //res.send(response.data.c);
   res.send('fake quote');
 });
 

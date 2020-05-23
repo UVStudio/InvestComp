@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
+const axios = require('axios');
 const { check, validationResult } = require('express-validator');
 
 //@route    POST /api/transactions/buy
@@ -15,15 +16,23 @@ router.post(
     check('buysell', 'Buysell is required').not().isEmpty(),
     check('amount', 'Amount is required.').not().isEmpty(),
     check('stock', 'Stock is required.').not().isEmpty(),
-    check('price', 'Price is required.').not().isEmpty(),
-    check('shares', 'Shares is required.').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { buysell, amount, stock, price, shares } = req.body;
+    const { buysell, amount, stock } = req.body;
+    console.log(stock);
+
+    const response = await axios.get(
+      `https://finnhub.io/api/v1/quote?symbol=${stock}&token=br4ipfnrh5r8ufeotdd0`
+    );
+    console.log(response.data.c);
+
+    const price = response.data.c;
+    const shares = amount / price;
+    console.log(shares);
 
     //build equity object
     const equityObj = {
@@ -32,7 +41,6 @@ router.post(
 
     //build transaction Object
     const transactionDetails = {};
-    //transactionDetails.profile = req.profile.id;
     transactionDetails.buysell = buysell;
     transactionDetails.amount = amount;
     transactionDetails.stock = stock;
@@ -41,6 +49,12 @@ router.post(
 
     try {
       const profile = await Profile.findOne({ _id: req.profile.id });
+
+      const cash = profile.portfolio.cash;
+      if (cash < amount) {
+        return res.send('You do not have enough cash.');
+      }
+
       const ppe = profile.portfolio.equity;
 
       //add stock obj into array of equities
@@ -58,8 +72,9 @@ router.post(
       const sharesArray = transactionList.map((e) => e.shares);
       const shareBalance = sharesArray.reduce(reducer);
       console.log(shareBalance);
-      ppe[result].shares = shareBalance;
 
+      //saving new shares balance to mongo
+      ppe[result].shares = shareBalance;
       await profile.save();
       res.json(profile);
     } catch (error) {
@@ -107,13 +122,32 @@ router.post(
     try {
       const profile = await Profile({ _id: req.profile.id });
 
-      res.send('check');
+      res.send(profile);
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');
     }
   }
 );
+
+//@route    POST /api/transactions/cash
+//@desc     add cash transactions
+//@access   private
+
+router.post('/cash', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ _id: req.profile.id });
+    const cash = req.body.cash;
+    profile.portfolio.cash = cash;
+
+    console.log(profile.portfolio.cash);
+    await profile.save();
+    res.send(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 //@route    GET /api/transactions/
 //@desc     view logged in profile's transactions
