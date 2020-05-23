@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
+const axios = require('axios');
 
 //@route  GET /api/balance/
 //@desc   calculate balace of logged in profile's portfolio
@@ -27,16 +28,26 @@ router.get('/', auth, async (req, res) => {
       const sharesOfStock = tobeReduced.reduce(reducer);
 
       //populate array of shares
+      //run quote.js to find current share prices of each of these stocks
+      //calculate value of each stock by multipling current price with number of shares
+
+      const stockToQuote = ppe[i].stock;
+      const quote = await axios.get(
+        `https://cloud.iexapis.com/stable/tops?token=pk_f250b871bf214086b6b6ea70d2720091&symbols=${stockToQuote}`
+      );
+      console.log(quote.data);
+
       const shareObj = {};
+      const stockQuote = quote.data[0].lastSalePrice;
       shareObj.stock = ppe[i].stock;
       shareObj.shares = sharesOfStock;
+      shareObj.price = stockQuote;
+      shareObj.balance = stockQuote * sharesOfStock;
       sharesArray.push(shareObj);
     }
 
     res.json(sharesArray);
 
-    //run quote.js to find current share prices of each of these stocks
-    //calculate value of each stock by multipling current price with number of shares
     //add value of each stock with cash value to find overall balance
   } catch (error) {
     console.error(error.message);
