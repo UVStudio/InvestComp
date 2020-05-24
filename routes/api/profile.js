@@ -100,7 +100,7 @@ router.get('/:profile_id', async (req, res) => {
         .status(400)
         .json({ msg: 'There is no profile for this profile ID.' });
     }
-    res.send(profile);
+    res.json({ profile });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
@@ -114,7 +114,7 @@ router.get('/:profile_id', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const profiles = await Profile.find().populate('profile');
-    res.json(profiles);
+    res.json({ profiles });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');

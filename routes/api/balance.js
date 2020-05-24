@@ -11,9 +11,8 @@ const axios = require('axios');
 router.get('/', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ _id: req.profile.id });
-    let cash = profile.portfolio.cash;
+    const cash = profile.portfolio.cash;
     const ppe = profile.portfolio.equity;
-    cash = 100000;
 
     //for each stock, calculate the number of shares
     const sharesArray = [];
@@ -53,8 +52,8 @@ router.get('/', auth, async (req, res) => {
     console.log(sharesBalances);
     const equityBalance = sharesBalances.reduce(reducer);
     console.log(equityBalance);
-    console.log(equityBalance + cash);
-    res.json(sharesArray);
+    console.log(cash);
+    res.json({ sharesArray });
 
     //add value of each stock with cash value to find overall balance
   } catch (error) {

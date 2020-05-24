@@ -142,7 +142,6 @@ router.post(
       const transactionList = ppe[result].transactions;
       const sharesArray = transactionList.map((e) => e.shares);
       const shareBalance = sharesArray.reduce(reducer);
-      //console.log(ppe[result] + ':' + shareBalance);
 
       //add sales proceeds to cash and save to mongo
       profile.portfolio.cash = profile.portfolio.cash - amount;
@@ -154,7 +153,7 @@ router.post(
       ppe[result].shares = shareBalance;
 
       await profile.save();
-      res.send(profile);
+      res.json({ profile });
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');
@@ -172,7 +171,7 @@ router.post('/cash', auth, async (req, res) => {
     const cash = req.body.cash;
     profile.portfolio.cash = cash;
     await profile.save();
-    res.send(profile);
+    res.json({ profile });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
