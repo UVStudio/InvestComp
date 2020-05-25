@@ -37,11 +37,11 @@ router.post(
         name,
         email,
         password,
+        location,
         portfolio: {
           equity: [],
           cash: null,
         },
-        location,
       });
       const salt = await bcrypt.genSalt(10);
       profile.password = await bcrypt.hash(password, salt);

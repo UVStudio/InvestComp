@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 //@route  GET api/auth
-//@desc   read profile
+//@desc   read login profile
 //@access private
 router.get('/', auth, async (req, res) => {
   try {
@@ -21,7 +21,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 //@route    POST api/auth
-//@desc     profile,login, and get token
+//@desc     profile login, and get token
 //@access   private
 router.post(
   '/',
