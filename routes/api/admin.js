@@ -169,4 +169,95 @@ router.get('/shares', adminAuth, async (req, res) => {
   }
 });
 
+//@route    GET /api/admin/transactions/:id
+//@desc     testing
+//@access   private
+
+router.delete(
+  '/:profile_id/transactions/:transaction_id',
+  adminAuth,
+  async (req, res) => {
+    try {
+      const profile = await Profile.findOne({ _id: req.params.profile_id });
+      const ppe = profile.portfolio.equity;
+      const deletedTransObj = {};
+      for (let i = 0; i < ppe.length; i++) {
+        for (let j = 0; j < ppe[i].transactions.length; j++) {
+          if (ppe[i].transactions[j]._id == req.params.transaction_id) {
+            //saving cash amount of transaction to be deleted
+            deletedTransObj.amount = ppe[i].transactions[j].amount;
+            //deleting transactio
+            ppe[i].transactions.splice(j, 1);
+          }
+        }
+      }
+      //re-calculate cash
+      profile.portfolio.cash = profile.portfolio.cash + deletedTransObj.amount;
+      await profile.save();
+      res.json(profile);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
+//@route  GET /api/balance/:profile_id
+//@desc   get the current balance of logged in profile's portfolio
+//@access private
+
+router.get('/balance/:profile_id', adminAuth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ _id: req.params.profile_id });
+    const cash = profile.portfolio.cash;
+    const ppe = profile.portfolio.equity;
+
+    //for each stock, calculate the number of shares
+    const sharesArray = [];
+    const reducer = (acc, curr) => acc + curr;
+
+    for (let i = 0; i < ppe.length; i++) {
+      const tobeReduced = [];
+      for (let j = 0; j < ppe[i].transactions.length; j++) {
+        for (const prop in ppe[i].transactions[j]) {
+          if (prop === 'shares') {
+            tobeReduced.push(ppe[i].transactions[j][prop]);
+          }
+        }
+      }
+      const sharesOfStock = tobeReduced.reduce(reducer);
+
+      //populate array of shares
+      //run quote.js to find current share prices of each of these stocks
+      //calculate value of each stock by multipling current price with number of shares
+
+      const stockToQuote = ppe[i].stock;
+      //https://cloud.iexapis.com/stable/tops?token=pk_f250b871bf214086b6b6ea70d2720091&symbols=${stockToQuote}
+      const quote = await axios.get(
+        `https://finnhub.io/api/v1/quote?symbol=${stockToQuote}&token=br4ipfnrh5r8ufeotdd0`
+      );
+
+      const shareObj = {};
+      const stockQuote = quote.data.c;
+      shareObj.stock = ppe[i].stock;
+      shareObj.shares = sharesOfStock;
+      shareObj.price = stockQuote;
+      shareObj.balance = stockQuote * sharesOfStock;
+      sharesArray.push(shareObj);
+    }
+
+    const sharesBalances = sharesArray.map((e) => e.balance);
+    console.log(sharesBalances);
+    const equityBalance = sharesBalances.reduce(reducer);
+    console.log(equityBalance);
+    console.log(cash);
+    res.json({ sharesArray });
+
+    //add value of each stock with cash value to find overall balance
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;
