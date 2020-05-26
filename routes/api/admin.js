@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const adminAuth = require('../../middleware/adminAuth');
 const Admin = require('../../models/Admin');
+const Profile = require('../../models/Profile');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const axios = require('axios');
 
 //@route    POST /api/admin/register
 //@desc     register an admin
@@ -53,7 +55,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        config.get('adminSecret'),
         { expiresIn: 36000 },
         (error, token) => {
           if (error) throw error;
@@ -69,7 +71,7 @@ router.post(
 
 //@route    POST /api/admin/login
 //@desc     profile login, and get token
-//@access   private
+//@access   public
 
 router.post(
   '/login',
@@ -107,7 +109,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        config.get('adminSecret'),
         { expiresIn: 36000 },
         (error, token) => {
           if (error) throw error;
@@ -120,5 +122,51 @@ router.post(
     }
   }
 );
+
+//@route    GET /api/admin/test
+//@desc     test route
+//@access   private
+
+router.get('/test', adminAuth, async (req, res) => {
+  return res.send('test route');
+});
+
+//@route    GET /api/admin/shares
+//@desc     Get each stock name and closing price of different companys shares held by all investors
+//@access   private
+
+router.get('/shares', adminAuth, async (req, res) => {
+  const profiles = await Profile.find();
+
+  //build array of different stocks that people own
+  const sharesArray = [];
+  for (const profile of profiles) {
+    for (let i = 0; i < profile.portfolio.equity.length; i++) {
+      if (profile.portfolio.equity[i].shares > 0) {
+        sharesArray.push(profile.portfolio.equity[i].stock);
+      }
+    }
+  }
+
+  //find price of each stock and make new array with prices added
+  const sharesPriceArray = [];
+  try {
+    for (let i = 0; i < sharesArray.length; i++) {
+      const stockToQuote = sharesArray[i];
+      const quote = await axios.get(
+        `https://finnhub.io/api/v1/quote?symbol=${stockToQuote}&token=br4ipfnrh5r8ufeotdd0`
+      );
+      const shareObj = {};
+      const stockQuote = quote.data.c;
+      shareObj.stock = sharesArray[i];
+      shareObj.price = stockQuote;
+      sharesPriceArray.push(shareObj);
+    }
+    res.json(sharesPriceArray);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;
