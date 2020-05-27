@@ -73,12 +73,6 @@ router.post(
       //minus from cash and save to mongo
       profile.portfolio.cash = profile.portfolio.cash - amount;
 
-      // //saving new shares balance to mongo
-      // ppe[result].shares = shareBalance;
-
-      // //saving new equity balance of portfolio
-      // ppe[result].balance = shareBalance * price;
-
       await profile.save();
       res.json(profile);
     } catch (error) {
@@ -150,14 +144,11 @@ router.post(
       //add sales proceeds to cash and save to mongo
       profile.portfolio.cash = profile.portfolio.cash - amount;
 
-      console.log(amount);
-      console.log(profile.portfolio.cash);
-
       //saving new shares balance to mongo
       ppe[result].shares = shareBalance;
 
-      // //saving new equity balance of portfolio
-      // ppe[result].balance = shareBalance * price;
+      //record new balance onto profile
+      ppe[result].balance = price * shareBalance;
 
       await profile.save();
       res.json({ profile });
@@ -168,23 +159,6 @@ router.post(
   }
 );
 
-//@route    POST /api/transactions/cash
-//@desc     add cash transactions
-//@access   private
-
-router.post('/cash', auth, async (req, res) => {
-  try {
-    const profile = await Profile.findOne({ _id: req.profile.id });
-    const cash = req.body.cash;
-    profile.portfolio.cash = cash;
-    await profile.save();
-    res.json({ profile });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 //@route    GET /api/transactions/
 //@desc     view logged in profile's transactions
 //@access   private
@@ -194,7 +168,9 @@ router.get('/', auth, async (req, res) => {
     const profile = await Profile.findOne({
       _id: req.profile.id,
     });
-    res.json(profile.transactions);
+    const ppe = profile.portfolio.equity;
+    const allTransactions = ppe.flatMap((e) => e.transactions);
+    res.json(allTransactions);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');

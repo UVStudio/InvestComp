@@ -44,8 +44,9 @@ router.put('/', auth, async (req, res) => {
       shareObj.price = stockQuote;
       shareObj.balance = stockQuote * sharesOfStock;
       sharesArray.push(shareObj);
-      //record new balance onto profile
+      //record new balance and stock price onto profile
       ppe[i].balance = stockQuote * sharesOfStock;
+      ppe[i].price = stockQuote;
     }
     //calculate profile balance (equity + cash)
     const equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);

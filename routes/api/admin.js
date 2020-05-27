@@ -290,8 +290,9 @@ router.put('/balance', adminAuth, async (req, res) => {
         shareObj.price = stockQuote;
         shareObj.balance = stockQuote * sharesOfStock;
         sharesArray.push(shareObj);
-        //record new balance onto profile
+        //record new balance and stock price onto profile
         ppe[i].balance = stockQuote * sharesOfStock;
+        ppe[i].price = stockQuote;
       }
       //calculate profile balance (equity + cash)
       const equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
@@ -305,11 +306,28 @@ router.put('/balance', adminAuth, async (req, res) => {
   }
 });
 
-//@route  DELETE /api/admin/profile
+//@route    POST /api/admin/cash
+//@desc     add cash transactions
+//@access   private
+
+router.post('/cash', adminAuth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ _id: req.profile.id });
+    const cash = req.body.cash;
+    profile.portfolio.cash = cash;
+    await profile.save();
+    res.json({ profile });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//@route  DELETE /api/admin/:profile_id
 //@desc   remove profile
 //@access private
 
-router.delete('/', adminAuth, async (req, res) => {
+router.delete('/:profile_id', adminAuth, async (req, res) => {
   try {
     await Profile.findOneAndRemove({ _id: req.params.profile_id });
     res.json({ msg: 'Profile removed' });
