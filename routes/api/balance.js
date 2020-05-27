@@ -4,14 +4,13 @@ const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
 const axios = require('axios');
 
-//@route  GET /api/balance/
-//@desc   get the current balance of logged in profile's portfolio
+//@route  PUT /api/balance/
+//@desc   update the current balance of logged in profile's portfolio
 //@access private
 
-router.get('/', auth, async (req, res) => {
+router.put('/', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ _id: req.profile.id });
-    const cash = profile.portfolio.cash;
     const ppe = profile.portfolio.equity;
 
     //for each stock, calculate the number of shares
@@ -30,15 +29,14 @@ router.get('/', auth, async (req, res) => {
       const sharesOfStock = tobeReduced.reduce(reducer);
 
       //populate array of shares
-      //run quote.js to find current share prices of each of these stocks
-      //calculate value of each stock by multipling current price with number of shares
 
       const stockToQuote = ppe[i].stock;
-      //https://cloud.iexapis.com/stable/tops?token=pk_f250b871bf214086b6b6ea70d2720091&symbols=${stockToQuote}
+      //run quote to find current share prices of each of these stocks
       const quote = await axios.get(
         `https://finnhub.io/api/v1/quote?symbol=${stockToQuote}&token=br4ipfnrh5r8ufeotdd0`
       );
 
+      //populate the share update object
       const shareObj = {};
       const stockQuote = quote.data.c;
       shareObj.stock = ppe[i].stock;
@@ -46,24 +44,18 @@ router.get('/', auth, async (req, res) => {
       shareObj.price = stockQuote;
       shareObj.balance = stockQuote * sharesOfStock;
       sharesArray.push(shareObj);
+      //record new balance onto profile
+      ppe[i].balance = stockQuote * sharesOfStock;
     }
-
-    const sharesBalances = sharesArray.map((e) => e.balance);
-    console.log(sharesBalances);
-    const equityBalance = sharesBalances.reduce(reducer);
-    console.log(equityBalance);
-    console.log(cash);
-    res.json({ sharesArray });
-
-    //add value of each stock with cash value to find overall balance
+    //calculate profile balance (equity + cash)
+    const equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
+    profile.portfolio.profileBalance = equityBalance + profile.portfolio.cash;
+    await profile.save();
+    res.json({ profile });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
   }
 });
-
-//@route  POST /api/balance/
-//@desc   calculate balance of logged in profile's portfolio
-//@access private
 
 module.exports = router;

@@ -123,14 +123,6 @@ router.post(
   }
 );
 
-//@route    GET /api/admin/test
-//@desc     test route
-//@access   private
-
-router.get('/test', adminAuth, async (req, res) => {
-  return res.send('test route');
-});
-
 //@route    GET /api/admin/shares
 //@desc     Get each stock name and closing price of different companys shares held by all investors
 //@access   private
@@ -169,8 +161,8 @@ router.get('/shares', adminAuth, async (req, res) => {
   }
 });
 
-//@route    GET /api/admin/transactions/:id
-//@desc     testing
+//@route    DELETE /api/admin/:profile_id/transactions/:id
+//@desc     delete transaction by profile Id and transaction Id
 //@access   private
 
 router.delete(
@@ -186,11 +178,12 @@ router.delete(
           if (ppe[i].transactions[j]._id == req.params.transaction_id) {
             //saving cash amount of transaction to be deleted
             deletedTransObj.amount = ppe[i].transactions[j].amount;
-            //deleting transactio
+            //deleting transaction
             ppe[i].transactions.splice(j, 1);
           }
         }
       }
+
       //re-calculate cash
       profile.portfolio.cash = profile.portfolio.cash + deletedTransObj.amount;
       await profile.save();
@@ -202,14 +195,13 @@ router.delete(
   }
 );
 
-//@route  GET /api/balance/:profile_id
-//@desc   get the current balance of logged in profile's portfolio
+//@route  PUT /api/admin/balance/:profile_id
+//@desc   Update the current balance of logged in profile's portfolio
 //@access private
 
-router.get('/balance/:profile_id', adminAuth, async (req, res) => {
+router.put('/balance/:profile_id', adminAuth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ _id: req.params.profile_id });
-    const cash = profile.portfolio.cash;
     const ppe = profile.portfolio.equity;
 
     //for each stock, calculate the number of shares
@@ -232,7 +224,6 @@ router.get('/balance/:profile_id', adminAuth, async (req, res) => {
       //calculate value of each stock by multipling current price with number of shares
 
       const stockToQuote = ppe[i].stock;
-      //https://cloud.iexapis.com/stable/tops?token=pk_f250b871bf214086b6b6ea70d2720091&symbols=${stockToQuote}
       const quote = await axios.get(
         `https://finnhub.io/api/v1/quote?symbol=${stockToQuote}&token=br4ipfnrh5r8ufeotdd0`
       );
@@ -244,16 +235,84 @@ router.get('/balance/:profile_id', adminAuth, async (req, res) => {
       shareObj.price = stockQuote;
       shareObj.balance = stockQuote * sharesOfStock;
       sharesArray.push(shareObj);
+      //record new balance onto profile
+      ppe[i].balance = stockQuote * sharesOfStock;
     }
+    //calculate profile balance (equity + cash)
+    const equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
+    profile.portfolio.profileBalance = equityBalance + profile.portfolio.cash;
+    await profile.save();
+    res.json({ profile });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
 
-    const sharesBalances = sharesArray.map((e) => e.balance);
-    console.log(sharesBalances);
-    const equityBalance = sharesBalances.reduce(reducer);
-    console.log(equityBalance);
-    console.log(cash);
-    res.json({ sharesArray });
+//@route  PUT /api/admin/balance
+//@desc   Update the balances of all account users
+//@access private
 
-    //add value of each stock with cash value to find overall balance
+router.put('/balance', adminAuth, async (req, res) => {
+  try {
+    const profiles = await Profile.find();
+    for (const profile of profiles) {
+      const ppe = profile.portfolio.equity;
+
+      //for each stock, calculate the number of shares
+      const sharesArray = [];
+      const reducer = (acc, curr) => acc + curr;
+
+      for (let i = 0; i < ppe.length; i++) {
+        const tobeReduced = [];
+        for (let j = 0; j < ppe[i].transactions.length; j++) {
+          for (const prop in ppe[i].transactions[j]) {
+            if (prop === 'shares') {
+              tobeReduced.push(ppe[i].transactions[j][prop]);
+            }
+          }
+        }
+        const sharesOfStock = tobeReduced.reduce(reducer);
+
+        //populate array of shares
+
+        const stockToQuote = ppe[i].stock;
+        //run quote to find current share prices of each of these stocks
+        const quote = await axios.get(
+          `https://finnhub.io/api/v1/quote?symbol=${stockToQuote}&token=br4ipfnrh5r8ufeotdd0`
+        );
+
+        //populate the share update object
+        const shareObj = {};
+        const stockQuote = quote.data.c;
+        shareObj.stock = ppe[i].stock;
+        shareObj.shares = sharesOfStock;
+        shareObj.price = stockQuote;
+        shareObj.balance = stockQuote * sharesOfStock;
+        sharesArray.push(shareObj);
+        //record new balance onto profile
+        ppe[i].balance = stockQuote * sharesOfStock;
+      }
+      //calculate profile balance (equity + cash)
+      const equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
+      profile.portfolio.profileBalance = equityBalance + profile.portfolio.cash;
+      await profile.save();
+    }
+    res.json(profiles);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
+
+//@route  DELETE /api/admin/profile
+//@desc   remove profile
+//@access private
+
+router.delete('/', adminAuth, async (req, res) => {
+  try {
+    await Profile.findOneAndRemove({ _id: req.params.profile_id });
+    res.json({ msg: 'Profile removed' });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');

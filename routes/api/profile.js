@@ -40,7 +40,7 @@ router.post(
         location,
         portfolio: {
           equity: [],
-          cash: null,
+          cash: 100000,
         },
       });
       const salt = await bcrypt.genSalt(10);
@@ -153,7 +153,7 @@ router.put('/', auth, async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
   try {
-    await Profile.findByIdAndRemove({ _id: req.profile.id });
+    await Profile.findOneAndRemove({ _id: req.profile.id });
     res.json({ msg: 'Profile removed' });
   } catch (error) {
     console.error(error.message);

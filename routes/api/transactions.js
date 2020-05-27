@@ -68,13 +68,17 @@ router.post(
       const transactionList = ppe[result].transactions;
       const sharesArray = transactionList.map((e) => e.shares);
       const shareBalance = sharesArray.reduce(reducer);
-      console.log(ppe[result] + ':' + shareBalance);
+      //console.log(ppe[result] + ':' + shareBalance);
 
       //minus from cash and save to mongo
       profile.portfolio.cash = profile.portfolio.cash - amount;
 
-      //saving new shares balance to mongo
-      ppe[result].shares = shareBalance;
+      // //saving new shares balance to mongo
+      // ppe[result].shares = shareBalance;
+
+      // //saving new equity balance of portfolio
+      // ppe[result].balance = shareBalance * price;
+
       await profile.save();
       res.json(profile);
     } catch (error) {
@@ -151,6 +155,9 @@ router.post(
 
       //saving new shares balance to mongo
       ppe[result].shares = shareBalance;
+
+      // //saving new equity balance of portfolio
+      // ppe[result].balance = shareBalance * price;
 
       await profile.save();
       res.json({ profile });

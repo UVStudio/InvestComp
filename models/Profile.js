@@ -46,6 +46,9 @@ const PortfolioSchema = new mongoose.Schema({
   cash: {
     type: Number,
   },
+  profileBalance: {
+    type: Number,
+  },
 });
 
 const ProfileSchema = new mongoose.Schema({
