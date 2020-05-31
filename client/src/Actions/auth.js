@@ -1,6 +1,30 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { REGISTER_SUCCESS, REGISTER_FAIL } from './types';
+import setAuthToken from '../utils/setAuthToken';
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  PROFILE_LOADED,
+  AUTH_ERROR,
+} from './types';
+
+export const loadProfile = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+    console.log('there is token');
+  }
+  try {
+    const res = await axios.get('/api/auth');
+    dispatch({
+      type: PROFILE_LOADED,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+  }
+};
 
 export const register = ({ name, email, password, location }) => async (
   dispatch
@@ -12,7 +36,6 @@ export const register = ({ name, email, password, location }) => async (
   };
 
   const body = JSON.stringify({ name, email, password, location });
-  console.log(body);
 
   try {
     const res = await axios.post('/api/profile', body, config);
@@ -22,7 +45,6 @@ export const register = ({ name, email, password, location }) => async (
     });
   } catch (error) {
     const errors = error.response.data.errors;
-    console.log(error);
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
