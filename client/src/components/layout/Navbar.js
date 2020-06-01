@@ -1,7 +1,60 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../Actions/auth';
 
-const Navbar = () => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const authLinks = (
+    <ul className="nav navbar-nav ml-auto justify-content-end text-white">
+      <li className="nav-item active">
+        <Link className="nav-link text-white" to="/investors">
+          Investors
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link text-white" to="/dashboard">
+          Dashboard
+        </Link>
+      </li>
+      <li class="nav-item">
+        <Link class="nav-link text-white" to="/profile">
+          Profile
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link text-white" to="/portfolio">
+          Portfolio
+        </Link>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" onClick={logout} href="#!">
+          Logout
+        </a>
+      </li>
+    </ul>
+  );
+
+  const guestLinks = (
+    <ul className="nav navbar-nav ml-auto justify-content-end text-white">
+      <li className="nav-item active">
+        <Link className="nav-link text-white" to="investors.html">
+          Investors
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link text-white" to="/login">
+          Login
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link text-white" to="/register">
+          Sign up
+        </Link>
+      </li>
+    </ul>
+  );
+
   return (
     <nav className="navbar navbar-expand-lg bg-primary navbar-light">
       <Link className="text-white" to="/">
@@ -19,26 +72,21 @@ const Navbar = () => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="nav navbar-nav ml-auto justify-content-end text-white">
-          <li className="nav-item active">
-            <Link className="nav-link text-white" to="investors.html">
-              Investors
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-white" to="/login">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link text-white" to="/register">
-              Sign up
-            </Link>
-          </li>
-        </ul>
+        {!loading && (
+          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+        )}
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

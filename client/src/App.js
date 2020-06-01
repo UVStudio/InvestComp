@@ -8,6 +8,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Investors from './components/layout/Investors';
 import Footer from './components/layout/Footer';
+import Dashboard from './components/layout/Dashboard';
 import './App.css';
 
 //Redux
@@ -36,6 +37,7 @@ const App = () => {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/investors" component={Investors} />
+              <Route exact path="/dashboard" component={Dashboard} />
             </Switch>
             <Footer />
           </div>
