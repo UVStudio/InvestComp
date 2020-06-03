@@ -17,8 +17,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
           Dashboard
         </Link>
       </li>
-      <li class="nav-item">
-        <Link class="nav-link text-white" to="/profile">
+      <li className="nav-item">
+        <Link className="nav-link text-white" to="/profile">
           Profile
         </Link>
       </li>
@@ -27,8 +27,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
           Portfolio
         </Link>
       </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" onClick={logout} href="#!">
+      <li className="nav-item">
+        <a className="nav-link text-white" onClick={logout} href="#!">
           Logout
         </a>
       </li>

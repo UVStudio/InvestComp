@@ -138,6 +138,10 @@ p {
   width: 15em;
 }
 
+.portfolio-item:first-child {
+  margin-top: 1.5em;
+}
+
 .dashboard-container {
   margin: 3em auto;
   width: 15em;
@@ -171,9 +175,9 @@ p {
   width: 20%;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background: #eee;
-}
+} */
 
 th:first-child,
 td:first-child,
