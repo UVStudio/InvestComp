@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../../Actions/profile';
+import { getBalanceUpdate } from '../../../Actions/balance';
 import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 
 const openTab = (evt, tab) => {
-  // Declare all variables
   let i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
@@ -28,11 +28,17 @@ const openTab = (evt, tab) => {
 const Portfolio = ({
   auth,
   getCurrentProfile,
+  getBalanceUpdate,
   profile: { profile, loading },
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
+
+  const refresh = async () => {
+    await getBalanceUpdate();
+    getCurrentProfile();
+  };
 
   return loading && profile === null ? (
     <Spinner />
@@ -52,7 +58,11 @@ const Portfolio = ({
                 $
                 {profile && profile.profile.portfolio.profileBalance.toFixed(2)}
               </p>
-              <button type="button" class="btn btn-success">
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={(e) => refresh(e)}
+              >
                 Refresh Portfolio
               </button>
             </div>
@@ -66,11 +76,14 @@ const Portfolio = ({
                 >
                   Portfolio
                 </button>
+                <button className="tablinks" onClick={(e) => openTab(e, 'Buy')}>
+                  Buy
+                </button>
                 <button
                   className="tablinks"
-                  onClick={(e) => openTab(e, 'BuySell')}
+                  onClick={(e) => openTab(e, 'Sell')}
                 >
-                  Buy/Sell
+                  Sell
                 </button>
                 <button
                   className="tablinks"
@@ -91,7 +104,6 @@ const Portfolio = ({
                   {profile &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
-
                 <ul className="balance-ul">
                   {profile &&
                     profile.profile.portfolio.equity.map((e, i) => {
@@ -110,7 +122,7 @@ const Portfolio = ({
                   </li>
                 </ul>
               </div>
-              <div id="BuySell" className="tabcontent">
+              <div id="Buy" className="tabcontent">
                 <h5 className="text-dark">
                   Balance: $
                   {profile &&
@@ -119,17 +131,6 @@ const Portfolio = ({
                 <div className="portfolio-inner-container">
                   <div className="buysell-form-box ml-3 mb-2">
                     <form className="form" action="#">
-                      <br />
-                      <input
-                        type="submit"
-                        className="btn btn-primary"
-                        value="Buy"
-                      />
-                      <input
-                        type="submit"
-                        className="btn btn-primary ml-2"
-                        value="Sell"
-                      />
                       <br />
                       <div className="form-group">
                         <input
@@ -179,6 +180,64 @@ const Portfolio = ({
                   </p>
                 </div>
               </div>
+              <div id="Sell" className="tabcontent">
+                <h5 className="text-dark">
+                  Balance: $
+                  {profile &&
+                    profile.profile.portfolio.profileBalance.toFixed(2)}
+                </h5>
+                <div className="portfolio-inner-container">
+                  <div className="buysell-form-box ml-3 mb-2">
+                    <form className="form" action="#">
+                      <br />
+                      <div className="form-group">
+                        <input
+                          className="input-fields mt-3"
+                          type="search"
+                          placeholder="Company Name"
+                          name="search"
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          className="input-fields"
+                          type="company"
+                          placeholder="Stock Name"
+                          name="company"
+                          required
+                        />
+                      </div>
+                      <p className="text-dark">
+                        cash: ${profile && profile.profile.portfolio.cash}
+                      </p>
+                      <div className="form-group">
+                        <input
+                          className="amount"
+                          type="amount"
+                          placeholder="Shares:"
+                          name="amount"
+                          required
+                        />
+                      </div>
+                      <input
+                        type="submit"
+                        className="btn btn-primary"
+                        value="Execute!"
+                      />
+                    </form>
+                  </div>
+                  <p className="text-secondary ml-3 mb-2">
+                    You have successfully sold
+                    <span className="order-stats text-dark">$12,000</span> worth
+                    of
+                    <span className="order-stats text-dark">Apple</span> at
+                    <span className="order-stats text-dark">$200</span> per
+                    share for <span className="order-stats text-dark">600</span>{' '}
+                    shares.
+                  </p>
+                </div>
+              </div>
               <div id="Chart" className="tabcontent">
                 <h5 className="text-dark">
                   Balance: $
@@ -195,24 +254,17 @@ const Portfolio = ({
                   {profile &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
-                {/* {profile &&
+                <table className="transactions-table">
+                  {profile &&
                     profile.profile.portfolio.equity.map((e, i) => {
                       return (
-                        <li key={i} className="portfolio-item">
-                          <p className="name text-dark">{e.stock}</p>
-                          <p className="balance">${e.balance.toFixed(2)}</p>
-                        </li>
-                      );
-                    })} */}
-                <table className="transactions-table">
-                  <tbody>
-                    {profile &&
-                      profile.profile.portfolio.equity.map((e, i) => {
-                        return (
-                          <Fragment>
-                            <div class="ml-3 mt-4" key={i}>
-                              {e.stock}
-                            </div>
+                        <Fragment key={i}>
+                          <thead>
+                            <tr className="ml-3 mt-4">
+                              <th>{e.stock}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
                             <tr className="text-dark mb-5">
                               <th className="transations-item-length">
                                 Buy/Sell
@@ -220,9 +272,9 @@ const Portfolio = ({
                               <th className="transations-item-length">
                                 Shares
                               </th>
-                              <th className="transations-item-length">Value</th>
+                              <th className="transations-item-length">Price</th>
                               <th className="transations-item-length">
-                                Total Shares
+                                Dollar Amount
                               </th>
                               <th className="transations-item-length">Date</th>
                             </tr>
@@ -237,10 +289,10 @@ const Portfolio = ({
                                 </tr>
                               );
                             })}
-                          </Fragment>
-                        );
-                      })}
-                  </tbody>
+                          </tbody>
+                        </Fragment>
+                      );
+                    })}
                 </table>
               </div>
             </div>
@@ -255,6 +307,7 @@ Portfolio.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
+  getBalanceUpdate: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -262,4 +315,7 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Portfolio);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  getBalanceUpdate,
+})(Portfolio);

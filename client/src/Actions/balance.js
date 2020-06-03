@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_ERROR } from './types';
+import { BALANCE_UPDATE, BALANCE_ERROR } from './types';
 
-export const getCurrentProfile = () => async (dispatch) => {
+export const getBalanceUpdate = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/profile/me');
+    const res = await axios.put('/api/balance');
     dispatch({
-      type: GET_PROFILE,
+      type: BALANCE_UPDATE,
       payload: res.data,
     });
   } catch (error) {
     dispatch({
-      type: PROFILE_ERROR,
+      type: BALANCE_ERROR,
       payload: {
         msg: error.response.statusText,
         status: error.response.status,
