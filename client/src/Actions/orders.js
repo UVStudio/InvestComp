@@ -2,8 +2,6 @@ import axios from 'axios';
 import { BUY_ORDER, BUY_FAIL } from './types';
 
 export const buyStock = ({ buysell, amount, stock }) => async (dispatch) => {
-  console.log('buy backend');
-
   const config = {
     headers: {
       'Content-Type': 'application/json',

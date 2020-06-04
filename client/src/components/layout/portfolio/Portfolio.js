@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../../Actions/profile';
 import { getBalanceUpdate } from '../../../Actions/balance';
 import { buyStock } from '../../../Actions/orders';
+import { setAlert } from '../../../Actions/alert';
+import { transAlert } from '../../../Actions/transAlert';
 import Spinner from '../Spinner';
+import TransAlert from '../TransAlert';
 import PropTypes from 'prop-types';
 
 const openTab = (evt, tab) => {
@@ -31,6 +34,8 @@ const Portfolio = ({
   getCurrentProfile,
   getBalanceUpdate,
   buyStock,
+  setAlert,
+  transAlert,
   profile: { profile, loading },
 }) => {
   useEffect(() => {
@@ -60,13 +65,12 @@ const Portfolio = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    buyStock({ buysell, amount, stock });
-    console.log({ buysell });
-    // if (buysell && amount && stock) {
-    //   buy({ buysell, amount, stock });
-    // } else {
-    //   setAlert('Please fill out your order.', 'danger');
-    // }
+    if (buysell && amount && stock) {
+      buyStock({ buysell, amount, stock });
+      transAlert(`You have bought $ ${amount} of ${stock}.`, 'success');
+    } else {
+      setAlert('Please fill out your order.', 'danger');
+    }
   };
 
   return loading && profile === null ? (
@@ -199,15 +203,7 @@ const Portfolio = ({
                       />
                     </form>
                   </div>
-                  <p className="text-secondary ml-3 mb-2">
-                    You have successfully bought
-                    <span className="order-stats text-dark">$12,000</span> worth
-                    of
-                    <span className="order-stats text-dark">Apple</span> at
-                    <span className="order-stats text-dark">$200</span> per
-                    share for <span className="order-stats text-dark">600</span>{' '}
-                    shares.
-                  </p>
+                  <TransAlert />
                 </div>
               </div>
               <div id="Sell" className="tabcontent">
@@ -339,6 +335,8 @@ Portfolio.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   getBalanceUpdate: PropTypes.func.isRequired,
   buyStock: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  transAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -350,4 +348,6 @@ export default connect(mapStateToProps, {
   getCurrentProfile,
   getBalanceUpdate,
   buyStock,
+  setAlert,
+  transAlert,
 })(Portfolio);
