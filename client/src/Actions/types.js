@@ -11,3 +11,5 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const BALANCE_UPDATE = 'BALANCE_UPDATE';
 export const BALANCE_ERROR = 'BALANCE_ERROR';
+export const BUY_ORDER = 'BUY_ORDER';
+export const BUY_FAIL = 'BUY_FAIL';

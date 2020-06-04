@@ -49,8 +49,16 @@ router.put('/', auth, async (req, res) => {
       ppe[i].price = stockQuote;
     }
     //calculate profile balance (equity + cash)
-    const equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
+
+    let equityBalance;
+    if (sharesArray === 0) {
+      equityBalance = 0;
+    } else {
+      equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
+    }
+
     profile.portfolio.profileBalance = equityBalance + profile.portfolio.cash;
+
     await profile.save();
     res.json({ profile });
   } catch (error) {

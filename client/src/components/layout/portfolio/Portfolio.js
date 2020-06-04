@@ -1,7 +1,8 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../../Actions/profile';
 import { getBalanceUpdate } from '../../../Actions/balance';
+import { buyStock } from '../../../Actions/orders';
 import Spinner from '../Spinner';
 import PropTypes from 'prop-types';
 
@@ -29,15 +30,43 @@ const Portfolio = ({
   auth,
   getCurrentProfile,
   getBalanceUpdate,
+  buyStock,
   profile: { profile, loading },
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
 
+  const [formData, setFormData] = useState({
+    buysell: '',
+    amount: 0,
+    stock: '',
+  });
+
+  const { buysell, amount, stock } = formData;
+
   const refresh = async () => {
     await getBalanceUpdate();
     getCurrentProfile();
+  };
+
+  const onChangeBuy = (e) => {
+    setFormData({
+      ...formData,
+      buysell: 'buy',
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    buyStock({ buysell, amount, stock });
+    console.log({ buysell });
+    // if (buysell && amount && stock) {
+    //   buy({ buysell, amount, stock });
+    // } else {
+    //   setAlert('Please fill out your order.', 'danger');
+    // }
   };
 
   return loading && profile === null ? (
@@ -130,24 +159,24 @@ const Portfolio = ({
                 </h5>
                 <div className="portfolio-inner-container">
                   <div className="buysell-form-box ml-3 mb-2">
-                    <form className="form" action="#">
+                    <form className="form" onSubmit={(e) => onSubmit(e)}>
                       <br />
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <input
                           className="input-fields mt-3"
                           type="search"
                           placeholder="Company Name"
                           name="search"
-                          required
                         />
-                      </div>
+                      </div> */}
                       <div className="form-group">
                         <input
                           className="input-fields"
-                          type="company"
+                          type="stock"
                           placeholder="Stock Name"
-                          name="company"
-                          required
+                          name="stock"
+                          value={stock}
+                          onChange={(e) => onChangeBuy(e)}
                         />
                       </div>
                       <p className="text-dark">
@@ -159,7 +188,8 @@ const Portfolio = ({
                           type="amount"
                           placeholder="$"
                           name="amount"
-                          required
+                          value={amount}
+                          onChange={(e) => onChangeBuy(e)}
                         />
                       </div>
                       <input
@@ -308,6 +338,7 @@ Portfolio.propTypes = {
   profile: PropTypes.object.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   getBalanceUpdate: PropTypes.func.isRequired,
+  buyStock: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -318,4 +349,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getCurrentProfile,
   getBalanceUpdate,
+  buyStock,
 })(Portfolio);

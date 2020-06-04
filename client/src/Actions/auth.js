@@ -55,6 +55,10 @@ export const register = ({ name, email, password, location }) => async (
     }
     dispatch({
       type: REGISTER_FAIL,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
     });
   }
 };
