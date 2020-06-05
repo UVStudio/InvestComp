@@ -1,13 +1,25 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getCurrentProfile } from '../../Actions/profile';
+import Spinner from './Spinner';
+import PropTypes from 'prop-types';
 
-const Dashboard = () => {
-  return (
+const Dashboard = ({ getCurrentProfile, profile: { loading, profile } }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
+  return loading && profile === null ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section>
         <div className="row">
           <div className="col-md-6 bg-light">
             <div className="winner center-content">
-              <h3 className="text-dark">Hello Drago!</h3>
+              <h3 className="text-dark">
+                Hello {profile && profile.profile.name}!
+              </h3>
               <img
                 src="./img/avatar.png"
                 className="mt-3 mb-3 avatar"
@@ -85,4 +97,15 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+Dashboard.propTypes = {
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);

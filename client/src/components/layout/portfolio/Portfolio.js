@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../../Actions/profile';
 import { getBalanceUpdate } from '../../../Actions/balance';
 import { buyStock } from '../../../Actions/orders';
-import { setAlert } from '../../../Actions/alert';
+import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
@@ -30,11 +30,10 @@ const openTab = (evt, tab) => {
 };
 
 const Portfolio = ({
-  auth,
   getCurrentProfile,
   getBalanceUpdate,
   buyStock,
-  setAlert,
+  sellStock,
   transAlert,
   profile: { profile, loading },
 }) => {
@@ -45,10 +44,18 @@ const Portfolio = ({
   const [formData, setFormData] = useState({
     buysell: '',
     amount: 0,
+    shares: 0,
     stock: '',
   });
 
-  const { buysell, amount, stock } = formData;
+  // const [sellFormData, setSellFormData] = useState({
+  //   buysell: '',
+  //   shares: 0,
+  //   stock: '',
+  // });
+
+  const { buysell, amount, shares, stock } = formData;
+  //const { buysell, shares, stock } = sellFormData;
 
   const refresh = async () => {
     await getBalanceUpdate();
@@ -63,13 +70,34 @@ const Portfolio = ({
     });
   };
 
-  const onSubmit = (e) => {
+  const onChangeSell = (e) => {
+    setFormData({
+      ...formData,
+      buysell: 'sell',
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onBuySubmit = (e) => {
     e.preventDefault();
     if (buysell && amount && stock) {
       buyStock({ buysell, amount, stock });
       transAlert(`You have bought $ ${amount} of ${stock}.`, 'success');
     } else {
-      setAlert('Please fill out your order.', 'danger');
+      transAlert('Please fill out your order form.', 'danger');
+    }
+  };
+
+  const onSellSubmit = (e) => {
+    console.log(buysell);
+    console.log(shares);
+    console.log(stock);
+    e.preventDefault();
+    if (buysell && shares && stock) {
+      sellStock({ buysell, shares, stock });
+      transAlert(`You have sold ${shares} shares of ${stock}.`, 'success');
+    } else {
+      transAlert('Please fill out your order form.', 'danger');
     }
   };
 
@@ -81,7 +109,9 @@ const Portfolio = ({
         <div className="row">
           <div className="col-lg-5">
             <div className="winner center-content">
-              <h3 className="text-dark">{profile && profile.profile.name}</h3>
+              <h3 className="text-dark">
+                {profile && profile.profile.name}'s Portfolio
+              </h3>
               <img
                 src="./img/avatar.png"
                 className="mt-3 mb-3 avatar"
@@ -163,7 +193,7 @@ const Portfolio = ({
                 </h5>
                 <div className="portfolio-inner-container">
                   <div className="buysell-form-box ml-3 mb-2">
-                    <form className="form" onSubmit={(e) => onSubmit(e)}>
+                    <form className="form" onSubmit={(e) => onBuySubmit(e)}>
                       <br />
                       {/* <div className="form-group">
                         <input
@@ -188,7 +218,7 @@ const Portfolio = ({
                       </p>
                       <div className="form-group">
                         <input
-                          className="amount"
+                          className="input-fields"
                           type="amount"
                           placeholder="$"
                           name="amount"
@@ -214,9 +244,9 @@ const Portfolio = ({
                 </h5>
                 <div className="portfolio-inner-container">
                   <div className="buysell-form-box ml-3 mb-2">
-                    <form className="form" action="#">
+                    <form className="form" onSubmit={(e) => onSellSubmit(e)}>
                       <br />
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <input
                           className="input-fields mt-3"
                           type="search"
@@ -224,14 +254,15 @@ const Portfolio = ({
                           name="search"
                           required
                         />
-                      </div>
+                      </div> */}
                       <div className="form-group">
                         <input
                           className="input-fields"
-                          type="company"
+                          type="input"
                           placeholder="Stock Name"
-                          name="company"
-                          required
+                          name="stock"
+                          value={stock}
+                          onChange={(e) => onChangeSell(e)}
                         />
                       </div>
                       <p className="text-dark">
@@ -239,11 +270,12 @@ const Portfolio = ({
                       </p>
                       <div className="form-group">
                         <input
-                          className="amount"
-                          type="amount"
+                          className="input-fields"
+                          type="shares"
                           placeholder="Shares:"
-                          name="amount"
-                          required
+                          name="shares"
+                          value={shares}
+                          onChange={(e) => onChangeSell(e)}
                         />
                       </div>
                       <input
@@ -253,15 +285,7 @@ const Portfolio = ({
                       />
                     </form>
                   </div>
-                  <p className="text-secondary ml-3 mb-2">
-                    You have successfully sold
-                    <span className="order-stats text-dark">$12,000</span> worth
-                    of
-                    <span className="order-stats text-dark">Apple</span> at
-                    <span className="order-stats text-dark">$200</span> per
-                    share for <span className="order-stats text-dark">600</span>{' '}
-                    shares.
-                  </p>
+                  <TransAlert />
                 </div>
               </div>
               <div id="Chart" className="tabcontent">
@@ -330,17 +354,15 @@ const Portfolio = ({
 };
 
 Portfolio.propTypes = {
-  auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   getBalanceUpdate: PropTypes.func.isRequired,
   buyStock: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired,
+  sellStock: PropTypes.func.isRequired,
   transAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
   profile: state.profile,
 });
 
@@ -348,6 +370,6 @@ export default connect(mapStateToProps, {
   getCurrentProfile,
   getBalanceUpdate,
   buyStock,
-  setAlert,
+  sellStock,
   transAlert,
 })(Portfolio);

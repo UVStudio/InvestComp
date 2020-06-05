@@ -15,3 +15,5 @@ export const BALANCE_UPDATE = 'BALANCE_UPDATE';
 export const BALANCE_ERROR = 'BALANCE_ERROR';
 export const BUY_ORDER = 'BUY_ORDER';
 export const BUY_FAIL = 'BUY_FAIL';
+export const SELL_ORDER = 'SELL_ORDER';
+export const SELL_FAIL = 'SELL_FAIL';

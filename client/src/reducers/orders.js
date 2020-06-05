@@ -1,4 +1,5 @@
 import { BUY_ORDER, BUY_FAIL } from '../Actions/types';
+import { SELL_ORDER, SELL_FAIL } from '../Actions/types';
 
 const initialState = {
   profile: null,
@@ -11,12 +12,14 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case BUY_ORDER:
+    case SELL_ORDER:
       return {
         ...state,
         profile: payload,
         loading: false,
       };
     case BUY_FAIL:
+    case SELL_FAIL:
       return {
         ...state,
         error: payload,
