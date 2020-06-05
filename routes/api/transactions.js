@@ -114,7 +114,7 @@ router.post(
     transactionDetails.amount = amount;
     transactionDetails.stock = stock;
     transactionDetails.price = price;
-    transactionDetails.shares = shares;
+    transactionDetails.shares = -Math.abs(shares);
 
     try {
       const profile = await Profile.findOne({ _id: req.profile.id });
@@ -142,7 +142,7 @@ router.post(
       const shareBalance = sharesArray.reduce(reducer);
 
       //add sales proceeds to cash and save to mongo
-      profile.portfolio.cash = profile.portfolio.cash - amount;
+      profile.portfolio.cash = profile.portfolio.cash + amount;
 
       //saving new shares balance to mongo
       ppe[result].shares = shareBalance;

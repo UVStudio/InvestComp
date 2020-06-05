@@ -134,7 +134,7 @@ p {
 
 .portfolio-item {
   overflow: auto;
-  margin: 0.5em auto;
+  margin: 0 auto;
   width: 15em;
 }
 
@@ -157,7 +157,7 @@ p {
 
 .portfolio-inner-container {
   width: 90%;
-  height: 24em;
+  height: 28em;
   margin: 1em auto;
   border: 1px solid var(--dark-color);
 }

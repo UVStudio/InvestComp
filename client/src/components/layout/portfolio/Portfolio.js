@@ -48,14 +48,7 @@ const Portfolio = ({
     stock: '',
   });
 
-  // const [sellFormData, setSellFormData] = useState({
-  //   buysell: '',
-  //   shares: 0,
-  //   stock: '',
-  // });
-
   const { buysell, amount, shares, stock } = formData;
-  //const { buysell, shares, stock } = sellFormData;
 
   const refresh = async () => {
     await getBalanceUpdate();
@@ -89,9 +82,6 @@ const Portfolio = ({
   };
 
   const onSellSubmit = (e) => {
-    console.log(buysell);
-    console.log(shares);
-    console.log(stock);
     e.preventDefault();
     if (buysell && shares && stock) {
       sellStock({ buysell, shares, stock });
@@ -195,14 +185,6 @@ const Portfolio = ({
                   <div className="buysell-form-box ml-3 mb-2">
                     <form className="form" onSubmit={(e) => onBuySubmit(e)}>
                       <br />
-                      {/* <div className="form-group">
-                        <input
-                          className="input-fields mt-3"
-                          type="search"
-                          placeholder="Company Name"
-                          name="search"
-                        />
-                      </div> */}
                       <div className="form-group">
                         <input
                           className="input-fields"
@@ -246,15 +228,6 @@ const Portfolio = ({
                   <div className="buysell-form-box ml-3 mb-2">
                     <form className="form" onSubmit={(e) => onSellSubmit(e)}>
                       <br />
-                      {/* <div className="form-group">
-                        <input
-                          className="input-fields mt-3"
-                          type="search"
-                          placeholder="Company Name"
-                          name="search"
-                          required
-                        />
-                      </div> */}
                       <div className="form-group">
                         <input
                           className="input-fields"
@@ -265,6 +238,26 @@ const Portfolio = ({
                           onChange={(e) => onChangeSell(e)}
                         />
                       </div>
+                      <ul className="balance-ul">
+                        <li className="portfolio-item text-dark mb-2">
+                          Unit Balance
+                        </li>
+                        {profile &&
+                          profile.profile.portfolio.equity
+                            .filter((e) => e.balance > 0)
+                            .map((e, i) => {
+                              return (
+                                <li key={i} className="portfolio-item">
+                                  <p className="balance mb-1">
+                                    <span className="text-dark">
+                                      {e.stock} :{' '}
+                                    </span>
+                                    {e.balance / e.price}
+                                  </p>
+                                </li>
+                              );
+                            })}
+                      </ul>
                       <p className="text-dark">
                         cash: ${profile && profile.profile.portfolio.cash}
                       </p>
@@ -277,6 +270,15 @@ const Portfolio = ({
                           value={shares}
                           onChange={(e) => onChangeSell(e)}
                         />
+                        <input
+                          type="checkbox"
+                          name="all"
+                          value="all"
+                          className="ml-3"
+                        />
+                        <label htmlFor="all" className="text-dark ml-1">
+                          All Units
+                        </label>
                       </div>
                       <input
                         type="submit"
