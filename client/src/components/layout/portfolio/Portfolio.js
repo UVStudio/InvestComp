@@ -64,6 +64,7 @@ const Portfolio = ({
   };
 
   const onChangeSell = (e) => {
+    //console.log(e.target.value);
     setFormData({
       ...formData,
       buysell: 'sell',
@@ -89,6 +90,19 @@ const Portfolio = ({
     } else {
       transAlert('Please fill out your order form.', 'danger');
     }
+  };
+
+  const onClickAllUnits = () => {
+    console.log(stock);
+    const pppe = profile.profile.portfolio.equity;
+    console.log(pppe);
+    const shareToSell = pppe.find((e) => e.stock === stock);
+    const allUnitBalance = shareToSell.balance / shareToSell.price;
+    console.log(allUnitBalance);
+    setFormData({
+      ...formData,
+      shares: allUnitBalance,
+    });
   };
 
   return loading && profile === null ? (
@@ -164,9 +178,11 @@ const Portfolio = ({
                         <li key={i} className="portfolio-item">
                           <p className="name text-dark">{e.stock}</p>
                           <p className="balance">${e.balance.toFixed(2)}</p>
+                          <p className="balance">{e.shares}</p>
                         </li>
                       );
                     })}
+                  <br />
                   <li className="portfolio-item">
                     <p className="name text-dark">Cash</p>
                     <p className="balance">
@@ -248,7 +264,7 @@ const Portfolio = ({
                             .map((e, i) => {
                               return (
                                 <li key={i} className="portfolio-item">
-                                  <p className="balance mb-1">
+                                  <p className="sell-balance mb-1">
                                     <span className="text-dark">
                                       {e.stock} :{' '}
                                     </span>
@@ -275,6 +291,7 @@ const Portfolio = ({
                           name="all"
                           value="all"
                           className="ml-3"
+                          onClick={(e) => onClickAllUnits(e)}
                         />
                         <label htmlFor="all" className="text-dark ml-1">
                           All Units

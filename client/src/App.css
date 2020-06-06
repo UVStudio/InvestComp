@@ -94,7 +94,7 @@ p {
 
 .name {
   float: left;
-  width: 7em;
+  width: 6em;
 }
 
 .location {
@@ -104,6 +104,7 @@ p {
 
 .balance {
   float: left;
+  width: 6em;
 }
 
 .login-container {
@@ -132,10 +133,14 @@ p {
   overflow: scroll;
 }
 
+.sell-balance {
+  float: left;
+}
+
 .portfolio-item {
   overflow: auto;
   margin: 0 auto;
-  width: 15em;
+  width: 27em;
 }
 
 .portfolio-item:first-child {
@@ -160,6 +165,10 @@ p {
   height: 28em;
   margin: 1em auto;
   border: 1px solid var(--dark-color);
+}
+
+.portfolio-balance {
+  width: 4em;
 }
 
 .amount {
