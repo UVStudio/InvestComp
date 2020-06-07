@@ -27,6 +27,12 @@ p {
   font-size: 18px;
 }
 
+tbody {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-bottom: 1.4em solid transparent;
+}
+
 .winner {
   margin: 3em 0em;
 }

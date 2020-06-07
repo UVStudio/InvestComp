@@ -7,6 +7,7 @@ import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
+import { compareAsc, format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 const openTab = (evt, tab) => {
@@ -121,8 +122,8 @@ const Portfolio = ({
                 className="mt-3 mb-3 avatar"
                 alt="avatar"
               />
-              <p className="">
-                $
+              <p>
+                <span className="text-dark">Account Balance: </span>$
                 {profile && profile.profile.portfolio.profileBalance.toFixed(2)}
               </p>
               <button
@@ -172,16 +173,23 @@ const Portfolio = ({
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <ul className="balance-ul">
+                  <li className="portfolio-item">
+                    <p className="name text-dark">Stock</p>
+                    <p className="balance text-dark">Balance</p>
+                    <p className="balance text-dark">Unit Balance</p>
+                  </li>
                   {profile &&
-                    profile.profile.portfolio.equity.map((e, i) => {
-                      return (
-                        <li key={i} className="portfolio-item">
-                          <p className="name text-dark">{e.stock}</p>
-                          <p className="balance">${e.balance.toFixed(2)}</p>
-                          <p className="balance">{e.shares}</p>
-                        </li>
-                      );
-                    })}
+                    profile.profile.portfolio.equity
+                      .filter((e) => e.balance > 0)
+                      .map((e, i) => {
+                        return (
+                          <li key={i} className="portfolio-item">
+                            <p className="name text-dark">{e.stock}</p>
+                            <p className="balance">${e.balance.toFixed(2)}</p>
+                            <p className="balance">{e.shares}</p>
+                          </li>
+                        );
+                      })}
                   <br />
                   <li className="portfolio-item">
                     <p className="name text-dark">Cash</p>
@@ -329,12 +337,12 @@ const Portfolio = ({
                       return (
                         <Fragment key={i}>
                           <thead>
-                            <tr className="ml-3 mt-4">
+                            <tr>
                               <th>{e.stock}</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr className="text-dark mb-5">
+                            <tr className="text-dark">
                               <th className="transations-item-length">
                                 Buy/Sell
                               </th>
@@ -354,7 +362,12 @@ const Portfolio = ({
                                   <td>{f.shares.toFixed(2)}</td>
                                   <td>{f.price.toFixed(2)}</td>
                                   <td>{f.amount.toFixed(2)}</td>
-                                  <td>{f.date}</td>
+                                  <td>
+                                    {format(
+                                      new Date(f.date),
+                                      'yyyy-MM-dd hh:mm:ss'
+                                    )}
+                                  </td>
                                 </tr>
                               );
                             })}
