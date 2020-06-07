@@ -5,10 +5,12 @@ import { getBalanceUpdate } from '../../../Actions/balance';
 import { buyStock } from '../../../Actions/orders';
 import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
+import Balance from './Balance';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
-import { compareAsc, format } from 'date-fns';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+import Symbol from './Symbol';
 
 const openTab = (evt, tab) => {
   let i, tabcontent, tablinks;
@@ -65,7 +67,6 @@ const Portfolio = ({
   };
 
   const onChangeSell = (e) => {
-    //console.log(e.target.value);
     setFormData({
       ...formData,
       buysell: 'sell',
@@ -94,12 +95,13 @@ const Portfolio = ({
   };
 
   const onClickAllUnits = () => {
-    console.log(stock);
     const pppe = profile.profile.portfolio.equity;
-    console.log(pppe);
     const shareToSell = pppe.find((e) => e.stock === stock);
+    if (!shareToSell) {
+      transAlert('Please pick a stock from the above list.', 'danger');
+      return null;
+    }
     const allUnitBalance = shareToSell.balance / shareToSell.price;
-    console.log(allUnitBalance);
     setFormData({
       ...formData,
       shares: allUnitBalance,
@@ -122,10 +124,7 @@ const Portfolio = ({
                 className="mt-3 mb-3 avatar"
                 alt="avatar"
               />
-              <p>
-                <span className="text-dark">Account Balance: </span>$
-                {profile && profile.profile.portfolio.profileBalance.toFixed(2)}
-              </p>
+              <Balance />
               <button
                 type="button"
                 className="btn btn-success"
@@ -168,14 +167,14 @@ const Portfolio = ({
               </div>
               <div id="Portfolio" className="tabcontent">
                 <h5 className="text-dark">
-                  Balance: $
+                  Portfolio Value: $
                   {profile &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <ul className="balance-ul">
                   <li className="portfolio-item">
                     <p className="name text-dark">Stock</p>
-                    <p className="balance text-dark">Balance</p>
+                    <p className="balance text-dark">Value</p>
                     <p className="balance text-dark">Unit Balance</p>
                   </li>
                   {profile &&
@@ -201,7 +200,7 @@ const Portfolio = ({
               </div>
               <div id="Buy" className="tabcontent">
                 <h5 className="text-dark">
-                  Balance: $
+                  Portfolio Value: $
                   {profile &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
@@ -240,11 +239,12 @@ const Portfolio = ({
                     </form>
                   </div>
                   <TransAlert />
+                  <Symbol />
                 </div>
               </div>
               <div id="Sell" className="tabcontent">
                 <h5 className="text-dark">
-                  Balance: $
+                  Portfolio Value: $
                   {profile &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
@@ -317,7 +317,7 @@ const Portfolio = ({
               </div>
               <div id="Chart" className="tabcontent">
                 <h5 className="text-dark">
-                  Balance: $
+                  Portfolio Value: $
                   {profile &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
@@ -327,7 +327,7 @@ const Portfolio = ({
               </div>
               <div id="Transactions" className="tabcontent">
                 <h5 className="text-dark">
-                  Balance: $
+                  Portfolio Value: $
                   {profile &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
@@ -359,7 +359,7 @@ const Portfolio = ({
                               return (
                                 <tr key={j}>
                                   <td>{f.buysell}</td>
-                                  <td>{f.shares.toFixed(2)}</td>
+                                  <td>{f.shares.toFixed(3)}</td>
                                   <td>{f.price.toFixed(2)}</td>
                                   <td>{f.amount.toFixed(2)}</td>
                                   <td>
