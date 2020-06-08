@@ -205,6 +205,7 @@ const Portfolio = ({
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <div className="portfolio-inner-container">
+                  <Symbol />
                   <div className="buysell-form-box ml-3 mb-2">
                     <form className="form" onSubmit={(e) => onBuySubmit(e)}>
                       <br />
@@ -212,14 +213,21 @@ const Portfolio = ({
                         <input
                           className="input-fields"
                           type="stock"
-                          placeholder="Stock Name"
+                          placeholder="Stock Symbol"
                           name="stock"
                           value={stock}
                           onChange={(e) => onChangeBuy(e)}
                         />
+                        <div>
+                          <label className="small text-dark" for="symbol">
+                            Enter the correct stock symbol. ALL CAPS.
+                          </label>
+                        </div>
                       </div>
+
                       <p className="text-dark">
-                        cash: ${profile && profile.profile.portfolio.cash}
+                        current cash: $
+                        {profile && profile.profile.portfolio.cash}
                       </p>
                       <div className="form-group">
                         <input
@@ -230,6 +238,11 @@ const Portfolio = ({
                           value={amount}
                           onChange={(e) => onChangeBuy(e)}
                         />
+                        <div>
+                          <label className="small text-dark" for="symbol">
+                            Enter how much $ you want to invest.
+                          </label>
+                        </div>
                       </div>
                       <input
                         type="submit"
@@ -239,7 +252,6 @@ const Portfolio = ({
                     </form>
                   </div>
                   <TransAlert />
-                  <Symbol />
                 </div>
               </div>
               <div id="Sell" className="tabcontent">
@@ -256,11 +268,16 @@ const Portfolio = ({
                         <input
                           className="input-fields"
                           type="input"
-                          placeholder="Stock Name"
+                          placeholder="Stock Symbol"
                           name="stock"
                           value={stock}
                           onChange={(e) => onChangeSell(e)}
                         />
+                        <div>
+                          <label className="small text-dark" for="symbol">
+                            Enter the correct symbol. All CAPS.
+                          </label>
+                        </div>
                       </div>
                       <ul className="balance-ul">
                         <li className="portfolio-item text-dark mb-2">
@@ -294,15 +311,15 @@ const Portfolio = ({
                           value={shares}
                           onChange={(e) => onChangeSell(e)}
                         />
-                        <input
-                          type="checkbox"
-                          name="all"
-                          value="all"
-                          className="ml-3"
-                          onClick={(e) => onClickAllUnits(e)}
-                        />
-                        <label htmlFor="all" className="text-dark ml-1">
-                          All Units
+                        <label htmlFor="all" className="text-dark">
+                          <input
+                            type="checkbox"
+                            name="all"
+                            value="all"
+                            className=""
+                            onClick={(e) => onClickAllUnits(e)}
+                          />
+                          <span className="ml-1">All units</span>
                         </label>
                       </div>
                       <input

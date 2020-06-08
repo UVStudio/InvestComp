@@ -17,3 +17,5 @@ export const BUY_ORDER = 'BUY_ORDER';
 export const BUY_FAIL = 'BUY_FAIL';
 export const SELL_ORDER = 'SELL_ORDER';
 export const SELL_FAIL = 'SELL_FAIL';
+export const SYMBOL_SEARCH = 'SYMBOL_SEARCH';
+export const SYMBOL_FAIL = 'SYMBOL_FAIL';

@@ -19,6 +19,7 @@ app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/admin', require('./routes/api/admin'));
 app.use('/api/avatar', require('./routes/api/avatar'));
 app.use('/api/quote', require('./routes/api/quote'));
+app.use('/api/symbol', require('./routes/api/symbol'));
 app.use('/api/transactions', require('./routes/api/transactions'));
 app.use('/api/balance', require('./routes/api/balance'));
 
