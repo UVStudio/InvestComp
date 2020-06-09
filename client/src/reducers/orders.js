@@ -5,6 +5,7 @@ const initialState = {
   profile: null,
   loading: true,
   error: {},
+  msg: null,
 };
 
 export default function (state = initialState, action) {
@@ -15,7 +16,7 @@ export default function (state = initialState, action) {
     case SELL_ORDER:
       return {
         ...state,
-        profile: payload,
+        msg: payload,
         loading: false,
       };
     case BUY_FAIL:

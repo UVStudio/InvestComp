@@ -38,6 +38,7 @@ const Portfolio = ({
   buyStock,
   sellStock,
   transAlert,
+  orders,
   profile: { profile, loading },
 }) => {
   useEffect(() => {
@@ -50,6 +51,8 @@ const Portfolio = ({
     shares: 0,
     stock: '',
   });
+
+  const [alert, setAlert] = useState('');
 
   const { buysell, amount, shares, stock } = formData;
 
@@ -86,12 +89,29 @@ const Portfolio = ({
 
   const onSellSubmit = (e) => {
     e.preventDefault();
-    if (buysell && shares && stock) {
-      sellStock({ buysell, shares, stock });
-      transAlert(`You have sold ${shares} shares of ${stock}.`, 'success');
-    } else {
-      transAlert('Please fill out your order form.', 'danger');
+    const pppe = profile.profile.portfolio.equity;
+    const shareToSell = pppe.find((e) => e.stock === stock);
+    const findCompany = (e) => e.stock === stock;
+
+    if (buysell !== 'sell' || !shares || !stock) {
+      transAlert('Please fill out order form', 'danger');
+      return;
     }
+    if (!shareToSell) {
+      transAlert(
+        'You do not have stock. Please pick a stock from the above list.',
+        'danger'
+      );
+      return;
+    }
+    const result = pppe.findIndex(findCompany);
+
+    if (shares > pppe[result].shares) {
+      transAlert('You do not have enough shares.', 'danger');
+      return;
+    }
+    sellStock({ buysell, shares, stock });
+    transAlert(`You have sold ${shares} shares of ${stock}.`, 'danger');
   };
 
   const onClickAllUnits = () => {
@@ -99,7 +119,7 @@ const Portfolio = ({
     const shareToSell = pppe.find((e) => e.stock === stock);
     if (!shareToSell) {
       transAlert('Please pick a stock from the above list.', 'danger');
-      return null;
+      return;
     }
     const allUnitBalance = shareToSell.balance / shareToSell.price;
     setFormData({
@@ -219,7 +239,7 @@ const Portfolio = ({
                           onChange={(e) => onChangeBuy(e)}
                         />
                         <div>
-                          <label className="small text-dark" for="symbol">
+                          <label className="small text-dark" htmlFor="symbol">
                             Enter the correct stock symbol. ALL CAPS.
                           </label>
                         </div>
@@ -227,7 +247,7 @@ const Portfolio = ({
 
                       <p className="text-dark">
                         current cash: $
-                        {profile && profile.profile.portfolio.cash}
+                        {profile && profile.profile.portfolio.cash.toFixed(2)}
                       </p>
                       <div className="form-group">
                         <input
@@ -239,7 +259,7 @@ const Portfolio = ({
                           onChange={(e) => onChangeBuy(e)}
                         />
                         <div>
-                          <label className="small text-dark" for="symbol">
+                          <label className="small text-dark" htmlFor="symbol">
                             Enter how much $ you want to invest.
                           </label>
                         </div>
@@ -262,6 +282,27 @@ const Portfolio = ({
                 </h5>
                 <div className="portfolio-inner-container">
                   <div className="buysell-form-box ml-3 mb-2">
+                    <ul className="balance-ul">
+                      <li className="text-dark mb-2">Unit Balance</li>
+                      {profile &&
+                        profile.profile.portfolio.equity
+                          .filter((e) => e.balance > 0)
+                          .map((e, i) => {
+                            return (
+                              <li key={i} className="portfolio-item">
+                                <p className="sell-balance mb-1">
+                                  <span className="text-dark">
+                                    {e.stock} :{' '}
+                                  </span>
+                                  {e.balance / e.price}
+                                </p>
+                              </li>
+                            );
+                          })}
+                      <li className="portfolio-item text-dark">
+                        cash: ${profile && profile.profile.portfolio.cash}
+                      </li>
+                    </ul>
                     <form className="form" onSubmit={(e) => onSellSubmit(e)}>
                       <br />
                       <div className="form-group">
@@ -274,34 +315,11 @@ const Portfolio = ({
                           onChange={(e) => onChangeSell(e)}
                         />
                         <div>
-                          <label className="small text-dark" for="symbol">
+                          <label className="small text-dark" htmlFor="symbol">
                             Enter the correct symbol. All CAPS.
                           </label>
                         </div>
                       </div>
-                      <ul className="balance-ul">
-                        <li className="portfolio-item text-dark mb-2">
-                          Unit Balance
-                        </li>
-                        {profile &&
-                          profile.profile.portfolio.equity
-                            .filter((e) => e.balance > 0)
-                            .map((e, i) => {
-                              return (
-                                <li key={i} className="portfolio-item">
-                                  <p className="sell-balance mb-1">
-                                    <span className="text-dark">
-                                      {e.stock} :{' '}
-                                    </span>
-                                    {e.balance / e.price}
-                                  </p>
-                                </li>
-                              );
-                            })}
-                      </ul>
-                      <p className="text-dark">
-                        cash: ${profile && profile.profile.portfolio.cash}
-                      </p>
                       <div className="form-group">
                         <input
                           className="input-fields"
@@ -311,6 +329,11 @@ const Portfolio = ({
                           value={shares}
                           onChange={(e) => onChangeSell(e)}
                         />
+                        <div>
+                          <label className="small text-dark" htmlFor="symbol">
+                            Enter the number of shares you want to sell.
+                          </label>
+                        </div>
                         <label htmlFor="all" className="text-dark">
                           <input
                             type="checkbox"
@@ -325,7 +348,7 @@ const Portfolio = ({
                       <input
                         type="submit"
                         className="btn btn-primary"
-                        value="Execute!"
+                        value="Place Order"
                       />
                     </form>
                   </div>
@@ -409,10 +432,12 @@ Portfolio.propTypes = {
   buyStock: PropTypes.func.isRequired,
   sellStock: PropTypes.func.isRequired,
   transAlert: PropTypes.func.isRequired,
+  orders: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  orders: state.orders,
 });
 
 export default connect(mapStateToProps, {

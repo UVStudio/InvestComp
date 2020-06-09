@@ -4,7 +4,7 @@ import { getSymbol } from '../../../Actions/symbol';
 import PropTypes from 'prop-types';
 import Spinner from '../Spinner';
 
-const Symbol = ({ stockArray, getSymbol }) => {
+const Symbol = ({ stock, getSymbol }) => {
   const [symbolData, setSymbolData] = useState({
     symbol: '',
   });
@@ -22,7 +22,7 @@ const Symbol = ({ stockArray, getSymbol }) => {
   const onSearchSubmit = (e) => {
     e.preventDefault();
     getSymbol(symbol);
-    console.log(stockArray);
+    console.log(stock);
   };
 
   return getSymbol.loading ? (
@@ -42,7 +42,7 @@ const Symbol = ({ stockArray, getSymbol }) => {
               onChange={(e) => onChangeSearch(e)}
             />
             <div>
-              <label className="small text-dark" for="symbol">
+              <label className="small text-dark" htmlFor="symbol">
                 Enter company name to search for correct symbol. Capitalize the
                 first letter (eg. Walmart)
               </label>
@@ -53,9 +53,9 @@ const Symbol = ({ stockArray, getSymbol }) => {
         <br />
         <div>
           <p className="text-dark">Search Result:</p>{' '}
-          {stockArray.loading
+          {stock.loading
             ? null
-            : stockArray.symbol.stock.map((e) => (
+            : stock.symbol.stock.map((e) => (
                 <li>{e.symbol + ' -- ' + e.securityName}</li>
               ))}
         </div>
@@ -66,11 +66,11 @@ const Symbol = ({ stockArray, getSymbol }) => {
 
 Symbol.propTypes = {
   getSymbol: PropTypes.func.isRequired,
-  stockArray: PropTypes.array.isRequired,
+  stock: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  stockArray: state.symbol,
+  stock: state.symbol,
 });
 
 export default connect(mapStateToProps, { getSymbol })(Symbol);
