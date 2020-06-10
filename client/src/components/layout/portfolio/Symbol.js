@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { getSymbol } from '../../../Actions/symbol';
 import PropTypes from 'prop-types';
-import Spinner from '../Spinner';
 import { transAlert } from '../../../Actions/transAlert';
 
 //variable name conflict... otherwise, stock should've been named symbol

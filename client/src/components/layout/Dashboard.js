@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../Actions/profile';
+import AvatarUpload from './AvatarUpload';
+import Avatar from './Avatar';
 import Spinner from './Spinner';
 import PropTypes from 'prop-types';
 
@@ -20,18 +22,8 @@ const Dashboard = ({ getCurrentProfile, profile: { loading, profile } }) => {
               <h3 className="text-dark">
                 Hello {profile && profile.profile.name}!
               </h3>
-              <img
-                src="./img/avatar.png"
-                className="mt-3 mb-3 avatar"
-                alt="avatar"
-              />
-              <div className="avatar-upload">
-                <input
-                  type="submit"
-                  className="btn btn-primary"
-                  value="Upload avatar"
-                />
-              </div>
+              <Avatar />
+              <AvatarUpload />
             </div>
           </div>
           <div className="col-md-6 bg-light">

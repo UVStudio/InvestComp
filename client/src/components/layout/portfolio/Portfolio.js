@@ -6,6 +6,8 @@ import { buyStock } from '../../../Actions/orders';
 import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
 import { getSymbols } from '../../../Actions/symbol';
+import AvatarUpload from '../AvatarUpload';
+import Avatar from '../Avatar';
 import Balance from './Balance';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
@@ -68,9 +70,6 @@ const Portfolio = ({
       buysell: 'buy',
       [e.target.name]: e.target.value,
     });
-    // if (stock.length > 1) {
-    //   getSymbols();
-    // }
   };
 
   const onChangeBuyAmount = (e) => {
@@ -167,11 +166,7 @@ const Portfolio = ({
               <h3 className="text-dark">
                 {profile && profile.profile.name}'s Portfolio
               </h3>
-              <img
-                src="./img/avatar.png"
-                className="mt-3 mb-3 avatar"
-                alt="avatar"
-              />
+              <Avatar />
               <Balance />
               <button
                 type="button"

@@ -166,6 +166,13 @@ label {
   width: 15em;
 }
 
+.round-img {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
 .portfolio-container {
   margin: 3em auto;
   width: 90%;
