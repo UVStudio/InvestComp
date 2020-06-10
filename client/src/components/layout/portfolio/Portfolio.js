@@ -52,8 +52,6 @@ const Portfolio = ({
     stock: '',
   });
 
-  const [alert, setAlert] = useState('');
-
   const { buysell, amount, shares, stock } = formData;
 
   const refresh = async () => {
@@ -77,22 +75,29 @@ const Portfolio = ({
     });
   };
 
+  const pppe = profile.profile.portfolio.equity;
+  const pppc = profile.profile.portfolio.cash;
+  const shareToSell = pppe.find((e) => e.stock === stock);
+  const findCompany = (e) => e.stock === stock;
+
   const onBuySubmit = (e) => {
     e.preventDefault();
-    if (buysell && amount && stock) {
-      buyStock({ buysell, amount, stock });
-      transAlert(`You have bought $ ${amount} of ${stock}.`, 'success');
-    } else {
-      transAlert('Please fill out your order form.', 'danger');
+    if (buysell !== 'buy' || !amount || !stock) {
+      transAlert('Please fill out order form.', 'danger');
+      return;
     }
+    if (amount > pppc) {
+      transAlert('You do not have enough cash.', 'danger');
+    }
+    buyStock({ buysell, amount, stock });
+    transAlert(
+      'Transaction is being processed. Please refresh portfolio.',
+      'danger'
+    );
   };
 
   const onSellSubmit = (e) => {
     e.preventDefault();
-    const pppe = profile.profile.portfolio.equity;
-    const shareToSell = pppe.find((e) => e.stock === stock);
-    const findCompany = (e) => e.stock === stock;
-
     if (buysell !== 'sell' || !shares || !stock) {
       transAlert('Please fill out order form', 'danger');
       return;
