@@ -5,6 +5,7 @@ import { getBalanceUpdate } from '../../../Actions/balance';
 import { buyStock } from '../../../Actions/orders';
 import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
+import { getSymbols } from '../../../Actions/symbol';
 import Balance from './Balance';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
@@ -38,11 +39,13 @@ const Portfolio = ({
   buyStock,
   sellStock,
   transAlert,
-  orders,
+  getSymbols,
   profile: { profile, loading },
+  symbols,
 }) => {
   useEffect(() => {
     getCurrentProfile();
+    getSymbols();
   }, [getCurrentProfile]);
 
   const [formData, setFormData] = useState({
@@ -65,6 +68,17 @@ const Portfolio = ({
       buysell: 'buy',
       [e.target.name]: e.target.value,
     });
+    // if (stock.length > 1) {
+    //   getSymbols();
+    // }
+  };
+
+  const onChangeBuyAmount = (e) => {
+    setFormData({
+      ...formData,
+      buysell: 'buy',
+      [e.target.name]: e.target.value,
+    });
   };
 
   const onChangeSell = (e) => {
@@ -75,29 +89,38 @@ const Portfolio = ({
     });
   };
 
-  const pppe = profile.profile.portfolio.equity;
-  const pppc = profile.profile.portfolio.cash;
-  const shareToSell = pppe.find((e) => e.stock === stock);
-  const findCompany = (e) => e.stock === stock;
-
   const onBuySubmit = (e) => {
     e.preventDefault();
+    const pppc = profile.profile.portfolio.cash;
     if (buysell !== 'buy' || !amount || !stock) {
       transAlert('Please fill out order form.', 'danger');
       return;
     }
     if (amount > pppc) {
       transAlert('You do not have enough cash.', 'danger');
+      return;
     }
-    buyStock({ buysell, amount, stock });
-    transAlert(
-      'Transaction is being processed. Please refresh portfolio.',
-      'danger'
-    );
+    const sss = symbols.symbols.symbolList;
+    const match = sss.find((e) => e === stock);
+    if (match) {
+      buyStock({ buysell, amount, stock });
+      transAlert(
+        `You have purchased ${amount} of ${stock}. Please refresh portfolio.`,
+        'success'
+      );
+    } else {
+      transAlert(
+        `This stock symbol is not available. Please choose another.`,
+        'danger'
+      );
+    }
   };
 
   const onSellSubmit = (e) => {
     e.preventDefault();
+    const pppe = profile.profile.portfolio.equity;
+    const shareToSell = pppe.find((e) => e.stock === stock);
+    const findCompany = (e) => e.stock === stock;
     if (buysell !== 'sell' || !shares || !stock) {
       transAlert('Please fill out order form', 'danger');
       return;
@@ -218,7 +241,7 @@ const Portfolio = ({
                   <li className="portfolio-item">
                     <p className="name text-dark">Cash</p>
                     <p className="balance">
-                      ${profile && profile.profile.portfolio.cash}
+                      ${profile && profile.profile.portfolio.cash.toFixed(2)}
                     </p>
                   </li>
                 </ul>
@@ -261,7 +284,7 @@ const Portfolio = ({
                           placeholder="$"
                           name="amount"
                           value={amount}
-                          onChange={(e) => onChangeBuy(e)}
+                          onChange={(e) => onChangeBuyAmount(e)}
                         />
                         <div>
                           <label className="small text-dark" htmlFor="symbol">
@@ -437,12 +460,12 @@ Portfolio.propTypes = {
   buyStock: PropTypes.func.isRequired,
   sellStock: PropTypes.func.isRequired,
   transAlert: PropTypes.func.isRequired,
-  orders: PropTypes.object.isRequired,
+  getSymbols: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
-  orders: state.orders,
+  symbols: state.symbol,
 });
 
 export default connect(mapStateToProps, {
@@ -451,4 +474,5 @@ export default connect(mapStateToProps, {
   buyStock,
   sellStock,
   transAlert,
+  getSymbols,
 })(Portfolio);

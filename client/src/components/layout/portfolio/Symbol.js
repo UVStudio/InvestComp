@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { getSymbol } from '../../../Actions/symbol';
 import PropTypes from 'prop-types';
 import Spinner from '../Spinner';
+import { transAlert } from '../../../Actions/transAlert';
 
-const Symbol = ({ stock, getSymbol }) => {
+//variable name conflict... otherwise, stock should've been named symbol
+const Symbol = ({ stock, getSymbol, transAlert }) => {
   const [symbolData, setSymbolData] = useState({
     symbol: '',
   });
@@ -21,13 +23,14 @@ const Symbol = ({ stock, getSymbol }) => {
 
   const onSearchSubmit = (e) => {
     e.preventDefault();
+    if (symbol === '') {
+      transAlert('Please enter company name keyword.', 'danger');
+      return;
+    }
     getSymbol(symbol);
-    console.log(stock);
   };
 
-  return getSymbol.loading ? (
-    <Spinner />
-  ) : (
+  return (
     <Fragment>
       <div className="buysell-form-box ml-3 mb-2">
         <form className="form" onSubmit={(e) => onSearchSubmit(e)}>
@@ -55,8 +58,8 @@ const Symbol = ({ stock, getSymbol }) => {
           <p className="text-dark">Search Result:</p>{' '}
           {stock.loading
             ? null
-            : stock.symbol.stock.map((e) => (
-                <li>{e.symbol + ' -- ' + e.securityName}</li>
+            : stock.symbol.stock.map((e, i) => (
+                <li key={i}>{e.symbol + ' -- ' + e.securityName}</li>
               ))}
         </div>
       </div>
@@ -64,13 +67,16 @@ const Symbol = ({ stock, getSymbol }) => {
   );
 };
 
+//variable name conflict... otherwise, stock should've been named symbol,
+//as in, symbol: state.symbol
 Symbol.propTypes = {
   getSymbol: PropTypes.func.isRequired,
   stock: PropTypes.object.isRequired,
+  transAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   stock: state.symbol,
 });
 
-export default connect(mapStateToProps, { getSymbol })(Symbol);
+export default connect(mapStateToProps, { getSymbol, transAlert })(Symbol);

@@ -3,7 +3,7 @@ const router = express.Router();
 const StockSymbolLookup = require('stock-symbol-lookup');
 
 //@route    GET /api/symbol/:id
-//@desc     get ticker symbol from company name
+//@desc     search for symbols with company name keyword
 //@access:  public
 
 router.get('/:id', async (req, res) => {
@@ -20,6 +20,24 @@ router.get('/:id', async (req, res) => {
       }
     }
     res.json({ stock });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//@route    GET /api/symbol/
+//@desc     get list of all symbols
+//@access:  public
+
+router.get('/', async (req, res) => {
+  try {
+    const response = await StockSymbolLookup.loadData().then((data) => {
+      return data;
+    });
+    const securitiesArray = response.securities;
+    const symbolList = securitiesArray.map((e) => e.symbol);
+    res.json({ symbolList });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
