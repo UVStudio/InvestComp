@@ -60,6 +60,7 @@ router.post('/upload', [auth, upload.single('file')], async (req, res) => {
   try {
     const profile = await Profile.findById(req.profile.id);
     profile.avatarId = avatarId;
+    console.log(profile);
     await profile.save();
   } catch (err) {
     console.error(err.message);

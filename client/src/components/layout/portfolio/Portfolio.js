@@ -6,7 +6,6 @@ import { buyStock } from '../../../Actions/orders';
 import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
 import { getSymbols } from '../../../Actions/symbol';
-import AvatarUpload from '../AvatarUpload';
 import Avatar from '../Avatar';
 import Balance from './Balance';
 import Spinner from '../Spinner';
@@ -323,7 +322,8 @@ const Portfolio = ({
                             );
                           })}
                       <li className="portfolio-item text-dark">
-                        cash: ${profile && profile.profile.portfolio.cash}
+                        cash: $
+                        {profile && profile.profile.portfolio.cash.toFixed(2)}
                       </li>
                     </ul>
                     <form className="form" onSubmit={(e) => onSellSubmit(e)}>

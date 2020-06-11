@@ -9,7 +9,11 @@ const AvatarUpload = ({ avatarUpload }) => {
 
   const onChange = async (e) => {
     setAvatar(e.target.files[0]);
-    setAvatarName(e.target.files[0].name);
+    if (e.target.files[0]) {
+      setAvatarName(e.target.files[0].name);
+    } else {
+      setAvatarName(avatarName);
+    }
   };
 
   const onSubmit = async (e) => {
@@ -39,6 +43,12 @@ const AvatarUpload = ({ avatarUpload }) => {
             className="hidden short"
             onChange={onChange}
           />
+          <label
+            for="custom-avatar"
+            class="avatar-upload-label btn btn-primary"
+          >
+            Choose File
+          </label>
           {/* <label
             className="avatar-upload-label btn btn-primary"
             htmlFor="custom-avatar"

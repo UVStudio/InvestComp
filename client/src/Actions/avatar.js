@@ -19,7 +19,7 @@ export const avatarUpload = (formData) => async (dispatch) => {
     dispatch(setAlert('Uploading avatar...', 'success'));
     setTimeout(() => {
       dispatch(loadProfile());
-    }, 7000);
+    }, 5000);
   } catch (err) {
     dispatch({
       type: AVATAR_UPLOAD_ERROR,

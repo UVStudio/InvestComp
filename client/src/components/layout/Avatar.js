@@ -4,11 +4,11 @@ import Spinner from './Spinner';
 import { connect } from 'react-redux';
 import { getAvatar } from '../../Actions/avatar';
 
-const Avatar = ({ profile: { loading, profile } }) => {
+const Avatar = ({ auth: { loading, profile } }) => {
   let avatarId;
 
   if (!loading && profile) {
-    avatarId = profile.profile.avatarId;
+    avatarId = profile.avatarId;
   }
 
   const avatarPath = `api/avatar/image/${avatarId}`;
