@@ -6,6 +6,7 @@ import balance from './balance';
 import orders from './orders';
 import transAlert from './transAlert';
 import symbol from './symbol';
+import admin from './admin';
 
 export default combineReducers({
   alert,
@@ -15,4 +16,5 @@ export default combineReducers({
   orders,
   transAlert,
   symbol,
+  admin,
 });

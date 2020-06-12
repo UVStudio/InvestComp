@@ -12,6 +12,7 @@ const axios = require('axios');
 //@route    POST /api/admin/register
 //@desc     register an admin
 //@access   Public
+
 router.post(
   '/register',
   [
@@ -70,7 +71,7 @@ router.post(
 );
 
 //@route    POST /api/admin/login
-//@desc     profile login, and get token
+//@desc     admin login, and get token
 //@access   public
 
 router.post(

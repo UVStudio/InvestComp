@@ -11,6 +11,7 @@ import Investors from './components/layout/Investors';
 import Portfolio from './components/layout/portfolio/Portfolio';
 import Footer from './components/layout/Footer';
 import Dashboard from './components/layout/Dashboard';
+import Admin from './components/admin/admin';
 import './App.css';
 
 //Redux
@@ -39,6 +40,7 @@ const App = () => {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/investors" component={Investors} />
+              <Route exact path="/admin" component={Admin} />
               <PrivateRoute exact path="/portfolio" component={Portfolio} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
