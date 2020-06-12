@@ -47,7 +47,7 @@ const Portfolio = ({
   useEffect(() => {
     getCurrentProfile();
     getSymbols();
-  }, [getCurrentProfile]);
+  }, [getCurrentProfile, getSymbols]);
 
   const [formData, setFormData] = useState({
     buysell: '',

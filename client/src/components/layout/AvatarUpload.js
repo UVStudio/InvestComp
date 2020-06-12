@@ -49,12 +49,6 @@ const AvatarUpload = ({ avatarUpload }) => {
           >
             Choose File
           </label>
-          {/* <label
-            className="avatar-upload-label btn btn-primary"
-            htmlFor="custom-avatar"
-          >
-            {avatarName}
-          </label> */}
           <input id="avatar-upload" type="submit" value="" className="hidden" />
           <label
             className="avatar-upload-label btn btn-primary"
