@@ -41,6 +41,7 @@ router.post(
         portfolio: {
           equity: [],
           cash: 100000,
+          profileBalance: 100000,
         },
       });
       const salt = await bcrypt.genSalt(10);

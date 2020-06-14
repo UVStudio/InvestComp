@@ -285,7 +285,9 @@ router.put('/balance', adminAuth, async (req, res) => {
 
       //for each stock, calculate the number of shares
       const sharesArray = [];
-      const reducer = (acc, curr) => acc + curr;
+      const reducer = (acc, curr) => {
+        acc + curr, 0;
+      };
 
       for (let i = 0; i < ppe.length; i++) {
         const tobeReduced = [];
@@ -299,7 +301,6 @@ router.put('/balance', adminAuth, async (req, res) => {
         const sharesOfStock = tobeReduced.reduce(reducer);
 
         //populate array of shares
-
         const stockToQuote = ppe[i].stock;
         //run quote to find current share prices of each of these stocks
         const quote = await axios.get(
