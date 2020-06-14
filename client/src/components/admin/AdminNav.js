@@ -2,9 +2,12 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout } from '../../Actions/auth';
+import { logoutAdmin } from '../../Actions/adminAuth';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout, adminAuth }) => {
+const AdminNav = ({
+  admin: { token, isAuthenticated, loading },
+  logoutAdmin,
+}) => {
   const authLinks = (
     <ul className="nav navbar-nav ml-auto justify-content-end text-white">
       <li className="nav-item active">
@@ -13,22 +16,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, adminAuth }) => {
         </Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link text-white" to="/dashboard">
-          Dashboard
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link text-white" to="/profile">
-          Profile
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link text-white" to="/portfolio">
-          Portfolio
-        </Link>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link text-white" onClick={logout} href="#!">
+        <a className="nav-link text-white" onClick={logoutAdmin} href="#!">
           Logout
         </a>
       </li>
@@ -38,24 +26,19 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, adminAuth }) => {
   const guestLinks = (
     <ul className="nav navbar-nav ml-auto justify-content-end text-white">
       <li className="nav-item active">
-        <Link className="nav-link text-white" to="investors.html">
+        <Link className="nav-link text-white" to="/investors">
           Investors
         </Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link text-white" to="/login">
-          Login
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link text-white" to="/register">
-          Sign up
+        <Link className="nav-link text-white" to="/adminlogin">
+          Admin Login
         </Link>
       </li>
     </ul>
   );
 
-  return adminAuth ? null : (
+  return token === null ? null : (
     <nav className="navbar navbar-expand-lg bg-primary navbar-light">
       <Link className="text-white" to="/">
         InvestComp
@@ -80,15 +63,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, adminAuth }) => {
   );
 };
 
-Navbar.propTypes = {
-  logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  adminAuth: PropTypes.bool.isRequired,
+AdminNav.propTypes = {
+  logoutAdmin: PropTypes.func.isRequired,
+  admin: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
-  adminAuth: state.admin.isAuthenticated,
+  admin: state.admin,
 });
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logoutAdmin })(AdminNav);

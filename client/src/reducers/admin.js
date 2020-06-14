@@ -6,7 +6,6 @@ import {
   ADMIN_LOGIN,
   ADMIN_LOGIN_FAIL,
   ADMIN_LOGOUT,
-  ADMIN_LOGOUT,
 } from '../Actions/types';
 
 const initialState = {

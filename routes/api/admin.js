@@ -9,6 +9,20 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const axios = require('axios');
 
+//@route  GET api/auth
+//@desc   read login profile
+//@access private
+
+router.get('/', adminAuth, async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin.id).select('-password');
+    res.json(admin);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 //@route    POST /api/admin/register
 //@desc     register an admin
 //@access   Public
@@ -43,7 +57,6 @@ router.post(
         administrator,
       });
 
-      console.log(admin);
       const salt = await bcrypt.genSalt(10);
       admin.password = await bcrypt.hash(password, salt);
       await admin.save();
