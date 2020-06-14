@@ -68,7 +68,7 @@ router.post(
       const transactionList = ppe[result].transactions;
       const sharesArray = transactionList.map((e) => e.shares);
       const shareBalance = sharesArray.reduce(reducer);
-      //console.log(ppe[result] + ':' + shareBalance);
+      ppe[result].shares = shareBalance;
 
       //minus from cash and save to mongo
       profile.portfolio.cash = profile.portfolio.cash - amount;

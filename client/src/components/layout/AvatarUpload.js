@@ -44,8 +44,8 @@ const AvatarUpload = ({ avatarUpload }) => {
             onChange={onChange}
           />
           <label
-            for="custom-avatar"
-            class="avatar-upload-label btn btn-primary"
+            htmlFor="custom-avatar"
+            className="avatar-upload-label btn btn-primary"
           >
             Choose File
           </label>

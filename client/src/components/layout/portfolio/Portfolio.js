@@ -211,6 +211,7 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
+                    profile.profile.portfolio.profileBalance > 0 &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <ul className="balance-ul">
@@ -244,6 +245,7 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
+                    profile.profile.portfolio.profileBalance > 0 &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <div className="portfolio-inner-container">
@@ -300,6 +302,7 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
+                    profile.profile.portfolio.profileBalance > 0 &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <div className="portfolio-inner-container">
@@ -382,6 +385,7 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
+                    profile.profile.portfolio.profileBalance > 0 &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <div className="portfolio-inner-container">
@@ -392,6 +396,7 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
+                    profile.profile.portfolio.profileBalance > 0 &&
                     profile.profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <table className="transactions-table">

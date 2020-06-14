@@ -7,6 +7,7 @@ import orders from './orders';
 import transAlert from './transAlert';
 import symbol from './symbol';
 import admin from './admin';
+import deleteTrans from './deleteTrans';
 
 export default combineReducers({
   alert,
@@ -17,4 +18,5 @@ export default combineReducers({
   transAlert,
   symbol,
   admin,
+  deleteTrans,
 });

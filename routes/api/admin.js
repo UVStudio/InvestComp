@@ -191,9 +191,19 @@ router.delete(
         for (let j = 0; j < ppe[i].transactions.length; j++) {
           if (ppe[i].transactions[j]._id == req.params.transaction_id) {
             //saving cash amount of transaction to be deleted
+            if (deletedTransObj.buysell === 'buy') {
+              deletedTransObj.amount = ppe[i].transactions[j].amount * -1;
+            }
             deletedTransObj.amount = ppe[i].transactions[j].amount;
             //deleting transaction
             ppe[i].transactions.splice(j, 1);
+
+            //recalculate shares balance
+            const reducer = (acc, curr) => acc + curr;
+            const transactionList = ppe[i].transactions;
+            const sharesArray = transactionList.map((e) => e.shares);
+            const shareBalance = sharesArray.reduce(reducer);
+            ppe[i].shares = shareBalance;
           }
         }
       }

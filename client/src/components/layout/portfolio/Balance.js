@@ -10,7 +10,9 @@ const Balance = ({ profile: { profile, loading } }) => {
     <Fragment>
       <p>
         <span className="text-dark">Portfolio Value: </span>$
-        {profile && profile.profile.portfolio.profileBalance.toFixed(2)}
+        {profile &&
+          profile.profile.portfolio.profileBalance > 0 &&
+          profile.profile.portfolio.profileBalance.toFixed(2)}
       </p>
     </Fragment>
   );
