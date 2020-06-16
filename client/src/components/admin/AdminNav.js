@@ -4,20 +4,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logoutAdmin } from '../../Actions/adminAuth';
 
-const AdminNav = ({
-  admin: { token, isAuthenticated, loading },
-  logoutAdmin,
-}) => {
+const AdminNav = ({ admin: { isAuthenticated, loading }, logoutAdmin }) => {
   const authLinks = (
     <ul className="nav navbar-nav ml-auto justify-content-end text-white">
-      <li className="nav-item active">
-        <Link className="nav-link text-white" to="/investors">
-          Investors
-        </Link>
-      </li>
       <li className="nav-item">
         <Link className="nav-link text-white" to="/admindash">
           Dashboard
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link text-white" to="/investors">
+          Investors
         </Link>
       </li>
       <li className="nav-item">
@@ -30,12 +27,12 @@ const AdminNav = ({
 
   const guestLinks = (
     <ul className="nav navbar-nav ml-auto justify-content-end text-white">
-      <li className="nav-item active">
+      <li className="nav-item">
         <Link className="nav-link text-white" to="/investors">
           Investors
         </Link>
       </li>
-      <li className="nav-item">
+      <li className="nav-item active">
         <Link className="nav-link text-white" to="/adminlogin">
           Admin Login
         </Link>
@@ -43,7 +40,7 @@ const AdminNav = ({
     </ul>
   );
 
-  return token === null ? null : (
+  return (
     <nav className="navbar navbar-expand-lg bg-primary navbar-light">
       <Link className="text-white" to="/">
         InvestComp
@@ -60,9 +57,7 @@ const AdminNav = ({
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        {!loading && (
-          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-        )}
+        {!loading && isAuthenticated ? authLinks : guestLinks}
       </div>
     </nav>
   );

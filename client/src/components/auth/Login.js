@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../Actions/auth';
+import Navbar from '../layout/Navbar';
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
+      <Navbar />
       <section>
         <div className="login-container">
           <h3>Login</h3>

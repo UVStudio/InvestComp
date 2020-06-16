@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentProfile, updateProfile } from '../../Actions/profile';
+import { setAlert } from '../../Actions/alert';
 import AvatarUpload from './AvatarUpload';
 import Avatar from './Avatar';
 import PropTypes from 'prop-types';
@@ -16,6 +17,8 @@ const Dashboard = ({
       name: loading || !profile.name ? '' : profile.name,
       email: loading || !profile.email ? '' : profile.email,
       location: loading || !profile.location ? '' : profile.location,
+      password: loading || !profile.password ? '' : profile.password,
+      password2: '',
     });
   }, [getCurrentProfile]);
 
@@ -38,6 +41,9 @@ const Dashboard = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (password !== password2) {
+      setAlert('Passwords do not match', 'danger');
+    }
     updateProfile(formData);
   };
 
@@ -61,6 +67,7 @@ const Dashboard = ({
                   <input
                     className="input-fields"
                     placeholder="Your Name"
+                    type="text"
                     name="name"
                     value={name}
                     onChange={(e) => onChange(e)}

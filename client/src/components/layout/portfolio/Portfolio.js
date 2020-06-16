@@ -13,6 +13,7 @@ import TransAlert from '../TransAlert';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import Symbol from './Symbol';
+import Navbar from '../Navbar';
 
 const openTab = (evt, tab) => {
   let i, tabcontent, tablinks;
@@ -158,6 +159,7 @@ const Portfolio = ({
     <Spinner />
   ) : (
     <Fragment>
+      <Navbar />
       <section>
         <div className="row">
           <div className="col-lg-5">

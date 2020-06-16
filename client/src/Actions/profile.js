@@ -28,9 +28,9 @@ export const updateProfile = (formData) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.post('/api/profile', formData, config);
+    const res = await axios.put('/api/profile', formData, config);
     dispatch({ type: GET_PROFILE, payload: res.data });
-    dispatch(setAlert('Profile updated.'));
+    dispatch(setAlert('Profile updated.', 'success'));
   } catch (error) {
     const errors = error.response.data.errors;
     if (errors) {

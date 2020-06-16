@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loginAdmin } from '../../Actions/adminAuth';
+import AdminNav from './AdminNav';
 
 const AdminLogin = ({ loginAdmin, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const AdminLogin = ({ loginAdmin, isAuthenticated }) => {
 
   return (
     <Fragment>
+      <AdminNav />
       <section>
         <div className="login-container">
           <h3>Admin Login</h3>

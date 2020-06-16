@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../Actions/alert';
 import { registerAdmin } from '../../Actions/adminAuth';
 import PropTypes from 'prop-types';
+import AdminNav from './AdminNav';
 
 const AdminReg = ({ isAuthenticated, registerAdmin, setAlert }) => {
   const [formData, setFormData] = useState({
@@ -34,6 +35,7 @@ const AdminReg = ({ isAuthenticated, registerAdmin, setAlert }) => {
 
   return (
     <Fragment>
+      <AdminNav />
       <section>
         <div className="row">
           <div class="login-container">

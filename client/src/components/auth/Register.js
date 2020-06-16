@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../Actions/alert';
 import { register } from '../../Actions/auth';
 import PropTypes from 'prop-types';
+import Navbar from '../layout/Navbar';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -35,6 +36,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   return (
     <Fragment>
+      <Navbar />
       <section>
         <div className="row">
           <div className="col-md-6 bg-light">

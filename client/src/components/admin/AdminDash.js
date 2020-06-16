@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { updateAllAccounts } from '../../Actions/updateAccounts';
 import { deleteTransaction } from '../../Actions/deleteTrans';
+import AdminNav from './AdminNav';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
 
@@ -31,15 +32,14 @@ const AdminDash = ({
 
   const deleteTrans = (e) => {
     e.preventDefault();
-
     deleteTransaction(profileId, transId);
-    console.log('clicked');
   };
 
   return loading && isAuthenticated === null ? (
     <Spinner />
   ) : (
     <Fragment>
+      <AdminNav />
       <section>
         <div className="login-container">
           <h3 className="mb-5">Admin Function</h3>
