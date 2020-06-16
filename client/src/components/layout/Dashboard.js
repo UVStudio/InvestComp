@@ -13,10 +13,9 @@ const Dashboard = ({
   useEffect(() => {
     getCurrentProfile();
     setFormData({
-      name: loading || !profile.profile.name ? '' : profile.profile.name,
-      email: loading || !profile.profile.email ? '' : profile.profile.email,
-      location:
-        loading || !profile.profile.location ? '' : profile.profile.location,
+      name: loading || !profile.name ? '' : profile.name,
+      email: loading || !profile.email ? '' : profile.email,
+      location: loading || !profile.location ? '' : profile.location,
     });
   }, [getCurrentProfile]);
 
@@ -24,9 +23,11 @@ const Dashboard = ({
     name: '',
     email: '',
     location: '',
+    password: '',
+    password2: '',
   });
 
-  const { name, email, location } = formData;
+  const { name, email, location, password, password2 } = formData;
 
   const onChange = (e) => {
     setFormData({
@@ -46,9 +47,7 @@ const Dashboard = ({
         <div className="row">
           <div className="col-md-6 bg-light">
             <div className="winner center-content">
-              <h3 className="text-dark">
-                Hello {profile && profile.profile.name}!
-              </h3>
+              <h3 className="text-dark">Hello {profile && profile.name}!</h3>
               <Avatar />
               <AvatarUpload />
             </div>
@@ -80,6 +79,26 @@ const Dashboard = ({
                 <div className="form-group">
                   <input
                     className="input-fields"
+                    type="password"
+                    placeholder="Your password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => onChange(e)}
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    className="input-fields"
+                    type="password"
+                    placeholder="Confirm your password"
+                    name="password2"
+                    value={password2}
+                    onChange={(e) => onChange(e)}
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    className="input-fields"
                     type="location"
                     placeholder="Your Location"
                     name="location"
@@ -102,7 +121,6 @@ const Dashboard = ({
 };
 
 Dashboard.propTypes = {
-  auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,

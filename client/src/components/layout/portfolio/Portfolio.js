@@ -89,7 +89,7 @@ const Portfolio = ({
 
   const onBuySubmit = (e) => {
     e.preventDefault();
-    const pppc = profile.profile.portfolio.cash;
+    const pppc = profile.portfolio.cash;
     if (buysell !== 'buy' || !amount || !stock) {
       transAlert('Please fill out order form.', 'danger');
       return;
@@ -116,7 +116,7 @@ const Portfolio = ({
 
   const onSellSubmit = (e) => {
     e.preventDefault();
-    const pppe = profile.profile.portfolio.equity;
+    const pppe = profile.portfolio.equity;
     const shareToSell = pppe.find((e) => e.stock === stock);
     const findCompany = (e) => e.stock === stock;
     if (buysell !== 'sell' || !shares || !stock) {
@@ -141,7 +141,7 @@ const Portfolio = ({
   };
 
   const onClickAllUnits = () => {
-    const pppe = profile.profile.portfolio.equity;
+    const pppe = profile.portfolio.equity;
     const shareToSell = pppe.find((e) => e.stock === stock);
     if (!shareToSell) {
       transAlert('Please pick a stock from the above list.', 'danger');
@@ -163,7 +163,7 @@ const Portfolio = ({
           <div className="col-lg-5">
             <div className="winner center-content">
               <h3 className="text-dark">
-                {profile && profile.profile.name}'s Portfolio
+                {profile && profile.name}'s Portfolio
               </h3>
               <Avatar />
               <Balance />
@@ -211,8 +211,8 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
-                    profile.profile.portfolio.profileBalance > 0 &&
-                    profile.profile.portfolio.profileBalance.toFixed(2)}
+                    profile.portfolio.profileBalance > 0 &&
+                    profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <ul className="balance-ul">
                   <li className="portfolio-item">
@@ -221,7 +221,7 @@ const Portfolio = ({
                     <p className="balance text-dark">Unit Balance</p>
                   </li>
                   {profile &&
-                    profile.profile.portfolio.equity
+                    profile.portfolio.equity
                       .filter((e) => e.balance > 0)
                       .map((e, i) => {
                         return (
@@ -236,7 +236,7 @@ const Portfolio = ({
                   <li className="portfolio-item">
                     <p className="name text-dark">Cash</p>
                     <p className="balance">
-                      ${profile && profile.profile.portfolio.cash.toFixed(2)}
+                      ${profile && profile.portfolio.cash.toFixed(2)}
                     </p>
                   </li>
                 </ul>
@@ -245,8 +245,8 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
-                    profile.profile.portfolio.profileBalance > 0 &&
-                    profile.profile.portfolio.profileBalance.toFixed(2)}
+                    profile.portfolio.profileBalance > 0 &&
+                    profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <div className="portfolio-inner-container">
                   <Symbol />
@@ -271,7 +271,7 @@ const Portfolio = ({
 
                       <p className="text-dark">
                         current cash: $
-                        {profile && profile.profile.portfolio.cash.toFixed(2)}
+                        {profile && profile.portfolio.cash.toFixed(2)}
                       </p>
                       <div className="form-group">
                         <input
@@ -302,15 +302,15 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
-                    profile.profile.portfolio.profileBalance > 0 &&
-                    profile.profile.portfolio.profileBalance.toFixed(2)}
+                    profile.portfolio.profileBalance > 0 &&
+                    profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <div className="portfolio-inner-container">
                   <div className="buysell-form-box ml-3 mb-2">
                     <ul className="balance-ul">
                       <li className="text-dark mb-2">Unit Balance</li>
                       {profile &&
-                        profile.profile.portfolio.equity
+                        profile.portfolio.equity
                           .filter((e) => e.balance > 0)
                           .map((e, i) => {
                             return (
@@ -325,8 +325,7 @@ const Portfolio = ({
                             );
                           })}
                       <li className="portfolio-item text-dark">
-                        cash: $
-                        {profile && profile.profile.portfolio.cash.toFixed(2)}
+                        cash: ${profile && profile.portfolio.cash.toFixed(2)}
                       </li>
                     </ul>
                     <form className="form" onSubmit={(e) => onSellSubmit(e)}>
@@ -385,8 +384,8 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
-                    profile.profile.portfolio.profileBalance > 0 &&
-                    profile.profile.portfolio.profileBalance.toFixed(2)}
+                    profile.portfolio.profileBalance > 0 &&
+                    profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <div className="portfolio-inner-container">
                   <p>Account value chart</p>
@@ -396,12 +395,12 @@ const Portfolio = ({
                 <h5 className="text-dark">
                   Portfolio Value: $
                   {profile &&
-                    profile.profile.portfolio.profileBalance > 0 &&
-                    profile.profile.portfolio.profileBalance.toFixed(2)}
+                    profile.portfolio.profileBalance > 0 &&
+                    profile.portfolio.profileBalance.toFixed(2)}
                 </h5>
                 <table className="transactions-table">
                   {profile &&
-                    profile.profile.portfolio.equity.map((e, i) => {
+                    profile.portfolio.equity.map((e, i) => {
                       return (
                         <Fragment key={i}>
                           <thead>

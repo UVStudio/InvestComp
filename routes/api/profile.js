@@ -25,6 +25,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     const { name, email, password, location } = req.body;
+
     try {
       let profile = await Profile.findOne({ email });
       if (profile) {
@@ -44,6 +45,7 @@ router.post(
           profileBalance: 100000,
         },
       });
+
       const salt = await bcrypt.genSalt(10);
       profile.password = await bcrypt.hash(password, salt);
       await profile.save();
@@ -80,7 +82,7 @@ router.get('/me', auth, async (req, res) => {
     if (!profile) {
       return res.status(400).json({ msg: 'You are not authorized' });
     }
-    res.json({ profile });
+    res.json(profile);
   } catch (error) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -127,21 +129,34 @@ router.get('/', async (req, res) => {
 //@access private
 
 router.put('/', auth, async (req, res) => {
-  const { name, email, password, location } = req.body;
-  const profileFields = {};
-  profileFields.profile = req.profile.id;
-  if (name) profileFields.name = name;
-  if (email) profileFields.email = email;
-  if (password) profileFields.password = password;
-  if (location) profileFields.location = location;
+  const { name, email, location, password } = req.body;
   try {
-    let profile = await Profile.findOneAndUpdate(
-      { _id: req.profile.id },
-      { $set: profileFields },
-      { new: true }
-    );
-    res.json(profile);
+    const profile = await Profile.findOne({ _id: req.profile.id });
+    profile.name = name;
+    profile.email = email;
+    profile.location = location;
+    profile.password = password;
+
+    const salt = await bcrypt.genSalt(10);
+    profile.password = await bcrypt.hash(password, salt);
+
     await profile.save();
+
+    const payload = {
+      profile: {
+        id: profile.id,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      config.get('jwtSecret'),
+      { expiresIn: 36000 },
+      (error, token) => {
+        if (error) throw error;
+        res.json({ token });
+      }
+    );
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');

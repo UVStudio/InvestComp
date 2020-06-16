@@ -11,8 +11,8 @@ const Balance = ({ profile: { profile, loading } }) => {
       <p>
         <span className="text-dark">Portfolio Value: </span>$
         {profile &&
-          profile.profile.portfolio.profileBalance > 0 &&
-          profile.profile.portfolio.profileBalance.toFixed(2)}
+          profile.portfolio.profileBalance > 0 &&
+          profile.portfolio.profileBalance.toFixed(2)}
       </p>
     </Fragment>
   );

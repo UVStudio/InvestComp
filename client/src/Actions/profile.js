@@ -21,14 +21,14 @@ export const getCurrentProfile = () => async (dispatch) => {
   }
 };
 
-export const updateProfile = (formData, history) => async (dispatch) => {
+export const updateProfile = (formData) => async (dispatch) => {
   try {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.put('/api/profile', formData, config);
+    const res = await axios.post('/api/profile', formData, config);
     dispatch({ type: GET_PROFILE, payload: res.data });
     dispatch(setAlert('Profile updated.'));
   } catch (error) {
