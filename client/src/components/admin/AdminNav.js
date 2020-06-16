@@ -16,7 +16,12 @@ const AdminNav = ({
         </Link>
       </li>
       <li className="nav-item">
-        <a className="nav-link text-white" onClick={logoutAdmin} href="#!">
+        <Link className="nav-link text-white" to="/admindash">
+          Dashboard
+        </Link>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link text-white" onClick={logoutAdmin}>
           Logout
         </a>
       </li>

@@ -55,7 +55,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, adminAuth }) => {
     </ul>
   );
 
-  return adminAuth ? null : (
+  return (
     <nav className="navbar navbar-expand-lg bg-primary navbar-light">
       <Link className="text-white" to="/">
         InvestComp

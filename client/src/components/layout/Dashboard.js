@@ -1,19 +1,46 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getCurrentProfile } from '../../Actions/profile';
+import { getCurrentProfile, updateProfile } from '../../Actions/profile';
 import AvatarUpload from './AvatarUpload';
 import Avatar from './Avatar';
-import Spinner from './Spinner';
 import PropTypes from 'prop-types';
 
-const Dashboard = ({ getCurrentProfile, profile: { loading, profile } }) => {
+const Dashboard = ({
+  getCurrentProfile,
+  updateProfile,
+  profile: { loading, profile },
+}) => {
   useEffect(() => {
     getCurrentProfile();
+    setFormData({
+      name: loading || !profile.profile.name ? '' : profile.profile.name,
+      email: loading || !profile.profile.email ? '' : profile.profile.email,
+      location:
+        loading || !profile.profile.location ? '' : profile.profile.location,
+    });
   }, [getCurrentProfile]);
 
-  return loading && profile === null ? (
-    <Spinner />
-  ) : (
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    location: '',
+  });
+
+  const { name, email, location } = formData;
+
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    updateProfile(formData);
+  };
+
+  return (
     <Fragment>
       <section>
         <div className="row">
@@ -30,13 +57,14 @@ const Dashboard = ({ getCurrentProfile, profile: { loading, profile } }) => {
             <div className="dashboard-container">
               <h3 className="text-dark mb-3">Dashboard</h3>
               <h5>Profile update</h5>
-              <form className="form" action="#">
+              <form className="form" onSubmit={(e) => onSubmit(e)}>
                 <div className="form-group">
                   <input
                     className="input-fields"
                     placeholder="Your Name"
                     name="name"
-                    required
+                    value={name}
+                    onChange={(e) => onChange(e)}
                   />
                 </div>
                 <div className="form-group">
@@ -45,25 +73,8 @@ const Dashboard = ({ getCurrentProfile, profile: { loading, profile } }) => {
                     type="email"
                     placeholder="Email"
                     name="email"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    className="input-fields"
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    className="input-fields"
-                    type="password2"
-                    placeholder="Confirm Password"
-                    name="password2"
-                    required
+                    value={email}
+                    onChange={(e) => onChange(e)}
                   />
                 </div>
                 <div className="form-group">
@@ -72,7 +83,8 @@ const Dashboard = ({ getCurrentProfile, profile: { loading, profile } }) => {
                     type="location"
                     placeholder="Your Location"
                     name="location"
-                    required
+                    value={location}
+                    onChange={(e) => onChange(e)}
                   />
                 </div>
                 <input
@@ -93,11 +105,13 @@ Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
+  updateProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile, updateProfile })(
+  Dashboard
+);

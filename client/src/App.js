@@ -31,7 +31,7 @@ if (localStorage.token) {
 const App = () => {
   useEffect(() => {
     store.dispatch(loadProfile());
-    store.dispatch(loadAdmin());
+    //store.dispatch(loadAdmin());
   }, []);
 
   return (
@@ -40,7 +40,6 @@ const App = () => {
         <Fragment>
           <div className="container-fluid no-lr-padding">
             <Navbar />
-            <AdminNav />
             <Alert />
             <Switch>
               <Route exact path="/" component={Landing} />
