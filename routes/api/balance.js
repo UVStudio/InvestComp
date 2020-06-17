@@ -16,7 +16,7 @@ router.put('/', auth, async (req, res) => {
     //for each stock, calculate the number of shares
     const sharesArray = [];
     const reducer = (acc, curr) => {
-      acc + curr + 0;
+      acc + curr;
     };
 
     for (let i = 0; i < ppe.length; i++) {
@@ -28,7 +28,7 @@ router.put('/', auth, async (req, res) => {
           }
         }
       }
-      const sharesOfStock = tobeReduced.reduce(reducer);
+      const sharesOfStock = tobeReduced.reduce(reducer, 0);
 
       //populate array of shares
 
@@ -56,11 +56,10 @@ router.put('/', auth, async (req, res) => {
     if (sharesArray === 0) {
       equityBalance = 0;
     } else {
-      equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
+      equityBalance = sharesArray.map((e) => e.balance).reduce(reducer, 0);
     }
 
     profile.portfolio.profileBalance = equityBalance + profile.portfolio.cash;
-    console.log(profile.portfolio.profileBalance);
     await profile.save();
     res.json({ profile });
   } catch (error) {

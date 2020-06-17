@@ -12,7 +12,6 @@ const AdminDash = ({
   deleteTransaction,
 }) => {
   const updateAccounts = () => {
-    console.log('clicked');
     updateAllAccounts();
   };
 
