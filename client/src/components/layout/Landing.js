@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Navbar from './Navbar';
+import Alert from './Alert';
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
@@ -11,6 +12,7 @@ const Landing = ({ isAuthenticated }) => {
   return (
     <Fragment>
       <Navbar />
+      <Alert />
       <section>
         <div className="row">
           <div className="col-md-6 bg-light">

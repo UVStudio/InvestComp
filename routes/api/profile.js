@@ -103,21 +103,21 @@ router.get('/:profile_id', async (req, res) => {
         .status(400)
         .json({ msg: 'There is no profile for this profile ID.' });
     }
-    res.json({ profile });
+    res.json(profile);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
   }
 });
 
-//@route  GET /api/profile/profiles
+//@route  GET /api/profile/
 //@desc   get all profiles
 //@access public
 
 router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate('profile');
-    res.json({ profiles });
+    const profiles = await Profile.find();
+    res.json(profiles);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');

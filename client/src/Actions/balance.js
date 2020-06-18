@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAlert } from './alert';
 
 import { BALANCE_UPDATE, BALANCE_ERROR } from './types';
 
@@ -9,6 +10,7 @@ export const getBalanceUpdate = () => async (dispatch) => {
       type: BALANCE_UPDATE,
       payload: res.data,
     });
+    dispatch(setAlert('Balance updated', 'success'));
   } catch (error) {
     dispatch({
       type: BALANCE_ERROR,

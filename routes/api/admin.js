@@ -41,7 +41,7 @@ router.post(
     if (!errors.isEmpty()) {
       res.status(400).json({ error: errors.array() });
     }
-    const { name, email, password, administrator } = req.body;
+    const { name, email, password } = req.body;
     try {
       let admin = await Admin.findOne({ email });
       if (admin) {
@@ -54,7 +54,6 @@ router.post(
         name,
         email,
         password,
-        administrator,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -266,7 +265,7 @@ router.put('/balance/:profile_id', adminAuth, async (req, res) => {
     const equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
     profile.portfolio.profileBalance = equityBalance + profile.portfolio.cash;
     await profile.save();
-    res.json({ profile });
+    res.json(profile);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');
@@ -285,9 +284,6 @@ router.put('/balance', adminAuth, async (req, res) => {
 
       //for each stock, calculate the number of shares
       const sharesArray = [];
-      const reducer = (acc, curr) => {
-        acc + curr;
-      };
 
       for (let i = 0; i < ppe.length; i++) {
         const tobeReduced = [];
@@ -301,7 +297,7 @@ router.put('/balance', adminAuth, async (req, res) => {
 
         let sharesOfStock;
         if (tobeReduced.length > 0) {
-          sharesOfStock = tobeReduced.reduce(reducer);
+          sharesOfStock = tobeReduced.reduce((a, b) => a + b);
         }
 
         //populate array of shares
@@ -326,7 +322,9 @@ router.put('/balance', adminAuth, async (req, res) => {
       //calculate profile balance (equity + cash)
       let equityBalance = 0;
       if (sharesArray.length > 0) {
-        equityBalance = sharesArray.map((e) => e.balance).reduce(reducer);
+        equityBalance = sharesArray
+          .map((e) => e.balance)
+          .reduce((a, b) => a + b);
       }
 
       profile.portfolio.profileBalance = equityBalance + profile.portfolio.cash;
@@ -350,7 +348,7 @@ router.post('/cash', adminAuth, async (req, res) => {
     const cash = req.body.cash;
     profile.portfolio.cash = cash;
     await profile.save();
-    res.json({ profile });
+    res.json(profile);
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');

@@ -1,7 +1,16 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
+import { getAllProfiles } from '../../Actions/profiles';
 import Navbar from './Navbar';
 
-const Investors = () => {
+const Investors = ({ profiles, getAllProfiles }) => {
+  useEffect(() => {
+    getAllProfiles();
+  }, [getAllProfiles]);
+
+  const genericAvatar = './img/avatar.png';
+
   return (
     <Fragment>
       <Navbar />
@@ -10,102 +19,31 @@ const Investors = () => {
           <h3>Investor List</h3>
           <div className="investors-list">
             <ul className="investors-list-ul">
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Jennifer</p>
-                  <p className="location">Seattle, USA</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Leo</p>
-                  <p className="location">Toronto, Canada</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Amy</p>
-                  <p className="location">Hong Kong, SAR</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Andrew</p>
-                  <p className="location">Prince Albert, Canada</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Jennifer</p>
-                  <p className="location">Seattle, USA</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Leo</p>
-                  <p className="location">Toronto, Canada</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Amy</p>
-                  <p className="location">Hong Kong, SAR</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
-              <li className="investors-list-item">
-                <img
-                  src="./img/avatar.png"
-                  className="inv-list-item-avatar mr-4"
-                  alt="avatar"
-                />
-                <div className="investor-info">
-                  <p className="name">Andrew</p>
-                  <p className="location">Prince Albert, Canada</p>
-                  <p className="balance">$103,642</p>
-                </div>
-              </li>
+              {profiles.loading
+                ? null
+                : profiles.profiles.map((e, i) => {
+                    return (
+                      <li key={i} className="investors-list-item">
+                        <img
+                          src={
+                            e.avatarId
+                              ? `api/avatar/image/${e.avatarId}`
+                              : genericAvatar
+                          }
+                          className="inv-list-item-avatar mr-4"
+                          alt="avatar"
+                        />
+
+                        <div className="investor-info">
+                          <p className="name">{e.name}</p>
+                          <p className="location">{e.location}</p>
+                          <p className="balance">
+                            ${e.portfolio.profileBalance.toFixed(2)}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
             </ul>
           </div>
         </div>
@@ -114,4 +52,13 @@ const Investors = () => {
   );
 };
 
-export default Investors;
+Investors.propTypes = {
+  profiles: PropTypes.object.isRequired,
+  getAllProfiles: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  profiles: state.profiles,
+});
+
+export default connect(mapStateToProps, { getAllProfiles })(Investors);

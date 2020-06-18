@@ -4,6 +4,8 @@ import { getCurrentProfile, updateProfile } from '../../Actions/profile';
 import { setAlert } from '../../Actions/alert';
 import AvatarUpload from './AvatarUpload';
 import Avatar from './Avatar';
+import Navbar from './Navbar';
+import Alert from './Alert';
 import PropTypes from 'prop-types';
 
 const Dashboard = ({
@@ -17,7 +19,7 @@ const Dashboard = ({
       name: loading || !profile.name ? '' : profile.name,
       email: loading || !profile.email ? '' : profile.email,
       location: loading || !profile.location ? '' : profile.location,
-      password: loading || !profile.password ? '' : profile.password,
+      password: '',
       password2: '',
     });
   }, [getCurrentProfile]);
@@ -49,6 +51,8 @@ const Dashboard = ({
 
   return (
     <Fragment>
+      <Navbar />
+      <Alert />
       <section>
         <div className="row">
           <div className="col-md-6 bg-light">

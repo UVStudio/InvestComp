@@ -151,7 +151,7 @@ router.post(
       ppe[result].balance = price * shareBalance;
 
       await profile.save();
-      res.json({ profile });
+      res.json(profile);
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');

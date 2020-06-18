@@ -97,9 +97,11 @@ label {
 }
 
 .inv-list-item-avatar {
+  border-radius: 50%;
   float: left;
   width: 60px;
   height: 60px;
+  object-fit: cover;
 }
 
 .investor-info {

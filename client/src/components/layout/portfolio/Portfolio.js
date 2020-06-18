@@ -7,6 +7,7 @@ import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
 import { getSymbols } from '../../../Actions/symbol';
 import Avatar from '../Avatar';
+import Alert from '../Alert';
 import Balance from './Balance';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
@@ -160,6 +161,7 @@ const Portfolio = ({
   ) : (
     <Fragment>
       <Navbar />
+      <Alert />
       <section>
         <div className="row">
           <div className="col-lg-5">
