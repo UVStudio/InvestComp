@@ -20,7 +20,7 @@ body {
 }
 
 footer {
-  height: 8em;
+  height: 16em;
 }
 
 p {
@@ -51,9 +51,11 @@ label {
 }
 
 .avatar {
+  border-radius: 50%;
   position: relative;
   width: 250px;
   height: 250px;
+  object-fit: cover;
 }
 
 .board-list-item {
@@ -83,7 +85,8 @@ label {
   overflow: scroll;
 }
 
-.investors-list-ul {
+.investors-list-ul,
+.investors-list-ul-landing {
   padding-left: 0em;
 }
 
@@ -93,7 +96,7 @@ label {
 
 .investors-list-item {
   overflow: auto;
-  padding: 0.5em 0 0.5em 2em;
+  padding: 0.5em 0 0.5em 1.5em;
 }
 
 .inv-list-item-avatar {
@@ -102,20 +105,25 @@ label {
   width: 60px;
   height: 60px;
   object-fit: cover;
+  vertical-align: middle;
 }
 
 .investor-info {
-  padding-top: 0.8em;
+  vertical-align: middle;
+}
+
+.investor-info p {
+  margin-bottom: 0em;
 }
 
 .name {
   float: left;
-  width: 6em;
+  width: 7em;
 }
 
 .location {
   float: left;
-  width: 12em;
+  width: 10em;
 }
 
 .balance {

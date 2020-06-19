@@ -6,6 +6,8 @@ import Landing from './components/layout/Landing';
 import Footer from './components/layout/Footer';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Profile from './components/layout/Profile';
+import ProfileByID from './components/layout/ProfileByID';
 import Investors from './components/layout/Investors';
 import Portfolio from './components/layout/portfolio/Portfolio';
 import Dashboard from './components/layout/Dashboard';
@@ -36,8 +38,10 @@ const App = () => {
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/profile/:id" component={ProfileByID} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/investors" component={Investors} />
+              <PrivateRoute exact path="/profile" component={Profile} />
               <PrivateRoute exact path="/portfolio" component={Portfolio} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <Route exact path="/adminreg" component={AdminReg} />

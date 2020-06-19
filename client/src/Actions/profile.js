@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 
-import { GET_PROFILE, PROFILE_ERROR } from './types';
+import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from './types';
 
 export const getCurrentProfile = () => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
   try {
     const res = await axios.get('/api/profile/me');
     dispatch({
@@ -36,6 +37,25 @@ export const updateProfile = (formData) => async (dispatch) => {
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const getProfileById = (profileId) => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
+  try {
+    const res = await axios.get(`/api/profile/${profileId}`);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+  } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
       payload: {

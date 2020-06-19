@@ -21,29 +21,33 @@ const Investors = ({ profiles, getAllProfiles }) => {
             <ul className="investors-list-ul">
               {profiles.loading
                 ? null
-                : profiles.profiles.map((e, i) => {
-                    return (
-                      <li key={i} className="investors-list-item">
-                        <img
-                          src={
-                            e.avatarId
-                              ? `api/avatar/image/${e.avatarId}`
-                              : genericAvatar
-                          }
-                          className="inv-list-item-avatar mr-4"
-                          alt="avatar"
-                        />
-
-                        <div className="investor-info">
-                          <p className="name">{e.name}</p>
-                          <p className="location">{e.location}</p>
-                          <p className="balance">
-                            ${e.portfolio.profileBalance.toFixed(2)}
-                          </p>
-                        </div>
-                      </li>
-                    );
-                  })}
+                : profiles.profiles
+                    .sort(
+                      (a, b) =>
+                        b.portfolio.profileBalance - a.portfolio.profileBalance
+                    )
+                    .map((e, i) => {
+                      return (
+                        <li key={i} className="investors-list-item">
+                          <img
+                            src={
+                              e.avatarId
+                                ? `api/avatar/image/${e.avatarId}`
+                                : genericAvatar
+                            }
+                            className="inv-list-item-avatar mr-4"
+                            alt="avatar"
+                          />
+                          <div className="investor-info">
+                            <p className="name">{e.name}</p>
+                            <p className="location">{e.location}</p>
+                            <p className="balance">
+                              ${e.portfolio.profileBalance.toFixed(2)}
+                            </p>
+                          </div>
+                        </li>
+                      );
+                    })}
             </ul>
           </div>
         </div>

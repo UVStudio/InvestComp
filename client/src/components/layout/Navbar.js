@@ -38,7 +38,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout, adminAuth }) => {
   const guestLinks = (
     <ul className="nav navbar-nav ml-auto justify-content-end text-white">
       <li className="nav-item active">
-        <Link className="nav-link text-white" to="investors.html">
+        <Link className="nav-link text-white" to="/investors">
           Investors
         </Link>
       </li>
