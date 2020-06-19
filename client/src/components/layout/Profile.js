@@ -19,7 +19,11 @@ const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
         <div className="col-lg-5">
           <div className="winner center-content ml-4">
             <h3 className="text-dark">I'm {profile && profile.name}!</h3>
-            <img src="./img/avatar.png" className="mt-3 mb-3 avatar" />
+            <img
+              src="./img/avatar.png"
+              className="mt-3 mb-3 avatar"
+              alt="avatar"
+            />
             <p className="">$153,437</p>
           </div>
         </div>

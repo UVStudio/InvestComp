@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../Actions/auth';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout, adminAuth }) => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul className="nav navbar-nav ml-auto justify-content-end text-white">
       <li className="nav-item active">

@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { getAllProfiles } from '../../Actions/profiles';
@@ -29,15 +30,18 @@ const Investors = ({ profiles, getAllProfiles }) => {
                     .map((e, i) => {
                       return (
                         <li key={i} className="investors-list-item">
-                          <img
-                            src={
-                              e.avatarId
-                                ? `api/avatar/image/${e.avatarId}`
-                                : genericAvatar
-                            }
-                            className="inv-list-item-avatar mr-4"
-                            alt="avatar"
-                          />
+                          <Link to={`/profile/${e._id}`}>
+                            <img
+                              src={
+                                e.avatarId
+                                  ? `api/avatar/image/${e.avatarId}`
+                                  : genericAvatar
+                              }
+                              className="inv-list-item-avatar mr-4"
+                              alt="avatar"
+                            />
+                          </Link>
+
                           <div className="investor-info">
                             <p className="name">{e.name}</p>
                             <p className="location">{e.location}</p>
