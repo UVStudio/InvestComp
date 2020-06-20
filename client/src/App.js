@@ -15,6 +15,7 @@ import AdminRoute from './components/routing/AdminRoute';
 import AdminReg from './components/admin/AdminReg';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDash from './components/admin/AdminDash';
+import NotFound from './components/layout/NotFound';
 import './App.css';
 
 //Redux
@@ -47,6 +48,7 @@ const App = () => {
               <Route exact path="/adminreg" component={AdminReg} />
               <Route exact path="/adminlogin" component={AdminLogin} />
               <AdminRoute exact path="/admindash" component={AdminDash} />
+              <Route path="*" component={NotFound} />
             </Switch>
             <Footer />
           </div>
