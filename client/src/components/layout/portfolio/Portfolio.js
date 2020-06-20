@@ -12,6 +12,7 @@ import Balance from './Balance';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
 import PortfolioValue from '../PortfolioValue';
+import PortfolioBalance from '../PortfolioBalance';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import Symbol from './Symbol';
@@ -214,32 +215,7 @@ const Portfolio = ({
               </div>
               <div id="Portfolio" className="tabcontent">
                 <PortfolioValue />
-                <ul className="balance-ul">
-                  <li className="portfolio-item">
-                    <p className="name text-dark">Stock</p>
-                    <p className="balance text-dark">Value</p>
-                    <p className="balance text-dark">Unit Balance</p>
-                  </li>
-                  {profile &&
-                    profile.portfolio.equity
-                      .filter((e) => e.balance > 0)
-                      .map((e, i) => {
-                        return (
-                          <li key={i} className="portfolio-item">
-                            <p className="name text-dark">{e.stock}</p>
-                            <p className="balance">${e.balance.toFixed(2)}</p>
-                            <p className="balance">{e.shares}</p>
-                          </li>
-                        );
-                      })}
-                  <br />
-                  <li className="portfolio-item">
-                    <p className="name text-dark">Cash</p>
-                    <p className="balance">
-                      ${profile && profile.portfolio.cash.toFixed(2)}
-                    </p>
-                  </li>
-                </ul>
+                <PortfolioBalance />
               </div>
               <div id="Buy" className="tabcontent">
                 <PortfolioValue />

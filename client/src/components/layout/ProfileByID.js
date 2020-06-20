@@ -21,7 +21,7 @@ const Profile = ({ match, getProfileById, profile: { profile, loading } }) => {
       <div className="row">
         <div className="col-lg-5">
           <div className="winner center-content ml-4">
-            <h3 className="text-dark">I'm {profile && profile.name}!</h3>
+            <h3 className="text-dark">Hello! I'm {profile && profile.name}.</h3>
             <img
               src={
                 profile && profile.avatarId

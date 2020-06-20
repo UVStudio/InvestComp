@@ -57,7 +57,7 @@ const Dashboard = ({
         <div className="row">
           <div className="col-md-6 bg-light">
             <div className="winner center-content">
-              <h3 className="text-dark">Hello {profile && profile.name}!</h3>
+              <h3 className="text-dark">My Dashboard</h3>
               <Avatar />
               <AvatarUpload />
             </div>
