@@ -11,6 +11,7 @@ import Alert from '../Alert';
 import Balance from './Balance';
 import Spinner from '../Spinner';
 import TransAlert from '../TransAlert';
+import PortfolioValue from '../PortfolioValue';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import Symbol from './Symbol';
@@ -212,12 +213,7 @@ const Portfolio = ({
                 </button>
               </div>
               <div id="Portfolio" className="tabcontent">
-                <h5 className="text-dark">
-                  Portfolio Value: $
-                  {profile &&
-                    profile.portfolio.profileBalance > 0 &&
-                    profile.portfolio.profileBalance.toFixed(2)}
-                </h5>
+                <PortfolioValue />
                 <ul className="balance-ul">
                   <li className="portfolio-item">
                     <p className="name text-dark">Stock</p>
@@ -246,12 +242,7 @@ const Portfolio = ({
                 </ul>
               </div>
               <div id="Buy" className="tabcontent">
-                <h5 className="text-dark">
-                  Portfolio Value: $
-                  {profile &&
-                    profile.portfolio.profileBalance > 0 &&
-                    profile.portfolio.profileBalance.toFixed(2)}
-                </h5>
+                <PortfolioValue />
                 <div className="portfolio-inner-container">
                   <Symbol />
                   <div className="buysell-form-box ml-3 mb-2">
@@ -303,12 +294,7 @@ const Portfolio = ({
                 </div>
               </div>
               <div id="Sell" className="tabcontent">
-                <h5 className="text-dark">
-                  Portfolio Value: $
-                  {profile &&
-                    profile.portfolio.profileBalance > 0 &&
-                    profile.portfolio.profileBalance.toFixed(2)}
-                </h5>
+                <PortfolioValue />
                 <div className="portfolio-inner-container">
                   <div className="buysell-form-box ml-3 mb-2">
                     <ul className="balance-ul">
@@ -385,23 +371,14 @@ const Portfolio = ({
                 </div>
               </div>
               <div id="Chart" className="tabcontent">
-                <h5 className="text-dark">
-                  Portfolio Value: $
-                  {profile &&
-                    profile.portfolio.profileBalance > 0 &&
-                    profile.portfolio.profileBalance.toFixed(2)}
-                </h5>
+                <PortfolioValue />
                 <div className="portfolio-inner-container">
                   <p>Account value chart</p>
+                  <h3 className="text-dark">Under construction</h3>
                 </div>
               </div>
               <div id="Transactions" className="tabcontent">
-                <h5 className="text-dark">
-                  Portfolio Value: $
-                  {profile &&
-                    profile.portfolio.profileBalance > 0 &&
-                    profile.portfolio.profileBalance.toFixed(2)}
-                </h5>
+                <PortfolioValue />
                 <table className="transactions-table">
                   {profile &&
                     profile.portfolio.equity.map((e, i) => {

@@ -56,7 +56,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 
   return (
-    <nav className="navbar navbar-expand-lg bg-primary navbar-light">
+    <nav className="navbar navbar-height navbar-expand-lg bg-primary navbar-light">
       <Link className="text-white" to="/">
         InvestComp
       </Link>
