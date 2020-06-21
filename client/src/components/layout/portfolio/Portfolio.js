@@ -141,7 +141,10 @@ const Portfolio = ({
       return;
     }
     sellStock({ buysell, shares, stock });
-    transAlert(`You have sold ${shares} shares of ${stock}.`, 'danger');
+    transAlert(
+      `You have sold ${shares} shares of ${stock}. Please refresh portfolio.`,
+      'success'
+    );
   };
 
   const onClickAllUnits = () => {

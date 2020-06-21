@@ -55,16 +55,15 @@ const Dashboard = ({
       <Alert />
       <section>
         <div className="row">
-          <div className="col-md-6 bg-light">
+          <div className="col-md-6">
             <div className="winner center-content">
               <h3 className="text-dark">My Dashboard</h3>
               <Avatar />
               <AvatarUpload />
             </div>
           </div>
-          <div className="col-md-6 bg-light">
+          <div className="col-md-6">
             <div className="dashboard-container">
-              <h3 className="text-dark mb-3">Dashboard</h3>
               <h5>Profile update</h5>
               <form className="form" onSubmit={(e) => onSubmit(e)}>
                 <div className="form-group">

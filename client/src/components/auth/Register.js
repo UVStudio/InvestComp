@@ -39,25 +39,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       <Navbar />
       <section>
         <div className="row">
-          <div className="col-md-6 bg-light">
-            <div className="winner center-content">
-              <h3 className="text-dark">Profile Signup</h3>
-              <img
-                src="./img/avatar.png"
-                className="mt-3 mb-3 avatar"
-                alt="avatar"
-              />
-              <div className="avatar-upload">
-                <input
-                  type="submit"
-                  className="btn btn-primary"
-                  value="Upload avatar"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 bg-light">
+          <div className="col-md-12 bg-light">
             <div className="signup-container">
+              <h3 className="text-dark">Profile Signup</h3>
               <form className="form" onSubmit={(e) => onSubmit(e)}>
                 <div className="form-group">
                   <input

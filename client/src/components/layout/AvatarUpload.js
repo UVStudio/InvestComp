@@ -5,7 +5,7 @@ import { avatarUpload } from '../../Actions/avatar';
 
 const AvatarUpload = ({ avatarUpload }) => {
   const [avatar, setAvatar] = useState('');
-  const [avatarName, setAvatarName] = useState('Select file');
+  const [avatarName, setAvatarName] = useState('');
 
   const onChange = async (e) => {
     setAvatar(e.target.files[0]);
@@ -47,7 +47,7 @@ const AvatarUpload = ({ avatarUpload }) => {
             htmlFor="custom-avatar"
             className="avatar-upload-label btn btn-primary"
           >
-            Choose File
+            Choose File: {avatarName}
           </label>
           <input id="avatar-upload" type="submit" value="" className="hidden" />
           <label

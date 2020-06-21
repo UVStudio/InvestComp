@@ -219,10 +219,6 @@ input[type='file'] {
   width: 20%;
 }
 
-/* tr:nth-child(even) {
-  background: #eee;
-} */
-
 th:first-child,
 td:first-child,
 th:nth-child(2),

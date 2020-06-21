@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+import { getBalanceUpdate } from './balance';
 import setAuthToken from '../utils/setAuthToken';
 import {
   REGISTER_SUCCESS,
@@ -23,6 +24,7 @@ export const loadProfile = () => async (dispatch) => {
       type: PROFILE_LOADED,
       payload: res.data,
     });
+    dispatch(getBalanceUpdate());
   } catch (error) {
     dispatch({
       type: AUTH_ERROR,
