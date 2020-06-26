@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { BUY_ORDER, BUY_FAIL } from './types';
 import { SELL_ORDER, SELL_FAIL } from './types';
+import { getBalanceUpdate } from './balance';
+import { getCurrentProfile } from './profile';
 
 export const buyStock = ({ buysell, amount, stock }) => async (dispatch) => {
   const config = {
@@ -16,6 +18,8 @@ export const buyStock = ({ buysell, amount, stock }) => async (dispatch) => {
       type: BUY_ORDER,
       payload: res.data,
     });
+    await dispatch(getBalanceUpdate());
+    dispatch(getCurrentProfile());
   } catch (error) {
     dispatch({
       type: BUY_FAIL,
@@ -41,6 +45,8 @@ export const sellStock = ({ buysell, shares, stock }) => async (dispatch) => {
       type: SELL_ORDER,
       payload: res.data,
     });
+    await dispatch(getBalanceUpdate());
+    dispatch(getCurrentProfile());
   } catch (error) {
     dispatch({
       type: SELL_FAIL,

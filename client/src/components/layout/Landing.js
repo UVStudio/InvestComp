@@ -23,7 +23,7 @@ const Landing = ({ profiles, getAllProfiles, isAuthenticated }) => {
       <Alert />
       <section>
         <div className="row">
-          <div className="col-md-6 bg-light">
+          <div className="col-md-6">
             <div className="winner center-content">
               <h3 className="text-dark">Current Leader!</h3>
               {profiles.loading
@@ -58,7 +58,7 @@ const Landing = ({ profiles, getAllProfiles, isAuthenticated }) => {
                     })}
             </div>
           </div>
-          <div className="col-md-6 bg-light">
+          <div className="col-md-6">
             <div className="leaderboard">
               <h5 className="content-center text-dark">Leaderboard</h5>
               <ul className="investors-list-ul-landing">
@@ -98,6 +98,19 @@ const Landing = ({ profiles, getAllProfiles, isAuthenticated }) => {
               </ul>
             </div>
           </div>
+        </div>
+        <div className="row">
+          <div class="col-sm-2"></div>
+          <div className="col-sm-8">
+            <p className="test-center p-2 text-dark">
+              Welcome to InvestComp. This is a simulate stock investment app,
+              with a twist. You compete with other investors. Everybody's
+              current portfolio is transparent. You get to see how others are
+              investing smartly, or not so smartly. Stock prices are real time
+              data from the NYSE. It's free to play.
+            </p>
+          </div>
+          <div class="col-sm-2"></div>
         </div>
       </section>
     </Fragment>

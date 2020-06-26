@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
+import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 
 const PortfolioValue = ({ profile: { loading, profile } }) => {
@@ -8,10 +9,16 @@ const PortfolioValue = ({ profile: { loading, profile } }) => {
     <Spinner />
   ) : (
     <h5 className="text-dark">
-      Portfolio Value: $
-      {profile &&
-        profile.portfolio.profileBalance > 0 &&
-        profile.portfolio.profileBalance.toFixed(2)}
+      Portfolio Value:{' '}
+      {profile && profile.portfolio.profileBalance > 0 ? (
+        <NumberFormat
+          value={profile.portfolio.profileBalance}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'$'}
+          decimalScale={2}
+        />
+      ) : null}
     </h5>
   );
 };

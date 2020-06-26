@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import NumberFormat from 'react-number-format';
 import Spinner from '../Spinner';
 
 const Balance = ({ profile: { profile, loading } }) => {
@@ -9,10 +10,16 @@ const Balance = ({ profile: { profile, loading } }) => {
   ) : (
     <Fragment>
       <p>
-        <span className="text-dark">Portfolio Value: </span>$
-        {profile &&
-          profile.portfolio.profileBalance > 0 &&
-          profile.portfolio.profileBalance.toFixed(2)}
+        <span className="text-dark">Portfolio Value: </span>
+        {profile && profile.portfolio.profileBalance > 0 ? (
+          <NumberFormat
+            value={profile.portfolio.profileBalance}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'$'}
+            decimalScale={2}
+          />
+        ) : null}
       </p>
     </Fragment>
   );

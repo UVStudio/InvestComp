@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { getAllProfiles } from '../../Actions/profiles';
 import Navbar from './Navbar';
+import NumberFormat from 'react-number-format';
 
 const Investors = ({ profiles, getAllProfiles }) => {
   useEffect(() => {
@@ -46,7 +47,13 @@ const Investors = ({ profiles, getAllProfiles }) => {
                             <p className="name">{e.name}</p>
                             <p className="location">{e.location}</p>
                             <p className="balance">
-                              ${e.portfolio.profileBalance.toFixed(2)}
+                              <NumberFormat
+                                value={e.portfolio.profileBalance}
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                prefix={'$'}
+                                decimalScale={2}
+                              />
                             </p>
                           </div>
                         </li>
