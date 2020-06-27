@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getProfileById } from '../../Actions/profile';
+import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import Spinner from './Spinner';
-import Footer from './Footer';
 import Navbar from './Navbar';
 
 const Profile = ({ match, getProfileById, profile: { profile, loading } }) => {
@@ -20,7 +20,7 @@ const Profile = ({ match, getProfileById, profile: { profile, loading } }) => {
       <Navbar />
       <div className="row">
         <div className="col-lg-5">
-          <div className="winner center-content ml-4">
+          <div className="center-content mt-5">
             <h3 className="text-dark">Hello! I'm {profile && profile.name}.</h3>
             <img
               src={
@@ -28,7 +28,7 @@ const Profile = ({ match, getProfileById, profile: { profile, loading } }) => {
                   ? `/api/avatar/image/${profile.avatarId}`
                   : genericAvatar
               }
-              className="round-img mb-3"
+              className="round-img mb-3 shadow pt-2"
               alt="avatar"
             />
           </div>
@@ -37,10 +37,18 @@ const Profile = ({ match, getProfileById, profile: { profile, loading } }) => {
           <div className="profile-balance">
             <h3 className="text-dark">Portfolio</h3>
             <h5 className="mb-3">
-              Current Balance: $
-              {profile && profile.portfolio.profileBalance.toFixed(2)}
+              Current Balance:{' '}
+              {profile && profile.portfolio.profileBalance > 0 ? (
+                <NumberFormat
+                  value={profile.portfolio.profileBalance}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  prefix={'$'}
+                  decimalScale={2}
+                />
+              ) : null}
             </h5>
-            <div className="balance-box">
+            <div className="balance-box shadow">
               <ul className="balance-ul">
                 <li className="portfolio-item">
                   <p className="name text-dark">Stock</p>
@@ -71,7 +79,6 @@ const Profile = ({ match, getProfileById, profile: { profile, loading } }) => {
           </div>
         </div>
       </div>
-      <Footer />
     </Fragment>
   );
 };

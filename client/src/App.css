@@ -42,19 +42,29 @@ label {
 }
 
 .winner {
-  margin: 3em 0em;
+  width: 22em;
+  margin: 3em auto;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .leaderboard {
   width: 20em;
   margin: 3em auto;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.leader-text {
+  position: relative;
+  left: 30px;
 }
 
 .avatar {
   border-radius: 50%;
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 220px;
+  height: 220px;
   object-fit: cover;
 }
 
@@ -193,6 +203,7 @@ input[type='file'] {
   height: 34em;
   border: 1px solid var(--dark-color);
   overflow: scroll;
+  border-radius: 10px;
 }
 
 .portfolio-inner-container {
@@ -200,6 +211,7 @@ input[type='file'] {
   height: auto;
   margin: 1em auto;
   border: 1px solid var(--dark-color);
+  border-radius: 10px;
 }
 
 .portfolio-balance {

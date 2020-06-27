@@ -22,7 +22,7 @@ const Avatar = ({ auth: { loading, profile } }) => {
         <Fragment>
           <div className="profile-info-left">
             <img
-              className="round-img mb-3"
+              className="round-img mb-3 shadow"
               src={avatarId ? avatarPath : genericAvatar}
               alt=""
             />

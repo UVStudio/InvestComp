@@ -170,7 +170,7 @@ const Portfolio = ({
       <section>
         <div className="row">
           <div className="col-lg-5">
-            <div className="winner center-content">
+            <div className="winner shadow center-content py-4">
               <h3 className="text-dark">
                 {profile && profile.name}'s Portfolio
               </h3>
@@ -186,7 +186,7 @@ const Portfolio = ({
             </div>
           </div>
           <div className="col-lg-7">
-            <div className="portfolio-container">
+            <div className="portfolio-container shadow">
               <div className="tab">
                 <button
                   className="tablinks active"

@@ -19,7 +19,7 @@ const Investors = ({ profiles, getAllProfiles }) => {
       <section>
         <div className="investors-list-container">
           <h3>Investor List</h3>
-          <div className="investors-list">
+          <div className="investors-list shadow">
             <ul className="investors-list-ul">
               {profiles.loading
                 ? null
@@ -38,7 +38,7 @@ const Investors = ({ profiles, getAllProfiles }) => {
                                   ? `api/avatar/image/${e.avatarId}`
                                   : genericAvatar
                               }
-                              className="inv-list-item-avatar mr-4"
+                              className="inv-list-item-avatar shadow mr-4"
                               alt="avatar"
                             />
                           </Link>

@@ -56,7 +56,7 @@ const Dashboard = ({
       <section>
         <div className="row">
           <div className="col-md-6">
-            <div className="winner center-content">
+            <div className="winner shadow center-content py-4">
               <h3 className="text-dark">My Dashboard</h3>
               <Avatar />
               <AvatarUpload />
