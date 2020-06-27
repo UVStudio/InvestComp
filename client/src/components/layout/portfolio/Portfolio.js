@@ -16,7 +16,7 @@ import PortfolioValue from '../PortfolioValue';
 import PortfolioBalance from '../PortfolioBalance';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
-import Symbol from './Symbol';
+import NumberFormat from 'react-number-format';
 import Navbar from '../Navbar';
 
 const openTab = (evt, tab) => {
@@ -374,7 +374,16 @@ const Portfolio = ({
                             );
                           })}
                       <li className="portfolio-item text-dark">
-                        cash: ${profile && profile.portfolio.cash.toFixed(2)}
+                        cash:{' '}
+                        {profile ? (
+                          <NumberFormat
+                            value={profile.portfolio.cash}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={'$'}
+                            decimalScale={2}
+                          />
+                        ) : null}
                       </li>
                     </ul>
                     <form className="form" onSubmit={(e) => onSellSubmit(e)}>
@@ -440,7 +449,7 @@ const Portfolio = ({
               </div>
               <div id="Transactions" className="tabcontent">
                 <PortfolioValue />
-                <table className="transactions-table">
+                <table className="transactions-table table table-sm">
                   {profile &&
                     profile.portfolio.equity.map((e, i) => {
                       return (
@@ -448,21 +457,44 @@ const Portfolio = ({
                           <thead>
                             <tr>
                               <th>{e.stock}</th>
+                              <th> </th>
+                              <th> </th>
+                              <th> </th>
+                              <th> </th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr className="text-dark">
-                              <th className="transations-item-length">
+                              <th
+                                scope="col"
+                                className="transations-item-length"
+                              >
                                 Buy/Sell
                               </th>
-                              <th className="transations-item-length">
+                              <th
+                                scope="col"
+                                className="transations-item-length"
+                              >
                                 Shares
                               </th>
-                              <th className="transations-item-length">Price</th>
-                              <th className="transations-item-length">
+                              <th
+                                scope="col"
+                                className="transations-item-length"
+                              >
+                                Price
+                              </th>
+                              <th
+                                scope="col"
+                                className="transations-item-length"
+                              >
                                 Dollar Amount
                               </th>
-                              <th className="transations-item-length">Date</th>
+                              <th
+                                scope="col"
+                                className="transations-item-length"
+                              >
+                                Date
+                              </th>
                             </tr>
                             {e.transactions.map((f, j) => {
                               return (

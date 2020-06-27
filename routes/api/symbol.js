@@ -8,14 +8,29 @@ const StockSymbolLookup = require('stock-symbol-lookup');
 
 router.get('/:id', async (req, res) => {
   const security = req.params.id;
+  const securityUpper = security.toUpperCase();
   try {
     const response = await StockSymbolLookup.loadData().then((data) => {
       return data;
     });
     const securitiesArray = response.securities;
-    let stock = [];
+
+    let securitiesArrayUpper = [];
     for (const e of securitiesArray) {
-      if (e.securityName && e.securityName.includes(security)) {
+      //not every security has a securityName!!!!!!!
+      if (e.securityName) {
+        let securityNameUpper = e.securityName.toUpperCase();
+        securitiesArrayUpper.push({
+          symbol: e.symbol,
+          securityName: securityNameUpper,
+        });
+      }
+    }
+
+    let stock = [];
+    for (const e of securitiesArrayUpper) {
+      //not every security has a securityName!!!!!!!
+      if (e.securityName && e.securityName.includes(securityUpper)) {
         stock.push(e);
       }
     }

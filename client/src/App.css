@@ -30,7 +30,10 @@ p {
 tbody {
   border-collapse: collapse;
   border-spacing: 0;
-  border-bottom: 1.4em solid transparent;
+}
+
+thead {
+  border-top: 1.4em solid transparent;
 }
 
 input {
