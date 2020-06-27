@@ -36,7 +36,7 @@ const Symbol = ({ stock, getSymbol, transAlert }) => {
           <br />
           <div className="form-group">
             <input
-              className="input-fields"
+              className="input-fields form-control"
               type="input"
               placeholder="Company Name"
               name="symbol"

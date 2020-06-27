@@ -200,7 +200,7 @@ input[type='file'] {
 .portfolio-container {
   margin: 3em auto;
   width: 90%;
-  height: 34em;
+  height: 38em;
   border: 1px solid var(--dark-color);
   overflow: scroll;
   border-radius: 10px;

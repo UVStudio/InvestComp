@@ -229,7 +229,7 @@ const Portfolio = ({
                       <br />
                       <div className="form-group">
                         <input
-                          className="input-fields"
+                          className="input-fields form-control"
                           type="stock"
                           placeholder="Stock Symbol"
                           name="stock"
@@ -249,7 +249,7 @@ const Portfolio = ({
                       </p>
                       <div className="form-group">
                         <input
-                          className="input-fields"
+                          className="input-fields form-control"
                           type="amount"
                           placeholder="$"
                           name="amount"
@@ -265,7 +265,7 @@ const Portfolio = ({
                       <input
                         type="submit"
                         className="btn btn-primary"
-                        value="Execute!"
+                        value="Buy!"
                       />
                     </form>
                   </div>
@@ -301,7 +301,7 @@ const Portfolio = ({
                       <br />
                       <div className="form-group">
                         <input
-                          className="input-fields"
+                          className="input-fields form-control"
                           type="input"
                           placeholder="Stock Symbol"
                           name="stock"
@@ -316,7 +316,7 @@ const Portfolio = ({
                       </div>
                       <div className="form-group">
                         <input
-                          className="input-fields"
+                          className="input-fields form-control"
                           type="shares"
                           placeholder="Shares:"
                           name="shares"
@@ -353,7 +353,9 @@ const Portfolio = ({
                 <PortfolioValue />
                 <div className="portfolio-inner-container">
                   <p>Account value chart</p>
-                  <h3 className="text-dark">Under construction</h3>
+                  <h3 className="text-dark text-center py-5">
+                    Under Construction
+                  </h3>
                 </div>
               </div>
               <div id="Transactions" className="tabcontent">
