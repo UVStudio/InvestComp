@@ -6,6 +6,7 @@ import { buyStock } from '../../../Actions/orders';
 import { sellStock } from '../../../Actions/orders';
 import { transAlert } from '../../../Actions/transAlert';
 import { getSymbols } from '../../../Actions/symbol';
+import { getSymbol } from '../../../Actions/symbol';
 import Avatar from '../Avatar';
 import Alert from '../Alert';
 import Balance from './Balance';
@@ -45,6 +46,7 @@ const Portfolio = ({
   sellStock,
   transAlert,
   getSymbols,
+  getSymbol,
   profile: { profile, loading },
   symbols,
 }) => {
@@ -60,11 +62,46 @@ const Portfolio = ({
     stock: '',
   });
 
+  const [symbolData, setSymbolData] = useState({
+    symbol: '',
+  });
+
   const { buysell, amount, shares, stock } = formData;
+  const { symbol } = symbolData;
 
   const refresh = async () => {
     await getBalanceUpdate();
     getCurrentProfile();
+  };
+
+  //buy
+
+  const onChangeSearch = (e) => {
+    setSymbolData({
+      ...symbolData,
+      symbol,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    if (symbol === '') {
+      transAlert('Please enter company name keyword.', 'danger');
+      return;
+    }
+    getSymbol(symbol);
+  };
+
+  const onClickAdd = (e) => {
+    const symName = e.target.innerText.split(' ');
+    const sym = symName[0];
+    console.log(sym);
+    setFormData({
+      ...formData,
+      buysell: 'buy',
+      stock: sym,
+    });
   };
 
   const onChangeBuy = (e) => {
@@ -79,14 +116,6 @@ const Portfolio = ({
     setFormData({
       ...formData,
       buysell: 'buy',
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const onChangeSell = (e) => {
-    setFormData({
-      ...formData,
-      buysell: 'sell',
       [e.target.name]: e.target.value,
     });
   };
@@ -116,6 +145,16 @@ const Portfolio = ({
         'danger'
       );
     }
+  };
+
+  //sell
+
+  const onChangeSell = (e) => {
+    setFormData({
+      ...formData,
+      buysell: 'sell',
+      [e.target.name]: e.target.value,
+    });
   };
 
   const onSellSubmit = (e) => {
@@ -223,7 +262,48 @@ const Portfolio = ({
               <div id="Buy" className="tabcontent">
                 <PortfolioValue />
                 <div className="portfolio-inner-container">
-                  <Symbol />
+                  {/* <Symbol /> */}
+                  <div className="buysell-form-box ml-3 mb-2">
+                    <form className="form" onSubmit={(e) => onSearchSubmit(e)}>
+                      <br />
+                      <div className="form-group">
+                        <input
+                          className="input-fields form-control"
+                          type="input"
+                          placeholder="Company Name"
+                          name="symbol"
+                          value={symbol}
+                          onChange={(e) => onChangeSearch(e)}
+                        />
+                        <div>
+                          <label className="small text-dark" htmlFor="symbol">
+                            Enter company name to search for correct symbol.
+                            Capitalize the first letter (eg. Walmart)
+                          </label>
+                        </div>
+                      </div>
+                      <input
+                        type="submit"
+                        className="btn btn-primary"
+                        value="Search"
+                      />
+                    </form>
+                    <br />
+                    <div>
+                      <p className="text-dark">Search Result:</p>{' '}
+                      {symbols.loading
+                        ? null
+                        : symbols.symbol.stock.map((e, i) => (
+                            <li
+                              key={i}
+                              className="symbol-select"
+                              onClick={(e) => onClickAdd(e)}
+                            >
+                              {e.symbol + ' -- ' + e.securityName}
+                            </li>
+                          ))}
+                    </div>
+                  </div>
                   <div className="buysell-form-box ml-3 mb-2">
                     <form className="form" onSubmit={(e) => onBuySubmit(e)}>
                       <br />
@@ -422,6 +502,7 @@ Portfolio.propTypes = {
   sellStock: PropTypes.func.isRequired,
   transAlert: PropTypes.func.isRequired,
   getSymbols: PropTypes.func.isRequired,
+  getSymbol: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -436,4 +517,5 @@ export default connect(mapStateToProps, {
   sellStock,
   transAlert,
   getSymbols,
+  getSymbol,
 })(Portfolio);

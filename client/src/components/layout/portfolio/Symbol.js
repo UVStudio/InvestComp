@@ -29,6 +29,12 @@ const Symbol = ({ stock, getSymbol, transAlert }) => {
     getSymbol(symbol);
   };
 
+  const onClickAdd = (e) => {
+    const symName = e.target.innerText.split(' ');
+    const sym = symName[0];
+    console.log(sym);
+  };
+
   return (
     <Fragment>
       <div className="buysell-form-box ml-3 mb-2">
@@ -58,7 +64,9 @@ const Symbol = ({ stock, getSymbol, transAlert }) => {
           {stock.loading
             ? null
             : stock.symbol.stock.map((e, i) => (
-                <li key={i}>{e.symbol + ' -- ' + e.securityName}</li>
+                <li key={i} onClick={(e) => onClickAdd(e)}>
+                  {e.symbol + ' -- ' + e.securityName}
+                </li>
               ))}
         </div>
       </div>

@@ -222,6 +222,10 @@ input[type='file'] {
   width: 10em;
 }
 
+.symbol-select {
+  cursor: pointer;
+}
+
 .transactions-table {
   width: 100%;
   margin: 1em auto;
