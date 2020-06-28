@@ -96,7 +96,6 @@ const Portfolio = ({
   const onClickAdd = (e) => {
     const symName = e.target.innerText.split(' ');
     const sym = symName[0];
-    console.log(sym);
     setFormData({
       ...formData,
       buysell: 'buy',
@@ -118,13 +117,36 @@ const Portfolio = ({
       buysell: 'buy',
       [e.target.name]: e.target.value,
     });
+    {
+      e.target.value
+        ? document.getElementById('buy-shares').setAttribute('disabled', '')
+        : document.getElementById('buy-shares').removeAttribute('disabled', '');
+    }
+  };
+
+  const onChangeBuyShares = (e) => {
+    setFormData({
+      ...formData,
+      buysell: 'buy',
+      [e.target.name]: e.target.value,
+    });
+    {
+      e.target.value
+        ? document.getElementById('buy-amount').setAttribute('disabled', '')
+        : document.getElementById('buy-amount').removeAttribute('disabled', '');
+    }
   };
 
   const onBuySubmit = (e) => {
     e.preventDefault();
     const pppc = profile.portfolio.cash;
-    if (buysell !== 'buy' || !amount || !stock) {
-      transAlert('Please fill out order form.', 'danger');
+
+    if (buysell !== 'buy' || !stock) {
+      transAlert('Please complete order form (stock).', 'danger');
+      return;
+    }
+    if (!amount && !shares) {
+      transAlert('Please complete order form (shares or amount).', 'danger');
       return;
     }
     if (amount > pppc) {
@@ -134,9 +156,11 @@ const Portfolio = ({
     const sss = symbols.symbols.symbolList;
     const match = sss.find((e) => e === stock);
     if (match) {
-      buyStock({ buysell, amount, stock });
+      buyStock({ buysell, amount, stock, shares });
       transAlert(
-        `You have purchased ${amount} of ${stock}. Please refresh portfolio.`,
+        `You have purchased ${
+          amount ? '$ ' + amount : shares + ' shares'
+        } of ${stock}. Please refresh portfolio.`,
         'success'
       );
     } else {
@@ -157,13 +181,47 @@ const Portfolio = ({
     });
   };
 
+  const onChangeSellAmount = (e) => {
+    setFormData({
+      ...formData,
+      buysell: 'sell',
+      [e.target.name]: e.target.value,
+    });
+    {
+      e.target.value
+        ? document.getElementById('sell-shares').setAttribute('disabled', '')
+        : document
+            .getElementById('sell-shares')
+            .removeAttribute('disabled', '');
+    }
+  };
+
+  const onChangeSellShares = (e) => {
+    setFormData({
+      ...formData,
+      buysell: 'sell',
+      [e.target.name]: e.target.value,
+    });
+    {
+      e.target.value
+        ? document.getElementById('sell-amount').setAttribute('disabled', '')
+        : document
+            .getElementById('sell-amount')
+            .removeAttribute('disabled', '');
+    }
+  };
+
   const onSellSubmit = (e) => {
     e.preventDefault();
     const pppe = profile.portfolio.equity;
     const shareToSell = pppe.find((e) => e.stock === stock);
     const findCompany = (e) => e.stock === stock;
-    if (buysell !== 'sell' || !shares || !stock) {
-      transAlert('Please fill out order form', 'danger');
+    if (buysell !== 'sell' || !stock) {
+      transAlert('Please complete order form (stock).', 'danger');
+      return;
+    }
+    if (!amount && !shares) {
+      transAlert('Please complete order form (amount or shares).', 'danger');
       return;
     }
     if (!shareToSell) {
@@ -179,9 +237,11 @@ const Portfolio = ({
       transAlert('You do not have enough shares.', 'danger');
       return;
     }
-    sellStock({ buysell, shares, stock });
+    sellStock({ buysell, shares, stock, amount });
     transAlert(
-      `You have sold ${shares} shares of ${stock}. Please refresh portfolio.`,
+      `You have sold ${
+        shares ? shares + ' shares' : '$ ' + amount
+      } of ${stock}. Please refresh portfolio.`,
       'success'
     );
   };
@@ -198,6 +258,7 @@ const Portfolio = ({
       ...formData,
       shares: allUnitBalance,
     });
+    document.getElementById('sell-amount').setAttribute('disabled', '');
   };
 
   return loading && profile === null ? (
@@ -324,12 +385,22 @@ const Portfolio = ({
                       </div>
 
                       <p className="text-dark">
-                        current cash: $
-                        {profile && profile.portfolio.cash.toFixed(2)}
+                        current cash:{' '}
+                        {profile ? (
+                          <NumberFormat
+                            value={profile.portfolio.cash}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={'$'}
+                            decimalScale={2}
+                          />
+                        ) : null}
                       </p>
+
                       <div className="form-group">
                         <input
                           className="input-fields form-control"
+                          id="buy-amount"
                           type="amount"
                           placeholder="$"
                           name="amount"
@@ -341,11 +412,25 @@ const Portfolio = ({
                             Enter how much $ you want to invest.
                           </label>
                         </div>
+                        <input
+                          className="input-fields form-control"
+                          id="buy-shares"
+                          type="shares"
+                          placeholder="shares"
+                          name="shares"
+                          value={shares}
+                          onChange={(e) => onChangeBuyShares(e)}
+                        />
+                        <div>
+                          <label className="small text-dark" htmlFor="symbol">
+                            Enter how many shares you want to invest.
+                          </label>
+                        </div>
                       </div>
                       <input
                         type="submit"
                         className="btn btn-primary"
-                        value="Buy!"
+                        value="Place Buy Order"
                       />
                     </form>
                   </div>
@@ -406,14 +491,31 @@ const Portfolio = ({
                       <div className="form-group">
                         <input
                           className="input-fields form-control"
+                          id="sell-amount"
+                          type="amount"
+                          placeholder="$"
+                          name="amount"
+                          value={amount}
+                          onChange={(e) => onChangeSellAmount(e)}
+                        />
+                        <div>
+                          <label className="small text-dark" htmlFor="amount">
+                            Enter how much $ you want to sell.
+                          </label>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <input
+                          className="input-fields form-control"
+                          id="sell-shares"
                           type="shares"
                           placeholder="Shares:"
                           name="shares"
                           value={shares}
-                          onChange={(e) => onChangeSell(e)}
+                          onChange={(e) => onChangeSellShares(e)}
                         />
                         <div>
-                          <label className="small text-dark" htmlFor="symbol">
+                          <label className="small text-dark" htmlFor="shares">
                             Enter the number of shares you want to sell.
                           </label>
                         </div>
@@ -431,7 +533,7 @@ const Portfolio = ({
                       <input
                         type="submit"
                         className="btn btn-primary"
-                        value="Place Order"
+                        value="Place Sell Order"
                       />
                     </form>
                   </div>

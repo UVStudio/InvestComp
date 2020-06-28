@@ -197,12 +197,12 @@ router.delete(
             //deleting transaction
             ppe[i].transactions.splice(j, 1);
 
-            //recalculate shares balance
-            const reducer = (acc, curr) => acc + curr;
-            const transactionList = ppe[i].transactions;
-            const sharesArray = transactionList.map((e) => e.shares);
-            const shareBalance = sharesArray.reduce(reducer);
-            ppe[i].shares = shareBalance;
+            // recalculate shares balance - this step should not be necessary. should refresh account instead.
+            // const reducer = (acc, curr) => acc + curr;
+            // const transactionList = ppe[i].transactions;
+            // const sharesArray = transactionList.map((e) => e.shares);
+            // const shareBalance = sharesArray.reduce(reducer);
+            // ppe[i].shares = shareBalance;
           }
         }
       }

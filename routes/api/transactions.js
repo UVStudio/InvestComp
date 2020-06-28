@@ -14,7 +14,8 @@ router.post(
   auth,
   [
     check('buysell', 'Buysell is required').not().isEmpty(),
-    check('amount', 'Amount is required.').not().isEmpty(),
+    //check('amount', 'Amount is required.').not().isEmpty(),
+    //check('shares', 'Shares is required.').not().isEmpty(),
     check('stock', 'Stock is required.').not().isEmpty(),
   ],
   async (req, res) => {
@@ -22,14 +23,19 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { buysell, amount, stock } = req.body;
+    let { buysell, amount, stock, shares } = req.body;
 
     const response = await axios.get(
       `https://finnhub.io/api/v1/quote?symbol=${stock}&token=br4ipfnrh5r8ufeotdd0`
     );
 
     const price = response.data.c;
-    const shares = amount / price;
+    if (!shares) {
+      shares = amount / price;
+    }
+    if (!amount) {
+      amount = shares * price;
+    }
 
     //build equity object
     const equityObj = {
@@ -92,26 +98,31 @@ router.post(
   [
     check('buysell', 'Buysell is required').not().isEmpty(),
     check('stock', 'Stock is required.').not().isEmpty(),
-    check('shares', 'Shares is required.').not().isEmpty(),
+    //check('shares', 'Shares is required.').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { buysell, stock, shares } = req.body;
+    let { buysell, stock, shares, amount } = req.body;
 
     const response = await axios.get(
       `https://finnhub.io/api/v1/quote?symbol=${stock}&token=br4ipfnrh5r8ufeotdd0`
     );
 
     const price = response.data.c;
-    const amount = shares * price;
+    if (!shares) {
+      shares = amount / price;
+    }
+    if (!amount) {
+      amount = shares * price;
+    }
 
     //build transaction Object
     const transactionDetails = {};
     transactionDetails.buysell = buysell;
-    transactionDetails.amount = amount;
+    transactionDetails.amount = amount * -1;
     transactionDetails.stock = stock;
     transactionDetails.price = price;
     transactionDetails.shares = -Math.abs(shares);
@@ -142,7 +153,7 @@ router.post(
       const shareBalance = sharesArray.reduce(reducer);
 
       //add sales proceeds to cash and save to mongo
-      profile.portfolio.cash = profile.portfolio.cash + amount;
+      profile.portfolio.cash = profile.portfolio.cash - amount * -1;
 
       //saving new shares balance to mongo
       ppe[result].shares = shareBalance;
