@@ -117,11 +117,10 @@ const Portfolio = ({
       buysell: 'buy',
       [e.target.name]: e.target.value,
     });
-    {
-      e.target.value
-        ? document.getElementById('buy-shares').setAttribute('disabled', '')
-        : document.getElementById('buy-shares').removeAttribute('disabled', '');
-    }
+
+    e.target.value
+      ? document.getElementById('buy-shares').setAttribute('disabled', '')
+      : document.getElementById('buy-shares').removeAttribute('disabled', '');
   };
 
   const onChangeBuyShares = (e) => {
@@ -130,11 +129,10 @@ const Portfolio = ({
       buysell: 'buy',
       [e.target.name]: e.target.value,
     });
-    {
-      e.target.value
-        ? document.getElementById('buy-amount').setAttribute('disabled', '')
-        : document.getElementById('buy-amount').removeAttribute('disabled', '');
-    }
+
+    e.target.value
+      ? document.getElementById('buy-amount').setAttribute('disabled', '')
+      : document.getElementById('buy-amount').removeAttribute('disabled', '');
   };
 
   const onBuySubmit = (e) => {
@@ -187,13 +185,10 @@ const Portfolio = ({
       buysell: 'sell',
       [e.target.name]: e.target.value,
     });
-    {
-      e.target.value
-        ? document.getElementById('sell-shares').setAttribute('disabled', '')
-        : document
-            .getElementById('sell-shares')
-            .removeAttribute('disabled', '');
-    }
+
+    e.target.value
+      ? document.getElementById('sell-shares').setAttribute('disabled', '')
+      : document.getElementById('sell-shares').removeAttribute('disabled', '');
   };
 
   const onChangeSellShares = (e) => {
@@ -202,13 +197,10 @@ const Portfolio = ({
       buysell: 'sell',
       [e.target.name]: e.target.value,
     });
-    {
-      e.target.value
-        ? document.getElementById('sell-amount').setAttribute('disabled', '')
-        : document
-            .getElementById('sell-amount')
-            .removeAttribute('disabled', '');
-    }
+
+    e.target.value
+      ? document.getElementById('sell-amount').setAttribute('disabled', '')
+      : document.getElementById('sell-amount').removeAttribute('disabled', '');
   };
 
   const onSellSubmit = (e) => {

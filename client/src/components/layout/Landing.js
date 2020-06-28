@@ -37,7 +37,7 @@ const Landing = ({ profiles, getAllProfiles, isAuthenticated }) => {
                     .slice(0, 1)
                     .map((e, i) => {
                       return (
-                        <Fragment>
+                        <Fragment key={i}>
                           <Link to={`/profile/${e._id}`}>
                             <img
                               src={
@@ -113,7 +113,7 @@ const Landing = ({ profiles, getAllProfiles, isAuthenticated }) => {
           </div>
         </div>
         <div className="row my-4">
-          <div class="col-sm-2"></div>
+          <div className="col-sm-2"></div>
           <div className="col-sm-8">
             <p className="test-center p-2 text-dark">
               Welcome to InvestComp. This is a simulate stock investment app,
@@ -123,7 +123,7 @@ const Landing = ({ profiles, getAllProfiles, isAuthenticated }) => {
               data from the NYSE. It's free to play.
             </p>
           </div>
-          <div class="col-sm-2"></div>
+          <div className="col-sm-2"></div>
         </div>
       </section>
     </Fragment>
