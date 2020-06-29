@@ -48,7 +48,7 @@ const storage = new GridFsStorage({
     });
   },
 });
-const upload = multer({ storage });
+const upload = multer({ storage, limits: { fileSize: 250000 } });
 
 //@route   POST /api/upload
 //@desc    Uploads file to DB
@@ -60,9 +60,10 @@ router.post('/upload', [auth, upload.single('file')], async (req, res) => {
   try {
     const profile = await Profile.findById(req.profile.id);
     profile.avatarId = avatarId;
-    console.log(profile);
+    //console.log(profile);
     await profile.save();
   } catch (err) {
+    res.render('index', { msg: err });
     console.error(err.message);
     res.status(500).send('Server Error');
   }

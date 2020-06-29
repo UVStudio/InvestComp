@@ -315,7 +315,6 @@ const Portfolio = ({
               <div id="Buy" className="tabcontent">
                 <PortfolioValue />
                 <div className="portfolio-inner-container">
-                  {/* <Symbol /> */}
                   <div className="buysell-form-box ml-3 mb-2">
                     <form className="form" onSubmit={(e) => onSearchSubmit(e)}>
                       <br />

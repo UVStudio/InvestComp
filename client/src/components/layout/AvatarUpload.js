@@ -2,8 +2,10 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { avatarUpload } from '../../Actions/avatar';
+import { transAlert } from '../../Actions/transAlert';
+import TransAlert from './TransAlert';
 
-const AvatarUpload = ({ avatarUpload }) => {
+const AvatarUpload = ({ avatarUpload, transAlert }) => {
   const [avatar, setAvatar] = useState('');
   const [avatarName, setAvatarName] = useState('');
 
@@ -21,14 +23,19 @@ const AvatarUpload = ({ avatarUpload }) => {
     const formData = new FormData();
     formData.append('file', avatar);
 
-    try {
-      avatarUpload(formData);
-    } catch (err) {
-      if (err.response.status === 500) {
-        console.log('There was a problem with the server.');
-      } else {
-        console.log(err.response);
+    if (avatar.size < 250000) {
+      try {
+        avatarUpload(formData);
+      } catch (err) {
+        if (err.response.status === 500) {
+          console.log('There was a problem with the server.');
+        } else {
+          console.log(err.response);
+        }
       }
+    } else {
+      transAlert('Please upload a file smaller than 250KB.', 'danger');
+      console.log(avatar.size);
     }
   };
 
@@ -56,7 +63,11 @@ const AvatarUpload = ({ avatarUpload }) => {
           >
             Upload
           </label>
+          <small className="form-text text-muted">
+            Maximum avatar file size 250KB
+          </small>
         </div>
+        <TransAlert />
       </form>
     </Fragment>
   );
@@ -66,4 +77,4 @@ AvatarUpload.propTypes = {
   avatarUpload: PropTypes.func.isRequired,
 };
 
-export default connect(null, { avatarUpload })(AvatarUpload);
+export default connect(null, { avatarUpload, transAlert })(AvatarUpload);
