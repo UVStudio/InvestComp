@@ -4,9 +4,14 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { getAllProfiles } from '../../Actions/profiles';
 import Navbar from './Navbar';
+import AdminNav from '../admin/AdminNav';
 import NumberFormat from 'react-number-format';
 
-const Investors = ({ profiles, getAllProfiles }) => {
+const Investors = ({
+  admin: { isAuthenticated },
+  profiles,
+  getAllProfiles,
+}) => {
   useEffect(() => {
     getAllProfiles();
   }, [getAllProfiles]);
@@ -15,7 +20,7 @@ const Investors = ({ profiles, getAllProfiles }) => {
 
   return (
     <Fragment>
-      <Navbar />
+      {isAuthenticated ? <AdminNav /> : <Navbar />}
       <section>
         <div className="investors-list-container">
           <h3>Investor List</h3>
@@ -70,10 +75,12 @@ const Investors = ({ profiles, getAllProfiles }) => {
 Investors.propTypes = {
   profiles: PropTypes.object.isRequired,
   getAllProfiles: PropTypes.func.isRequired,
+  admin: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profiles: state.profiles,
+  admin: state.admin,
 });
 
 export default connect(mapStateToProps, { getAllProfiles })(Investors);

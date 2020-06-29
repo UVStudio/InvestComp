@@ -3,6 +3,7 @@ import { BUY_ORDER, BUY_FAIL } from './types';
 import { SELL_ORDER, SELL_FAIL } from './types';
 import { getBalanceUpdate } from './balance';
 import { getCurrentProfile } from './profile';
+import { transAlert } from '../Actions/transAlert';
 
 export const buyStock = ({ buysell, amount, stock, shares }) => async (
   dispatch
@@ -22,6 +23,14 @@ export const buyStock = ({ buysell, amount, stock, shares }) => async (
     });
     await dispatch(getBalanceUpdate());
     dispatch(getCurrentProfile());
+    dispatch(
+      transAlert(
+        `You have purchased ${
+          amount ? '$ ' + amount : shares + ' shares'
+        } of ${stock}. Please refresh portfolio.`,
+        'success'
+      )
+    );
   } catch (error) {
     dispatch({
       type: BUY_FAIL,
@@ -51,6 +60,14 @@ export const sellStock = ({ buysell, shares, stock, amount }) => async (
     });
     await dispatch(getBalanceUpdate());
     dispatch(getCurrentProfile());
+    dispatch(
+      transAlert(
+        `You have sold ${
+          shares ? shares + ' shares' : '$ ' + amount
+        } of ${stock}. Please refresh portfolio.`,
+        'success'
+      )
+    );
   } catch (error) {
     dispatch({
       type: SELL_FAIL,

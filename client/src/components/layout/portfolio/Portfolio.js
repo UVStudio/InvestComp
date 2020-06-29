@@ -155,12 +155,12 @@ const Portfolio = ({
     const match = sss.find((e) => e === stock);
     if (match) {
       buyStock({ buysell, amount, stock, shares });
-      transAlert(
-        `You have purchased ${
-          amount ? '$ ' + amount : shares + ' shares'
-        } of ${stock}. Please refresh portfolio.`,
-        'success'
-      );
+      // transAlert(
+      //   `You have purchased ${
+      //     amount ? '$ ' + amount : shares + ' shares'
+      //   } of ${stock}. Please refresh portfolio.`,
+      //   'success'
+      // );
     } else {
       transAlert(
         `This stock symbol is not available. Please choose another.`,
@@ -230,12 +230,12 @@ const Portfolio = ({
       return;
     }
     sellStock({ buysell, shares, stock, amount });
-    transAlert(
-      `You have sold ${
-        shares ? shares + ' shares' : '$ ' + amount
-      } of ${stock}. Please refresh portfolio.`,
-      'success'
-    );
+    // transAlert(
+    //   `You have sold ${
+    //     shares ? shares + ' shares' : '$ ' + amount
+    //   } of ${stock}. Please refresh portfolio.`,
+    //   'success'
+    // );
   };
 
   const onClickAllUnits = () => {

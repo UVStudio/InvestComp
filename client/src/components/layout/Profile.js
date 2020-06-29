@@ -20,7 +20,7 @@ const Profile = ({ getCurrentProfile, auth: { profile, loading } }) => {
       <Navbar />
       <div className="row">
         <div className="col-lg-5">
-          <div className="winner center-content ml-4">
+          <div className="winner shadow center-content py-4">
             <h3 className="text-dark">My Profile</h3>
             <Avatar />
           </div>
@@ -32,7 +32,7 @@ const Profile = ({ getCurrentProfile, auth: { profile, loading } }) => {
               Current Balance: $
               {profile && profile.portfolio.profileBalance.toFixed(2)}
             </h5>
-            <div className="balance-box">
+            <div className="balance-box shadow">
               <PortfolioBalance />
             </div>
           </div>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAlert } from '../Actions/alert';
 
 import { UPDATE_ALL, UPDATE_ALL_FAIL } from './types';
 
@@ -9,6 +10,7 @@ export const updateAllAccounts = () => async (dispatch) => {
       type: UPDATE_ALL,
       payload: res.data,
     });
+    dispatch(setAlert('Accounts updated', 'success'));
   } catch (error) {
     dispatch({
       type: UPDATE_ALL_FAIL,

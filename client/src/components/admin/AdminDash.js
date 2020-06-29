@@ -4,6 +4,7 @@ import { updateAllAccounts } from '../../Actions/updateAccounts';
 import { deleteTransaction } from '../../Actions/deleteTrans';
 import AdminNav from './AdminNav';
 import Spinner from '../layout/Spinner';
+import Alert from '../layout/Alert';
 import PropTypes from 'prop-types';
 
 const AdminDash = ({
@@ -40,8 +41,9 @@ const AdminDash = ({
     <Fragment>
       <AdminNav />
       <section>
+        <Alert />
         <div className="login-container">
-          <h3 className="mb-5">Admin Function</h3>
+          <h3 className="mb-5">Admin Functions</h3>
           <div className="admin mb-5">
             <button
               type="button"
