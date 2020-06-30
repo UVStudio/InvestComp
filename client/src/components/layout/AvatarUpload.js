@@ -25,7 +25,7 @@ const AvatarUpload = ({ avatarUpload, transAlert }) => {
 
     if (avatar.size < 250000) {
       try {
-        avatarUpload(formData);
+        await avatarUpload(formData);
       } catch (err) {
         if (err.response.status === 500) {
           console.log('There was a problem with the server.');

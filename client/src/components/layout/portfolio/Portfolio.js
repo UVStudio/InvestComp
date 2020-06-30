@@ -138,6 +138,12 @@ const Portfolio = ({
   const onBuySubmit = (e) => {
     e.preventDefault();
     const pppc = profile.portfolio.cash;
+    const ppe = profile.portfolio.equity;
+    const findCompany = (e) => e.stock === stock;
+    if (!ppe.some(findCompany) && ppe.length >= 5) {
+      transAlert('Your account has a limit of 5 different stocks.', 'danger');
+      return;
+    }
 
     if (buysell !== 'buy' || !stock) {
       transAlert('Please complete order form (stock).', 'danger');
@@ -155,12 +161,6 @@ const Portfolio = ({
     const match = sss.find((e) => e === stock);
     if (match) {
       buyStock({ buysell, amount, stock, shares });
-      // transAlert(
-      //   `You have purchased ${
-      //     amount ? '$ ' + amount : shares + ' shares'
-      //   } of ${stock}. Please refresh portfolio.`,
-      //   'success'
-      // );
     } else {
       transAlert(
         `This stock symbol is not available. Please choose another.`,
@@ -230,12 +230,6 @@ const Portfolio = ({
       return;
     }
     sellStock({ buysell, shares, stock, amount });
-    // transAlert(
-    //   `You have sold ${
-    //     shares ? shares + ' shares' : '$ ' + amount
-    //   } of ${stock}. Please refresh portfolio.`,
-    //   'success'
-    // );
   };
 
   const onClickAllUnits = () => {
