@@ -60,9 +60,9 @@ router.post(
 
       const ppe = profile.portfolio.equity;
 
-      //add stock obj into array of equities
+      //add stock obj into array of equities, limiting number of stocks at 5
       const findCompany = (e) => e.stock === stock;
-      if (!ppe.some(findCompany)) {
+      if (!ppe.some(findCompany) && ppe.length < 6) {
         ppe.push(equityObj);
       }
       //if equity element exists, push transaction obj into equity

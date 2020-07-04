@@ -139,6 +139,7 @@ const Portfolio = ({
     e.preventDefault();
     const pppc = profile.portfolio.cash;
     const ppe = profile.portfolio.equity;
+
     const findCompany = (e) => e.stock === stock;
     if (!ppe.some(findCompany) && ppe.length >= 5) {
       transAlert('Your account has a limit of 5 different stocks.', 'danger');

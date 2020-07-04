@@ -206,7 +206,6 @@ router.delete(
           }
         }
       }
-
       //re-calculate cash
       profile.portfolio.cash = profile.portfolio.cash + deletedTransObj.amount;
       await profile.save();
