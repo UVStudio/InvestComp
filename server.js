@@ -17,17 +17,17 @@ connectDB();
 //init middleware to allow us to get data in req.body, or else we get undefined
 app.use(express.json({ extended: false }));
 
-//Sanitize data
-app.use(mongoSanitize());
+// //Sanitize data
+// app.use(mongoSanitize());
 
-//Set security headers
-app.use(helmet());
+// //Set security headers
+// app.use(helmet());
 
-// //Prevents cross-site scripting attacks
-app.use(xss());
+// // //Prevents cross-site scripting attacks
+// app.use(xss());
 
-//Prevent http param pollution
-app.use(hpp());
+// //Prevent http param pollution
+// app.use(hpp());
 
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
