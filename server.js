@@ -26,8 +26,8 @@ app.use(express.json({ extended: false }));
 // // //Prevents cross-site scripting attacks
 // app.use(xss());
 
-// //Prevent http param pollution
-// app.use(hpp());
+//Prevent http param pollution
+app.use(hpp());
 
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
