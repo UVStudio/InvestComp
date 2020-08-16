@@ -17,8 +17,8 @@ connectDB();
 //init middleware to allow us to get data in req.body, or else we get undefined
 app.use(express.json({ extended: false }));
 
-// //Sanitize data
-// app.use(mongoSanitize());
+//Sanitize data
+app.use(mongoSanitize());
 
 // //Set security headers
 // app.use(helmet());
