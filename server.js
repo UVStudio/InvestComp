@@ -20,11 +20,11 @@ app.use(express.json({ extended: false }));
 //Sanitize data
 app.use(mongoSanitize());
 
-//Set security headers
-app.use(helmet());
+// //Set security headers
+// app.use(helmet());
 
-// // //Prevents cross-site scripting attacks
-// app.use(xss());
+// //Prevents cross-site scripting attacks
+app.use(xss());
 
 //Prevent http param pollution
 app.use(hpp());
