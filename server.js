@@ -6,7 +6,6 @@ const methodOverride = require('method-override');
 
 //security libraries
 const mongoSanitize = require('express-mongo-sanitize');
-const helmet = require('helmet');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 
@@ -19,9 +18,6 @@ app.use(express.json({ extended: false }));
 
 //Sanitize data
 app.use(mongoSanitize());
-
-// //Set security headers
-// app.use(helmet());
 
 // //Prevents cross-site scripting attacks
 app.use(xss());
