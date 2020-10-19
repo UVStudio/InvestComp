@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const connectDB = require('./config/db');
 const methodOverride = require('method-override');
+require('dotenv').config();
 
 //security libraries
 const mongoSanitize = require('express-mongo-sanitize');
