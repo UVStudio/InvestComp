@@ -7,7 +7,7 @@ Mock real time stock market investment game
 
 ## Gallery
 
-![Landing Page](./design-docs/img/investcomp3.jpg)
+![Landing Page](./design-docs/img/investcomp3.png)
 ![Profile Page](./design-docs/img/investcomp2.jpg)
 ![Investor List](./design-docs/img/investcomp.jpg)
 
