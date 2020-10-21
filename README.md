@@ -16,6 +16,5 @@ Mock real time stock market investment game
 - Express/Node.js
 - MongoDB
 - React.js, Redux
-- AWS S3
 - JWT
 - Bcrypt
